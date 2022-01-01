@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddEvent
   def initialize(title:, date:)
     @title = title

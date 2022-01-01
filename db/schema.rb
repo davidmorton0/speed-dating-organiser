@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2021_12_30_193452) do
 
   create_table "events", force: :cascade do |t|
     t.string "title", limit: 128, null: false
-    t.time "date", null: false
+    t.datetime "date", precision: 6, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
