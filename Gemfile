@@ -13,10 +13,14 @@ gem "stimulus-rails"
 gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
+gem 'will_paginate', '~> 3.1.8'
+gem 'bootstrap-sass', '~> 3.4.1'
+gem 'sassc-rails', '>= 2.1.0'
+gem 'jquery-rails'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]#
-  gem 'factory_bot', "~> 6.2"
+  gem 'factory_bot_rails', "~> 6.2"
   gem 'rspec-rails', '~> 4.0.2'
   gem 'pry-byebug', '~> 3.9'
 end
