@@ -1,0 +1,14 @@
+<% provide(:title, @event.title) %>
+
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <h1>
+        <%= @event.title %>
+      </h1>
+      <%= @event.date %>
+      <%= link_to 'Edit', edit_event_path(@event) %>
+      <%= link_to 'Events', events_path %>
+    </section>
+  </aside>
+</div>
