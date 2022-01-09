@@ -23,6 +23,7 @@ group :development, :test do
   gem 'factory_bot_rails', "~> 6.2"
   gem 'rspec-rails', '~> 4.0.2'
   gem 'pry-byebug', '~> 3.9'
+  gem 'faker', '~> 2.19.0'
 end
 
 group :development do
