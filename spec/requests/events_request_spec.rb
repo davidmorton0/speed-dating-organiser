@@ -29,6 +29,29 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
     end
   end
 
+  describe 'show event page' do
+    let(:daters) { male_daters + female_daters }
+    let(:male_daters) { create_list(:dater, 3, gender: 'male', event: event) }
+    let(:female_daters) { create_list(:dater, 4, gender: 'female', event: event) }
+
+    before do
+      daters
+    end
+
+    it 'shows the event' do
+      get event_path(event)
+      expect(response).to be_successful
+      expect(response.body).to include(event.title)
+      daters.each do |dater|
+        expect(response.body).to include(dater.name)
+      end
+      expect(response.body).to include(daters.count.to_s)
+      expect(response.body).to include(male_daters.count.to_s)
+      expect(response.body).to include(female_daters.count.to_s)
+      expect(response.body).to include('Add dater')
+    end
+  end
+
   describe 'add event page' do
     it 'shows an empty list' do
       get new_event_path

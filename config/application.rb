@@ -4,8 +4,8 @@ require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-require_relative '../db/seeds/generate_seeds'
 Bundler.require(*Rails.groups)
+require_relative '../db/seeds/generate_seeds'
 
 module SpeedDatingOrganiser
   class Application < Rails::Application
