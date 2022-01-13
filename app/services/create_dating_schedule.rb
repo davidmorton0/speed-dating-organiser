@@ -13,7 +13,9 @@ class CreateDatingSchedule
     elsif males.count > females.count
       add_empty_dates(males.count, females)
     end
-    (0..number_of_rounds - 1).to_a.map { |n| females.rotate(n).zip(males) }
+    schedule = (0..number_of_rounds - 1).to_a.map { |n| females.rotate(n).zip(males) }
+    create_speed_dates(schedule)
+    schedule
   end
 
   private
@@ -29,6 +31,14 @@ class CreateDatingSchedule
     gap = total_dates.to_f / difference_in_daters
     (1..difference_in_daters).to_a.each do |n|
       daters.insert((n * gap).ceil - 1, nil)
+    end
+  end
+
+  def create_speed_dates(schedule)
+    schedule.each_with_index do |round, index|
+      round.each do |speed_date|
+        SpeedDate.create(event: event, round: index + 1, dater1_id: speed_date.first, dater2_id: speed_date.second)
+      end
     end
   end
 

@@ -25,6 +25,7 @@ RSpec.describe CreateDatingSchedule do
         [[females[3].id, males[0].id], [females[4].id, males[1].id], [females[0].id, males[2].id], [females[1].id, males[3].id], [females[2].id, males[4].id]],
         [[females[4].id, males[0].id], [females[0].id, males[1].id], [females[1].id, males[2].id], [females[2].id, males[3].id], [females[3].id, males[4].id]]
       ]
+      expect(SpeedDate.count).to eq 25
     end
   end
 
@@ -40,6 +41,7 @@ RSpec.describe CreateDatingSchedule do
         [[females[3].id, males[0].id], [females[4].id, males[1].id], [females[0].id, males[2].id], [females[1].id, males[3].id], [females[2].id, nil]],
         [[females[4].id, males[0].id], [females[0].id, males[1].id], [females[1].id, males[2].id], [females[2].id, males[3].id], [females[3].id, nil]]
       ]
+      expect(SpeedDate.count).to eq 25
     end
   end
 
@@ -55,6 +57,7 @@ RSpec.describe CreateDatingSchedule do
         [[females[3].id, males[0].id], [nil, males[1].id], [females[0].id, males[2].id], [females[1].id, males[3].id], [females[2].id, males[4].id]],
         [[nil, males[0].id], [females[0].id, males[1].id], [females[1].id, males[2].id], [females[2].id, males[3].id], [females[3].id, males[4].id]]
       ]
+      expect(SpeedDate.count).to eq 25
     end
   end
 
@@ -70,6 +73,7 @@ RSpec.describe CreateDatingSchedule do
         [[females[3].id, males[0].id], [females[4].id, males[1].id], [females[0].id, nil], [females[1].id, males[2].id], [females[2].id, nil]],
         [[females[4].id, males[0].id], [females[0].id, males[1].id], [females[1].id, nil], [females[2].id, males[2].id], [females[3].id, nil]]
       ]
+      expect(SpeedDate.count).to eq 25
     end
   end
 
@@ -85,6 +89,7 @@ RSpec.describe CreateDatingSchedule do
         [[females[2].id, males[0].id], [nil, males[1].id], [females[0].id, males[2].id], [females[1].id, males[3].id], [nil, males[4].id]],
         [[nil, males[0].id], [females[0].id, males[1].id], [females[1].id, males[2].id], [nil, males[3].id], [females[2].id, males[4].id]]
       ]
+      expect(SpeedDate.count).to eq 25
     end
   end
 end
