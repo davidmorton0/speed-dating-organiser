@@ -17,10 +17,10 @@ gem 'will_paginate', '~> 3.1.8'
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'sassc-rails', '>= 2.1.0'
 gem 'jquery-rails'
+gem 'factory_bot_rails', "~> 6.2"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]#
-  gem 'factory_bot_rails', "~> 6.2"
   gem 'rspec-rails', '~> 4.0.2'
   gem 'pry-byebug', '~> 3.9'
   gem 'faker', '~> 2.19.0'
