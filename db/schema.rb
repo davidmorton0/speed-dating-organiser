@@ -12,12 +12,15 @@
 
 ActiveRecord::Schema.define(version: 2022_01_02_001801) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "daters", force: :cascade do |t|
     t.string "name", limit: 128, null: false
     t.string "email", limit: 128, null: false
     t.string "phone_number", limit: 128, null: false
     t.string "gender", limit: 128, null: false
-    t.integer "event_id"
+    t.bigint "event_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["event_id"], name: "index_daters_on_event_id"
