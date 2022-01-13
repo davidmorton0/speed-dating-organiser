@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_02_001801) do
+ActiveRecord::Schema.define(version: 2022_01_13_224445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,4 +33,19 @@ ActiveRecord::Schema.define(version: 2022_01_02_001801) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "speed_dates", force: :cascade do |t|
+    t.integer "dater_1_id"
+    t.integer "dater_2_id"
+    t.integer "event_id"
+    t.integer "round"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dater_1_id"], name: "index_speed_dates_on_dater_1_id"
+    t.index ["dater_2_id"], name: "index_speed_dates_on_dater_2_id"
+    t.index ["event_id"], name: "index_speed_dates_on_event_id"
+  end
+
+  add_foreign_key "speed_dates", "dater_1s"
+  add_foreign_key "speed_dates", "dater_2s"
+  add_foreign_key "speed_dates", "events"
 end

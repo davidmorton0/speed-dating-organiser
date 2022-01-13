@@ -1,5 +1,6 @@
 class Dater < ApplicationRecord
   belongs_to :event
+  has_many :speed_dates
 
   validates :name, presence: true
   validates :email, presence: true
