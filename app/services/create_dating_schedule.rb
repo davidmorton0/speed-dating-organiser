@@ -6,6 +6,8 @@ class CreateDatingSchedule
   end
 
   def call
+    destroy_existing_speed_dates
+
     @females = Dater.where(event: event, gender: 'female').ids
     @males = Dater.where(event: event, gender: 'male').ids
     if females.count > males.count
@@ -21,6 +23,10 @@ class CreateDatingSchedule
   private
 
   attr_accessor :event, :females, :males
+
+  def destroy_existing_speed_dates
+    SpeedDate.where(event: event).destroy_all
+  end
 
   def number_of_rounds
     [females.count, males.count].max
