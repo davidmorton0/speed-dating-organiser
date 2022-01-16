@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :events do
     resources :speed_dates, only: [:create, :update, :index]
-    resources :daters, only: [:create, :index]
+    resources :daters, only: [:create, :index, :show]
   end
 
 end

@@ -12,6 +12,14 @@ class DatersController < ApplicationController
     @rounds = [@female_daters.size, @male_daters.size].max
   end
 
+  def show
+    @event = Event.find(params[:event_id])
+    @dater = Dater.find(params[:id])
+    gender_of_possible_matches = @dater.gender == 'female' ? 'male' : 'female'
+    @possible_matches = Dater.where(event: @event, gender: gender_of_possible_matches)
+    @matches = Match.where(matcher: @dater).pluck(:matchee_id)
+  end
+
   def create
     @dater = Dater.new(dater_params)
     result = @dater.save

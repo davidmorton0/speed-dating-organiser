@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_13_224445) do
+ActiveRecord::Schema.define(version: 2022_01_16_201451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,15 @@ ActiveRecord::Schema.define(version: 2022_01_13_224445) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "matches", force: :cascade do |t|
+    t.bigint "matcher_id"
+    t.bigint "matchee_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["matchee_id"], name: "index_matches_on_matchee_id"
+    t.index ["matcher_id"], name: "index_matches_on_matcher_id"
+  end
+
   create_table "speed_dates", force: :cascade do |t|
     t.bigint "dater1_id"
     t.bigint "dater2_id"
@@ -45,6 +54,8 @@ ActiveRecord::Schema.define(version: 2022_01_13_224445) do
     t.index ["event_id"], name: "index_speed_dates_on_event_id"
   end
 
+  add_foreign_key "matches", "daters", column: "matchee_id"
+  add_foreign_key "matches", "daters", column: "matcher_id"
   add_foreign_key "speed_dates", "daters", column: "dater1_id"
   add_foreign_key "speed_dates", "daters", column: "dater2_id"
   add_foreign_key "speed_dates", "events"

@@ -17,7 +17,7 @@
       
         <% @daters.each do |dater| %>
           <tr>
-            <td><%= dater.name %></td>
+            <td><%= link_to dater.name, event_dater_path(@event, dater) %></td>
             <td><%= dater.email %></td>
             <td><%= dater.phone_number %></td>
             <td><%= dater.gender %></td>
