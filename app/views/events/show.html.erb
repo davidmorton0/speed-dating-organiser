@@ -3,65 +3,48 @@
 <div class="row">
   <aside class="col-md-4">
     <section>
-      <h1>
-        <%= @event.title %>
-      </h1>
-      <%= @event.date %>
-      <%= link_to 'Edit', edit_event_path(@event) %>
-      <%= link_to 'Events', events_path %>
+      <%= link_to 'Back to Events', events_path %>
+      <h1>Event Information</h1>
 
       <table class="table">
         <tr>
-          <th>Daters</th>
-          <th>Male</th>
-          <th>Female</th>
+          <th>Name</th>
+          <td><%= @event.title %></td>
         </tr>
-      
+
         <tr>
-          <td><%= Dater.where(event: @event).count %></td>
-          <td><%= Dater.where(event: @event, gender: 'male').count %></td>
-          <td><%= Dater.where(event: @event, gender: 'female').count %></td>
+          <th>Date</th>
+          <td><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
         </tr>
+
+        <tr>
+          <th>Number of Daters</th>
+          <td><%= @daters.size %></td>
+        </tr>
+
+        <tr>
+          <th>Male Daters</th>
+          <td><%= @male_daters.size %></td>
+        </tr>
+
+        <tr>
+          <th>Female Daters</th>
+          <td><%= @female_daters.size %></td>
+        </tr>
+
       </table>
     </section>
   </aside>
 </div>
 
 <div class="row">
-  <aside class="col-md-10">
+  <aside class="col-md-4">
     <section>
-      <h2>Daters</h2>
-
-      <table class="table">
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone Number</th>
-          <th>Gender</th>
-        </tr>
-      
-        <% @event.daters.each do |dater| %>
-          <tr>
-            <td><%= dater.name %></td>
-            <td><%= dater.email %></td>
-            <td><%= dater.phone_number %></td>
-            <td><%= dater.gender %></td>
-          </tr>
-        <% end %>
-      </table>
-
-      <%= form_with url: daters_path do |f| %>
-        <%= f.label :name %>
-        <%= f.text_field :name, class: 'form-control' %>
-        <%= f.label :email %>
-        <%= f.text_field :email, class: 'form-control' %>
-        <%= f.label :phone_number %>
-        <%= f.text_field :phone_number, class: 'form-control' %>
-        <%= f.label :gender %>
-        <%= f.hidden_field :event_id, value: @event.id %>
-        <%= f.select :gender,  ['male', 'female'], class: 'form-control' %>
-        <%= f.submit "Add dater", class: "btn btn-primary" %>
-      <% end %>
+      <%= link_to 'Edit Event Details', edit_event_path(@event) %>
+      <br>
+      <%= link_to 'Daters', event_daters_path(@event) %>
+      <br>
+      <%= link_to 'Schedule', event_speed_dates_path(@event) %>
     </section>
   </aside>
 </div>

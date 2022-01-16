@@ -42,13 +42,9 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
       get event_path(event)
       expect(response).to be_successful
       expect(response.body).to include(event.title)
-      daters.each do |dater|
-        expect(response.body).to include(dater.name)
-      end
       expect(response.body).to include(daters.count.to_s)
       expect(response.body).to include(male_daters.count.to_s)
       expect(response.body).to include(female_daters.count.to_s)
-      expect(response.body).to include('Add dater')
     end
   end
 
