@@ -3,107 +3,48 @@
 <div class="row">
   <aside class="col-md-4">
     <section>
-      <h1>
-        <%= @event.title %>
-      </h1>
-      <%= @event.date %>
-      <%= link_to 'Edit', edit_event_path(@event) %>
-      <%= link_to 'Events', events_path %>
-
-      <table class="table">
-        <tr>
-          <th>Daters</th>
-          <th>Male</th>
-          <th>Female</th>
-        </tr>
-      
-        <tr>
-          <td><%= @daters.size %></td>
-          <td><%= @male_daters.size %></td>
-          <td><%= @female_daters.size %></td>
-        </tr>
-      </table>
-    </section>
-  </aside>
-</div>
-
-<div class="row">
-  <aside class="col-md-10">
-    <section>
-      <h2>Daters</h2>
+      <%= link_to 'Back to Events', events_path %>
+      <h1>Event Information</h1>
 
       <table class="table">
         <tr>
           <th>Name</th>
-          <th>Email</th>
-          <th>Phone Number</th>
-          <th>Gender</th>
+          <td><%= @event.title %></td>
         </tr>
-      
-        <% @daters.each do |dater| %>
-          <tr>
-            <td><%= dater.name %></td>
-            <td><%= dater.email %></td>
-            <td><%= dater.phone_number %></td>
-            <td><%= dater.gender %></td>
-          </tr>
-        <% end %>
-      </table>
 
-      <%= form_with url: daters_path do |f| %>
-        <%= f.label :name %>
-        <%= f.text_field :name, class: 'form-control' %>
-        <%= f.label :email %>
-        <%= f.text_field :email, class: 'form-control' %>
-        <%= f.label :phone_number %>
-        <%= f.text_field :phone_number, class: 'form-control' %>
-        <%= f.label :gender %>
-        <%= f.hidden_field :event_id, value: @event.id %>
-        <%= f.select :gender,  ['male', 'female'], class: 'form-control' %>
-        <%= f.submit "Add dater", class: "btn btn-primary" %>
-      <% end %>
+        <tr>
+          <th>Date</th>
+          <td><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
+        </tr>
+
+        <tr>
+          <th>Number of Daters</th>
+          <td><%= @daters.size %></td>
+        </tr>
+
+        <tr>
+          <th>Male Daters</th>
+          <td><%= @male_daters.size %></td>
+        </tr>
+
+        <tr>
+          <th>Female Daters</th>
+          <td><%= @female_daters.size %></td>
+        </tr>
+
+      </table>
     </section>
   </aside>
 </div>
-
-<% if @speed_dates.any? %>
-
-<%= button_to "Recreate Speed Dates", event_speed_dates_path(@event), data: { confirm: 'This will delete and recreate the dating schedule.  Are you sure?' } %>
 
 <div class="row">
-  <aside class="col-md-10">
+  <aside class="col-md-4">
     <section>
-      <h2>Speed Dates</h2>
-
-      <table class="table">
-        <tr>
-          <th>Round</th>
-          <% @female_daters.each do |female_dater| %>
-            <th> <%= female_dater.name %> </th>
-          <% end %>
-          <th> Break </th>
-        </tr>
-
-        <% (1..@rounds).to_a.each do |round| %>
-          <tr>
-            <td><%= round.to_s %></td>
-            <% @female_daters.each do |female_dater| %>
-            <% sd = @speed_dates.select { |speed_date| speed_date.round == round && speed_date.dater1_id == female_dater.id }.first %>
-              <% if sd.dater2_id %>
-                <td> <%= @dater_names[sd.dater2_id] %> </td>
-              <% else %>
-              <td> Break </td>
-              <% end %>
-            <% end %>
-            <td><%= @speed_dates.select { |speed_date| speed_date.round == round && speed_date.dater2_id.nil? }.map { |speed_date| @dater_names[speed_date.dater1_id] }.join(', ') %></td>
-          </tr>
-        <% end %>
-      </table>
+      <%= link_to 'Edit Event Details', edit_event_path(@event) %>
+      <br>
+      <%= link_to 'Daters', event_daters_path(@event) %>
+      <br>
+      <%= link_to 'Schedule', event_speed_dates_path(@event) %>
     </section>
   </aside>
 </div>
-<% else %>
-
-<%= button_to "Create Speed Dates", event_speed_dates_path(@event) %>
-
-<% end %>
