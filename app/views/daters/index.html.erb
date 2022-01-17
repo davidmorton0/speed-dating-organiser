@@ -40,3 +40,39 @@
     </section>
   </aside>
 </div>
+
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <h2>Matches</h2>
+      <table class="table">
+        <tr>
+          <th></th>
+          <% @female_daters.each do |female_dater| %>
+            <th><%= female_dater.name %></th>
+          <% end %>
+        </tr>
+        <% @male_daters.each do |male_dater| %>
+          <tr>
+            <th><%= male_dater.name %></th>
+            <% @female_daters.each do |female_dater| %>
+              <% if male_dater.matches.include?(female_dater.id.to_s) %>
+                <% if female_dater.matches.include?(male_dater.id.to_s) %>
+                  <td><%= image_tag "green-green.png", width: 120 %></td>
+                <% else %>
+                  <td><%= image_tag "green-red.png", width: 120 %></td>
+                <% end %>
+              <% else %>
+                <% if female_dater.matches.include?(male_dater.id.to_s) %>
+                  <td><%= image_tag "red-green.png", width: 120 %></td>
+                <% else %>
+                  <td><%= image_tag "red-red.png", width: 120 %></td>
+                <% end %>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    </section>
+  </aside>
+</div>
