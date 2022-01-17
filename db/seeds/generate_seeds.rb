@@ -15,13 +15,11 @@ class GenerateSeeds
     event = Event.create(title: "Event with matches", date: DateTime.current + 5.days)
     female_daters = create_list(:dater, 5, event: event, gender: 'female')
     male_daters = create_list(:dater, 5, event: event, gender: 'male')
-    create(:match, matcher: female_daters[0], matchee: male_daters[0])
-    create(:match, matcher: female_daters[0], matchee: male_daters[2])
-    create(:match, matcher: female_daters[0], matchee: male_daters[3])
-    create(:match, matcher: female_daters[1], matchee: male_daters[2])
-    create(:match, matcher: male_daters[0], matchee: female_daters[0])
-    create(:match, matcher: male_daters[2], matchee: female_daters[0])
-    create(:match, matcher: male_daters[4], matchee: female_daters[3])
+    female_daters[0].update(matches: [male_daters[0].id, male_daters[2].id, male_daters[3].id])
+    female_daters[1].update(matches: [male_daters[2].id])
+    male_daters[0].update(matches: [female_daters[0].id])
+    male_daters[2].update(matches: [female_daters[0].id])
+    male_daters[4].update(matches: [female_daters[3].id])
   end
 
 end

@@ -15,7 +15,7 @@
           <th>Gender</th>
         </tr>
       
-        <% @daters.each do |dater| %>
+        <% @daters.sort.each do |dater| %>
           <tr>
             <td><%= link_to dater.name, event_dater_path(@event, dater) %></td>
             <td><%= dater.email %></td>

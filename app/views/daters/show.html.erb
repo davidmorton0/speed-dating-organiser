@@ -6,19 +6,17 @@
       <%= link_to 'Back to Daters', event_daters_path(@event) %>
       <h3>Matches for <%= @dater.name %></h3>
 
-      <table class="table">
-        <tr>
-          <th>Dater</th>
-          <th>Match?</th>
-        </tr>
-
-        <% @possible_matches.each do |possible_match| %>
-          <tr>
-            <td><%= possible_match.name %></td>
-            <td><%= check_box_tag possible_match.id, '1', @matches.include?(possible_match.id) %></td>
-          </tr>
+        <%= form_for(@dater, url: event_dater_path) do |f| %>
+          <table>
+          <% @possible_matches.each do |possible_match| %>
+            <tr>
+              <td><%= f.label possible_match.name %></td>
+              <td><%= check_box_tag possible_match.id, possible_match.id, @dater.matches.include?(possible_match.id.to_s) %></td>
+            </tr>
+          <% end %>
+          </table>
+          <%= f.submit "Update Matches", class: "btn btn-primary" %>
         <% end %>
-      </table>
     </section>
   </aside>
 </div>
