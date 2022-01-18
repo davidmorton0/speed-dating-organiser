@@ -2,7 +2,7 @@ class Admin::EventsController < ApplicationController
   before_action :authenticate_admin!
 
   def index
-    @events = Event.paginate(page: params[:page])
+    @events = Event.includes(:daters).paginate(page: params[:page])
   end
   
   def show
