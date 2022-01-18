@@ -20,6 +20,11 @@ class GenerateSeeds
     male_daters[0].update(matches: [female_daters[0].id])
     male_daters[2].update(matches: [female_daters[0].id])
     male_daters[4].update(matches: [female_daters[3].id])
+
+    # Create different users
+    create(:admin)
+    create(:rep)
+    create(:user)
   end
 
 end

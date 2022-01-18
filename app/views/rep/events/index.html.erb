@@ -1,0 +1,15 @@
+<% provide(:title, 'All Events') %>
+<h1>All Events</h1>
+
+<%= will_paginate %>
+
+<table class="table">
+  <tr>
+    <th>Event Name</th>
+    <th>Date</th>
+  </tr>
+
+  <%= render @events %>
+</table>
+
+<%= will_paginate %>
