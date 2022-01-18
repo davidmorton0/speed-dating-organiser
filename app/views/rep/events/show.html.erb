@@ -1,0 +1,48 @@
+<% provide(:title, @event.title) %>
+
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <%= link_to 'Back to Events', rep_events_path %>
+      <h1>Event Information</h1>
+
+      <table class="table">
+        <tr>
+          <th>Name</th>
+          <td><%= @event.title %></td>
+        </tr>
+
+        <tr>
+          <th>Date</th>
+          <td><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
+        </tr>
+
+        <tr>
+          <th>Number of Daters</th>
+          <td><%= @daters.size %></td>
+        </tr>
+
+        <tr>
+          <th>Male Daters</th>
+          <td><%= @male_daters.size %></td>
+        </tr>
+
+        <tr>
+          <th>Female Daters</th>
+          <td><%= @female_daters.size %></td>
+        </tr>
+
+      </table>
+    </section>
+  </aside>
+</div>
+
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <%= link_to 'Daters', rep_event_daters_path(@event) %>
+      <br>
+      <%= link_to 'Schedule', rep_event_speed_dates_path(@event) %>
+    </section>
+  </aside>
+</div>

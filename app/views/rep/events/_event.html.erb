@@ -1,0 +1,8 @@
+<tr>
+  <td><%= link_to event.title, rep_event_path(event) %></td>
+  <td><%= event.date %></td>
+  <td><%= link_to 'Edit', edit_rep_event_path(event) %></td>
+  <td> <%= link_to("Delete", rep_event_path(event), method: :delete) %></td>
+  <td> <%= link_to 'delete', { controller: "events", action: "destroy", id: event.id }, 
+           data: { confirm: 'Are you sure?' }, method: :delete %>
+</tr>
