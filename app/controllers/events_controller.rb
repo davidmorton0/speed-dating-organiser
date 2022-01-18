@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @speed_dates = SpeedDate.where(event: @event)
-    @daters = Dater.where(event: @event)
+    @daters = Dater.where(event: @event).sort
     @female_daters = @daters.select {|dater| dater.gender == 'female' }
     @male_daters = @daters.select {|dater| dater.gender == 'male' }
     @dater_names = {}
