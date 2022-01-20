@@ -16,7 +16,7 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
       it 'shows an empty list' do
         get admin_events_path
         expect(response).to be_successful
-        expect(response.body).to include('All Events')
+        expect(response.body).to include('Events')
         expect(response.body).not_to include('Dating Event')
       end
     end
@@ -29,7 +29,7 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
       it 'shows an event' do
         get admin_events_path
         expect(response).to be_successful
-        expect(response.body).to include('All Events')
+        expect(response.body).to include('Events')
         expect(response.body).to include('Dating Event')
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
     it 'shows an empty list' do
       get new_admin_event_path
       expect(response).to be_successful
-      expect(response.body).to include('Add Event')
+      expect(response.body).to include('New Event')
     end
   end
 
@@ -78,12 +78,13 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
     end
   end
 
-  describe 'update event page' do
-    it 'shows the update event page' do
+  describe 'edit event page' do
+    it 'shows the edit event page' do
       get edit_admin_event_path(event)
       expect(response).to be_successful
-      expect(response.body).to include('Update Event')
       expect(response.body).to include('Dating Event')
+      expect(response.body).to include('Edit Event Details')
+
     end
   end
 

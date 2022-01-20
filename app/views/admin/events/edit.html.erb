@@ -1,14 +1,21 @@
 <% provide(:title, "Edit Event") %>
-<h1>Update Event</h1>
+<%= render 'events_links' %>
+
+<h1><%= @event.title %></h1>
+<%= render 'event_links' %>
+<h2>Edit Event Details</h2>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@event, url: admin_event_path(@event)) do |f| %>
-      <%= f.label :title %>
-      <%= f.text_field :title, class: 'form-control' %>
-      <%= f.label :date %>
-      <%= f.date_field :date, class: 'form-control' %>
-      <%= f.submit "Save changes", class: "btn btn-primary" %>
-    <% end %>
-  </div>
+  <aside class="col-md-4">
+    <section>
+      <%= form_for(@event, url: admin_event_path(@event)) do |f| %>
+        <%= f.label :name %>
+        <%= f.text_field :title, class: 'form-control' %>
+        <%= f.label :date %>
+        <%= f.date_field :date, class: 'form-control' %>
+        <br>
+        <%= f.submit "Save changes", class: "btn btn-primary" %>
+      <% end %>
+    </section>
+  </aside>  
 </div>

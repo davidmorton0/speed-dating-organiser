@@ -1,0 +1,29 @@
+<% provide(:title, @event.title) %>
+<%= render 'admin/events/events_links' %>
+
+<h1><%= @event.title %></h1>
+<%= render 'admin/events/event_links' %>
+<h2>Matches</h2>
+
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <table class="match-table">
+        <tr>
+          <th></th>
+          <% @female_daters.each do |female_dater| %>
+            <th><%= link_to female_dater.name, admin_event_dater_path(@event, female_dater) %></th>
+          <% end %>
+        </tr>
+        <% @male_daters.each do |male_dater| %>
+          <tr>
+            <th><%= link_to male_dater.name, admin_event_dater_path(@event, male_dater) %></th>
+            <% @female_daters.each do |female_dater| %>
+              <td><%= image_tag match_image(male_dater, female_dater), width: 120 %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    </section>
+  </aside>
+</div>

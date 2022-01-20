@@ -1,17 +1,24 @@
 <% provide(:title, 'Speed Dating Organiser') %>
+
 <h1>Speed Dating Organiser</h1>
 
-<table class="table">
-  <tr>
-    <th>Log In As</th>
-  </tr>
-  <tr>
-    <td><%= link_to 'Admin', '/login_admin' %></td>
-  </tr>
-  <tr>
-    <td><%= link_to 'Rep', '/login_rep' %></td>
-  </tr>
-  <tr>
-    <td><%= link_to 'User', '/login_user' %></td>
-  </tr>
-</table>
+<div class="row">
+  <aside class="col-md-1">
+    <section>
+      <table class="table">
+        <tr>
+          <th>Log In As</th>
+        </tr>
+        <tr>
+          <td><%= link_to 'Admin', '/login_admin' %></td>
+        </tr>
+        <tr>
+          <td><%= link_to 'Rep', '/login_rep' %></td>
+        </tr>
+        <tr>
+          <td><%= link_to 'User', '/login_user' %></td>
+        </tr>
+      </table>
+    </section>
+  </aside>  
+</div>

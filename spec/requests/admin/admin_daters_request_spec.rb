@@ -24,7 +24,7 @@ RSpec.describe "Daters", type: :request, aggregate_failures: true do
       daters.each do |dater|
         expect(response.body).to include(CGI.escapeHTML(dater.name))
       end
-      expect(response.body).to include('Add dater')
+      expect(response.body).to include('Add')
     end
   end
 end

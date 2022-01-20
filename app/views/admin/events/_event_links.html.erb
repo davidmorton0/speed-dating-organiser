@@ -1,0 +1,15 @@
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <table class="table">
+        <tr>
+          <th><%= link_to 'Event Details', admin_event_path(@event) %></th>
+          <th><%= link_to 'Edit Event', edit_admin_event_path(@event) %></th>
+          <th><%= link_to 'Event Schedule', admin_event_speed_dates_path(@event) %></th>
+          <th><%= link_to 'Daters', admin_event_daters_path(@event) %></th>
+          <th><%= link_to 'Matches', admin_event_matches_path(@event) %></th>
+        </tr>
+      </table>
+    </section>
+  </aside>  
+</div>
