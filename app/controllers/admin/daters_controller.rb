@@ -20,6 +20,18 @@ class Admin::DatersController < ApplicationController
     @possible_matches = Dater.where(event: @event, gender: gender_of_possible_matches)
   end
 
+  def matches
+    @event = Event.find(params[:event_id])
+    @speed_dates = SpeedDate.where(event: @event)
+    @daters = Dater.where(event: @event)
+    @female_daters = @daters.select {|dater| dater.gender == 'female' }
+    @male_daters = @daters.select {|dater| dater.gender == 'male' }
+    @dater_names = {}
+    @female_daters.each { |dater| @dater_names[dater.id] = dater.name }
+    @male_daters.each { |dater| @dater_names[dater.id] = dater.name }
+    @rounds = [@female_daters.size, @male_daters.size].max
+  end
+
   def update
     dater = Dater.find(params[:id])
     matches = params.keys.select { |key| dater.event.daters.ids.include?(key.to_i) }

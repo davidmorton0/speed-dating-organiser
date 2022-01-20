@@ -1,20 +1,31 @@
 <% provide(:title, 'All Events') %>
-<h1>All Events</h1>
+
+<%= render 'events_links' %>
+
+<h1>Events</h1>
 
 <%= will_paginate %>
 
-<table class="table">
-  <tr>
-    <th>Event Name</th>
-    <th>Date</th>
-    <th>Total Daters</th>
-    <th>Female Daters</th>
-    <th>Male Daters</th>
-  </tr>
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <table class="table">
+        <tr>
+          <th rowspan="2">Name</th>
+          <th rowspan="2">Date</th>
+          <th colspan="3">Daters</th>
+          <th colspan="5" rowspan="2">Actions</th>
+        </tr>
+        <tr>
+          <th>Total</th>
+          <th>Female</th>
+          <th>Male</th>
+        </tr>
 
-  <%= render @events %>
-</table>
+        <%= render @events %>
+      </table>
+    </section>
+  </aside>
+</div>
 
 <%= will_paginate %>
-
-<%= link_to "Create New Event", new_admin_event_path, class: "btn btn-lg btn-primary" %>

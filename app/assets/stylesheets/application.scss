@@ -14,3 +14,26 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+body {  background-color: rgb(250, 233, 248) ;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;}
+
+.table { background-color:rgb(190, 151, 188);
+        border: 1px solid black;
+        border-style: double; 
+        color: black;
+        th, td { border: 1px solid black; } }
+
+.match-table { background-color:rgb(250, 233, 248);
+        font-size: x-small;
+        border-style: none; 
+        color: black; }
+
+
+a { color: red; }
+a:hover { color: hotpink; }
+
+.btn-primary { background-color: rgb(190, 151, 188);
+                color: red }
+
+.btn-primary:hover { background-color: hotpink; }

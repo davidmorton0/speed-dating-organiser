@@ -5,7 +5,9 @@
   <td><%= event.female_daters.size %></td>
   <td><%= event.male_daters.size %></td>
   <td><%= link_to 'Edit', edit_admin_event_path(event) %></td>
-  <td><%= link_to 'Schedule', admin_event_speed_dates_path(event) %></td>
   <td> <%= link_to 'Delete', { controller: "events", action: "destroy", id: event.id }, 
-           data: { confirm: 'Are you sure?' }, method: :delete %>
+           data: { confirm: 'Delete Event. Are you sure?' }, method: :delete %>
+  <td><%= link_to 'Daters', admin_event_daters_path(event) %></td>
+  <td><%= link_to 'Schedule', admin_event_speed_dates_path(event) %></td>
+  <td><%= link_to 'Matches', admin_event_matches_path(event) %></td>
 </tr>

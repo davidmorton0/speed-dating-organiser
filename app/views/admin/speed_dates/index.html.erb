@@ -1,56 +1,43 @@
 <% provide(:title, @event.title) %>
+<%= render 'admin/events/events_links' %>
 
-<%= link_to 'Return to Event', admin_event_path(@event) %>
+<h1><%= @event.title %></h1>
+<%= render 'admin/events/event_links' %>
+<h2>Schedule</h2>
 
 <div class="row">
   <aside class="col-md-4">
     <section>
-      <h1>
-        <%= @event.title %>
-      </h1>
-    </section>
-  </aside>
-</div>
-
-<% if @speed_dates.any? %>
-
-<%= button_to "Regenerate Schedule", admin_event_speed_dates_path(@event), data: { confirm: 'This will delete and recreate the dating schedule.  Are you sure?' } %>
-
-<div class="row">
-  <aside class="col-md-10">
-    <section>
-      <h2>Schedule</h2>
-
-      <table class="table">
-        <tr>
-          <th>Round</th>
-          <% @female_daters.each do |female_dater| %>
-            <th> <%= female_dater.name %> </th>
-          <% end %>
-          <th> Break </th>
-        </tr>
-
-        <% (1..@rounds).to_a.each do |round| %>
+      <% if @speed_dates.any? %>
+        <table class="table">
           <tr>
-            <td><%= round.to_s %></td>
+            <th>Round</th>
             <% @female_daters.each do |female_dater| %>
-            <% sd = @speed_dates.select { |speed_date| speed_date.round == round && speed_date.dater1_id == female_dater.id }.first %>
-              <% if sd.dater2_id %>
-                <td> <%= @dater_names[sd.dater2_id] %> </td>
-              <% else %>
-              <td> Break </td>
-              <% end %>
+              <th> <%= female_dater.name %> </th>
             <% end %>
-            <td><%= @speed_dates.select { |speed_date| speed_date.round == round && speed_date.dater1_id.nil? }.map { |speed_date| @dater_names[speed_date.dater2_id] }.join(', ') %></td>
+            <th> Break </th>
           </tr>
-        <% end %>
-      </table>
+
+          <% (1..@rounds).to_a.each do |round| %>
+            <tr>
+              <td><%= round.to_s %></td>
+              <% @female_daters.each do |female_dater| %>
+              <% sd = @speed_dates.select { |speed_date| speed_date.round == round && speed_date.dater1_id == female_dater.id }.first %>
+                <% if sd.dater2_id %>
+                  <td> <%= @dater_names[sd.dater2_id] %> </td>
+                <% else %>
+                <td> Break </td>
+                <% end %>
+              <% end %>
+              <td><%= @speed_dates.select { |speed_date| speed_date.round == round && speed_date.dater1_id.nil? }.map { |speed_date| @dater_names[speed_date.dater2_id] }.join(', ') %></td>
+            </tr>
+          <% end %>
+        </table>
+        <%= button_to "Regenerate Schedule", admin_event_speed_dates_path(@event), data: { confirm: 'This will delete and recreate the dating schedule.  Are you sure?' } %>
+      <% else %>
+        <h3>Schedule has not been created.</h3>
+        <%= button_to "Create Schedule", admin_event_speed_dates_path(@event) %>
+      <% end %>
     </section>
   </aside>
 </div>
-<% else %>
-
-No Schedule
-<%= button_to "Create Schedule", admin_event_speed_dates_path(@event) %>
-
-<% end %>
