@@ -11,4 +11,8 @@ class Dater < ApplicationRecord
   validates :email, presence: true
   validates :phone_number, presence: true
   validates :gender, inclusion: { in: %w[male female] }
+
+  def matches_with(dater)
+    [matches.include?(dater.id.to_s), dater.matches.include?(id.to_s)]
+  end
 end

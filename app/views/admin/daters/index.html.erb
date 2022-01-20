@@ -16,14 +16,8 @@
           <th>Gender</th>
         </tr>
       
-        <% @daters.sort_by {|dater| dater.name }.each do |dater| %>
-          <tr>
-            <td><%= link_to dater.name, admin_event_dater_path(@event, dater) %></td>
-            <td><%= dater.email %></td>
-            <td><%= dater.phone_number %></td>
-            <td><%= dater.gender %></td>
-          </tr>
-        <% end %>
+        <%= render @daters %>
+
       </table>
 
       <h2>Add New Dater</h2>
