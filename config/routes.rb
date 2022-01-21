@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :events do
       resources :speed_dates, only: [:create, :update, :index]
       resources :daters, only: [:create, :update, :index, :show]
-      get '/matches/:event_id', as: 'matches', to: 'daters#matches'
+      get '/matches', as: 'matches', to: 'daters#matches'
     end
   end
 
@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     resources :events do
       resources :speed_dates, only: [:create, :update, :index]
       resources :daters, only: [:create, :update, :index, :show]
+      get '/matches', as: 'matches', to: 'daters#matches'
     end
   end
 
