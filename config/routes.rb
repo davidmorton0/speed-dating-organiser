@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
+  devise_for :daters
   devise_for :reps
   devise_for :admins
-  devise_for :users
 
   root to: "home#index"
   get "/login_admin", to: "home#login_admin"
   get "/login_rep", to: "home#login_rep"
-  get "/login_user", to: "home#login_user"
+  get "/login_dater", to: "home#login_dater"
 
 
   namespace :admin do
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :user do
+  namespace :dater do
     resources :events do
       resources :speed_dates, only: [:index]
       resources :daters, only: [:update, :show]

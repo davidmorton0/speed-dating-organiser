@@ -1,0 +1,20 @@
+<% provide(:title, @event.title) %>
+<%= render 'events_links' %>
+
+<h1><%= @event.title %></h1>
+<%= render 'event_links' %>
+<h2>Event Information</h2>
+
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+
+      <table class="table">
+        <tr>
+          <th>Date</th>
+          <td colspan=4><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
+        </tr>
+      </table>
+    </section>
+  </aside>
+</div>

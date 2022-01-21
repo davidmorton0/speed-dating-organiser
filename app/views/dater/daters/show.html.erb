@@ -1,11 +1,14 @@
 <% provide(:title, @event.title) %>
+<%= render 'dater/events/events_links' %>
+
+<h1><%= @event.title %></h1>
+<%= render 'dater/events/event_links' %>
+<h3>Matches for <%= @dater.name %></h3>
 
 <div class="row">
   <aside class="col-md-4">
     <section>
-      <h3>Matches for <%= @dater.name %></h3>
-
-        <%= form_for(@dater, url: user_event_dater_path) do |f| %>
+        <%= form_for(@dater, url: dater_event_dater_path) do |f| %>
           <table>
           <% @possible_matches.each do |possible_match| %>
             <tr>
@@ -16,14 +19,6 @@
           </table>
           <%= f.submit "Update Matches", class: "btn btn-primary" %>
         <% end %>
-    </section>
-  </aside>
-</div>
-
-<div class="row">
-  <aside class="col-md-4">
-    <section>
-      <%= link_to 'Schedule', user_event_speed_dates_path(@event) %>
     </section>
   </aside>
 </div>
