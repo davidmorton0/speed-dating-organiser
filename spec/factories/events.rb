@@ -4,5 +4,6 @@ FactoryBot.define do
   factory :event do
     sequence(:title) { |n| "New Event #{n}" }
     date { DateTime.current }
+    rep { build(:rep) }
   end
 end

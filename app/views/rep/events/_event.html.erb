@@ -1,8 +1,10 @@
 <tr>
   <td><%= link_to event.title, rep_event_path(event) %></td>
-  <td><%= event.date %></td>
-  <td><%= link_to 'Edit', edit_rep_event_path(event) %></td>
-  <td> <%= link_to("Delete", rep_event_path(event), method: :delete) %></td>
-  <td> <%= link_to 'delete', { controller: "events", action: "destroy", id: event.id }, 
-           data: { confirm: 'Are you sure?' }, method: :delete %>
+  <td><%= event.date.strftime("%A - #{event.date.day.ordinalize} %b %Y") %></td>
+  <td><%= event.daters.size %></td>
+  <td><%= event.female_daters.size %></td>
+  <td><%= event.male_daters.size %></td>
+  <td><%= link_to 'Daters', rep_event_daters_path(event) %></td>
+  <td><%= link_to 'Schedule', rep_event_speed_dates_path(event) %></td>
+  <td><%= link_to 'Matches', rep_event_matches_path(event) %></td>
 </tr>

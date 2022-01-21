@@ -1,6 +1,7 @@
 class Event < ApplicationRecord
   has_many :daters
   has_many :speed_dates
+  belongs_to :rep
 
   validates :title, presence: true
   validates :date, presence: true

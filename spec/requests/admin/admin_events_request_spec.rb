@@ -67,12 +67,13 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
       {
         event: {
           title: 'Knitting Event',
-          date: DateTime.current
+          date: DateTime.current,
+          rep_id: create(:rep).id
         }
       }
     end
 
-    it 'shows an empty list' do
+    it 'shows the event' do
       post admin_events_path(params)
       expect(Event.last.title).to eq 'Knitting Event'
     end
