@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_175358) do
+ActiveRecord::Schema.define(version: 2022_01_21_232033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,14 +29,20 @@ ActiveRecord::Schema.define(version: 2022_01_21_175358) do
 
   create_table "daters", force: :cascade do |t|
     t.string "name", limit: 128, null: false
-    t.string "email", limit: 128, null: false
+    t.string "email", default: "", null: false
     t.string "phone_number", limit: 128, null: false
     t.string "gender", limit: 128, null: false
     t.bigint "event_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "matches", default: [], array: true
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at", precision: 6
+    t.datetime "remember_created_at", precision: 6
+    t.index ["email"], name: "index_daters_on_email", unique: true
     t.index ["event_id"], name: "index_daters_on_event_id"
+    t.index ["reset_password_token"], name: "index_daters_on_reset_password_token", unique: true
   end
 
   create_table "events", force: :cascade do |t|
@@ -70,18 +76,6 @@ ActiveRecord::Schema.define(version: 2022_01_21_175358) do
     t.index ["dater1_id"], name: "index_speed_dates_on_dater1_id"
     t.index ["dater2_id"], name: "index_speed_dates_on_dater2_id"
     t.index ["event_id"], name: "index_speed_dates_on_event_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: 6
-    t.datetime "remember_created_at", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "speed_dates", "daters", column: "dater1_id"

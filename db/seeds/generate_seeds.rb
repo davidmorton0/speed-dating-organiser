@@ -38,7 +38,7 @@ class GenerateSeeds
 
     # Create different users
     create(:admin)
-    create(:user)
+    create(:dater)
   end
 
 end

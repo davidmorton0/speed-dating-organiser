@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-class User::SpeedDatesController < ApplicationController
-  before_action :authenticate_user!
+class Dater::SpeedDatesController < ApplicationController
+  before_action :authenticate_dater!
   
   def index
-    @event = Event.find(params[:event_id])
-    @speed_dates = SpeedDate.where(event: @event)
-    @daters = Dater.where(event: @event)
+    @event = current_dater.event
+    @speed_dates = @event.speed_dates
+    @daters = @event.daters
     @female_daters = @daters.select {|dater| dater.gender == 'female' }
     @male_daters = @daters.select {|dater| dater.gender == 'male' }
     @dater_names = {}

@@ -23,10 +23,11 @@ class HomeController < ApplicationController
     redirect_to rep_events_path
   end
 
-  def login_user
+  def login_dater
     sign_out
-    sign_in User.first
+    dater = Dater.first
+    sign_in dater
 
-    redirect_to user_event_path(Event.first)
+    redirect_to dater_event_path(dater.event)
   end
 end

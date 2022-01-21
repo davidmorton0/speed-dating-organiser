@@ -3,10 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe CreateDater do
-  subject { described_class.new(name: name, email: email, phone_number: phone_number, gender: gender, event: event).call }
+  subject { described_class.new(name: name, email: email, password: password, phone_number: phone_number, gender: gender, event: event).call }
 
   let(:name) { Faker::Name.name }
   let(:email) { Faker::Internet.email }
+  let(:password) { Faker::Internet.password }
   let(:phone_number) { Faker::PhoneNumber.phone_number }
   let(:gender) { %w[male female].sample }
   let(:event) { create(:event) }
