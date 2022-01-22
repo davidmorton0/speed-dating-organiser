@@ -1,13 +1,14 @@
 <% provide(:title, @event.title) %>
 <%= render 'admin/events/events_links' %>
-
-<h1><%= @event.title %></h1>
 <%= render 'admin/events/event_links' %>
-<h3>Matches for <%= @dater.name %></h3>
 
 <div class="row">
   <aside class="col-md-4">
     <section>
+      <h1><%= @event.title %></h1>
+
+      <h3>Matches for <%= @dater.name %></h3>
+
         <%= form_for(@dater, url: admin_event_dater_path) do |f| %>
           <table>
           <% @possible_matches.each do |possible_match| %>

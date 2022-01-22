@@ -2,11 +2,11 @@
 
 <%= render 'events_links' %>
 
-<h1>New Event</h1>
-
 <div class="row">
   <aside class="col-md-4">
     <section>
+      <h1>New Event</h1>
+      
       <%= form_for(@event, url: admin_events_path) do |f| %>
         <%= f.label :title %>
         <%= f.text_field :title, class: 'form-control' %>

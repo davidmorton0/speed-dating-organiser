@@ -1,24 +1,26 @@
 <% provide(:title, @event.title) %>
 <%= render 'dater/events/events_links' %>
-
-<h1><%= @event.title %></h1>
 <%= render 'dater/events/event_links' %>
-<h3>Matches for <%= @dater.name %></h3>
 
 <div class="row">
   <aside class="col-md-4">
     <section>
-        <%= form_for(@dater, url: dater_event_dater_path) do |f| %>
-          <table>
-          <% @possible_matches.each do |possible_match| %>
-            <tr>
-              <td><%= f.label possible_match.name %></td>
-              <td><%= check_box_tag possible_match.id, possible_match.id, @dater.matches.include?(possible_match.id.to_s) %></td>
-            </tr>
-          <% end %>
-          </table>
-          <%= f.submit "Update Matches", class: "btn btn-primary" %>
+      <h1><%= current_dater.name %></h1>
+      <h2><%= @event.title %></h2>
+
+      <h3>Matches for <%= @dater.name %></h3>
+
+      <%= form_for(@dater, url: dater_event_dater_path) do |f| %>
+        <table>
+        <% @possible_matches.each do |possible_match| %>
+          <tr>
+            <td><%= f.label possible_match.name %></td>
+            <td><%= check_box_tag possible_match.id, possible_match.id, @dater.matches.include?(possible_match.id.to_s) %></td>
+          </tr>
         <% end %>
+        </table>
+        <%= f.submit "Update Matches", class: "btn btn-primary" %>
+      <% end %>
     </section>
   </aside>
 </div>
