@@ -13,7 +13,7 @@
           <table>
           <% @possible_matches.each do |possible_match| %>
             <tr>
-              <td><%= f.label possible_match.name %></td>
+              <td><%= f.label possible_match.name, possible_match.name %></td>
               <td><%= check_box_tag possible_match.id, possible_match.id, @dater.matches.include?(possible_match.id.to_s) %></td>
             </tr>
           <% end %>
