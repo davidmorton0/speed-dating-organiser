@@ -83,7 +83,7 @@ class Admin::EventsController < ApplicationController
     end
 
     def validate_rep
-      return true unless event_params[:rep_id]
+      return true unless event_params[:rep_id] && event_params[:rep_id].present?
 
       if current_admin.organisation.reps.ids.include?(event_params[:rep_id].to_i)
         true

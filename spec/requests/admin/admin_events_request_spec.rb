@@ -216,6 +216,18 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
       end
     end
 
+    context 'when setting the assigned rep ot nil' do
+      let(:params) do
+        { id: event.id,
+          event: { rep_id: nil } }
+      end
+
+      it 'updates an event' do
+        expect { patch admin_event_path(params) }.to change { event.reload.rep }.to(nil)
+        expect(flash[:success]).to match(/Event updated/)
+      end
+    end
+
     context 'when the assigned rep is for a different organisation then the admin' do
       let(:rep) { create(:rep, organisation: create(:organisation)) }
 
