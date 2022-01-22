@@ -20,8 +20,10 @@
         <%= render @daters %>
 
       </table>
+    </section>
+    <section class="col-md-8">
 
-      <h2>Add New Dater</h2>
+      <h3>Add New Dater</h3>
 
       <%= form_with url: admin_event_daters_path do |f| %>
         <%= f.label :name %>
@@ -30,11 +32,14 @@
         <%= f.text_field :email, class: 'form-control' %>
         <%= f.label :phone_number %>
         <%= f.text_field :phone_number, class: 'form-control' %>
-        <%= f.label :gender %>
-        <%= f.hidden_field :event_id, value: @event.id %>
+        <%= f.label :gender %><br>
         <%= f.select :gender,  ['male', 'female'], class: 'form-control' %>
+        <%= f.hidden_field :event_id, value: @event.id %>
+        <br>
+        <br>
         <%= f.submit "Add", class: "btn btn-primary" %>
       <% end %>
+
     </section>
   </aside>
 </div>

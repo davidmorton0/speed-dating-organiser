@@ -4,28 +4,32 @@ include FactoryBot::Syntax::Methods
 
 class GenerateSeeds
   def call
+    # Create an organisation
+    organisation = create(:organisation)
+    create(:admin, organisation: organisation)
     # Create 2 events with 5 male and 5 female daters and the same rep
-    rep_1 = create(:rep)
-    event = Event.create(title: "Drinks at a bar", date: DateTime.current + 3.days, rep: rep_1)
+    rep_1 = create(:rep, organisation: organisation)
+    event = Event.create(title: "Drinks at a bar", date: DateTime.current + 3.days, rep: rep_1, organisation: organisation)
     create_list(:dater, 5, event: event, gender: 'female')
     create_list(:dater, 5, event: event, gender: 'male')
 
-    event = Event.create(title: "Drinks at a pub", date: DateTime.current + 5.days, rep: rep_1)
+    event = Event.create(title: "Drinks at a pub", date: DateTime.current + 5.days, rep: rep_1, organisation: organisation)
     create_list(:dater, 5, event: event, gender: 'female')
     create_list(:dater, 5, event: event, gender: 'male')
 
-    # Create an events with unbalanced numbers of daters for a different rep
-    rep_2 = create(:rep)
-    event = Event.create(title: "Drinks in a car park", date: DateTime.current + 3.days, rep: rep_2)
+    # Create a event for a different rep
+    rep_2 = create(:rep, organisation: organisation)
+    event = Event.create(title: "Drinks in a car park", date: DateTime.current + 3.days, rep: rep_2, organisation: organisation)
     create_list(:dater, 4, event: event, gender: 'female')
     create_list(:dater, 5, event: event, gender: 'male')
 
-    event = Event.create(title: "Dance party", date: DateTime.current + 3.days, rep: rep_2)
+    # Create a event with no rep
+    event = Event.create(title: "Dance party", date: DateTime.current + 3.days, rep: nil, organisation: organisation)
     create_list(:dater, 7, event: event, gender: 'female')
     create_list(:dater, 5, event: event, gender: 'male')
 
     # Create event with matches
-    event = Event.create(title: "Dating event with matches", date: DateTime.current, rep: rep_2)
+    event = Event.create(title: "Dating event with matches", date: DateTime.current, rep: rep_2, organisation: organisation)
     female_daters = create_list(:dater, 8, event: event, gender: 'female')
     male_daters = create_list(:dater, 8, event: event, gender: 'male')
     female_dater_ids = female_daters.map {|dater| dater.id }
@@ -36,9 +40,13 @@ class GenerateSeeds
     male_daters[2].update(matches: female_dater_ids.sample(5))
     male_daters[4].update(matches: female_dater_ids.sample(2))
 
-    # Create different users
-    create(:admin)
-    create(:dater)
+    # create event for different organisation
+    organisation_2 = create(:organisation)
+    create(:admin, organisation: organisation_2)
+    rep_3 = create(:rep, organisation: organisation_2)
+    event = Event.create(title: "Drinks at another bar", date: DateTime.current + 2.days, rep: rep_3, organisation: organisation_2)
+    create_list(:dater, 4, event: event, gender: 'female')
+    create_list(:dater, 4, event: event, gender: 'male')
   end
 
 end

@@ -16,6 +16,10 @@
           <td colspan=4><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
         </tr>
         <tr>
+          <th>Rep</th>
+          <td colspan=4><%= @event.rep ? @event.rep.email : 'No Rep Assigned' %></td>
+        </tr>
+        <tr>
           <th rowspan=2><%= link_to 'Daters', admin_event_daters_path(@event) %></th>
           <th>Total</td>
           <th>Male</td>
