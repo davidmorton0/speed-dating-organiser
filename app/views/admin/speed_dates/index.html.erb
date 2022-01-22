@@ -1,13 +1,15 @@
 <% provide(:title, @event.title) %>
 <%= render 'admin/events/events_links' %>
-
-<h1><%= @event.title %></h1>
 <%= render 'admin/events/event_links' %>
-<h2>Schedule</h2>
-
+      
 <div class="row">
   <aside class="col-md-4">
     <section>
+
+      <h1><%= @event.title %></h1>
+
+      <h2>Schedule</h2>
+
       <% if @speed_dates.any? %>
         <table class="table">
           <tr>

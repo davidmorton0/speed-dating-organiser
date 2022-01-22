@@ -4,10 +4,8 @@ Rails.application.routes.draw do
   devise_for :admins
 
   root to: "home#index"
-  get "/login_admin", to: "home#login_admin"
-  get "/login_rep", to: "home#login_rep"
-  get "/login_dater", to: "home#login_dater"
-
+  get "/logout", to: "home#logout"
+  post "/login/:resource", to: "home#login_resource"
 
   namespace :admin do
     resources :events do

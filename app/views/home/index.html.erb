@@ -1,22 +1,20 @@
 <% provide(:title, 'Speed Dating Organiser') %>
-
-<h1>Speed Dating Organiser</h1>
+<%= render 'banner' %>
 
 <div class="row">
-  <aside class="col-md-1">
+  <aside class="col-md-2">
     <section>
-      <table class="table">
+      <h1>Log In</h1>
+
+      <table class="login-table">
         <tr>
-          <th>Log In As</th>
+          <td><%= link_to 'Admin', new_admin_session_path %></td>
         </tr>
         <tr>
-          <td><%= link_to 'Admin', '/login_admin' %></td>
+          <td><%= link_to 'Rep', new_rep_session_path %></td>
         </tr>
         <tr>
-          <td><%= link_to 'Rep', '/login_rep' %></td>
-        </tr>
-        <tr>
-          <td><%= link_to 'Dater', '/login_dater' %></td>
+          <td><%= link_to 'Dater', new_dater_session_path %></td>
         </tr>
       </table>
     </section>

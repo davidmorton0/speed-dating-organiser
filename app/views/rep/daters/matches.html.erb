@@ -1,13 +1,14 @@
 <% provide(:title, @event.title) %>
 <%= render 'rep/events/events_links' %>
-
-<h1><%= @event.title %></h1>
 <%= render 'rep/events/event_links' %>
-<h2>Matches</h2>
 
 <div class="row">
   <aside class="col-md-4">
     <section>
+      <h1><%= @event.title %></h1>
+
+      <h2>Matches</h2>
+
       <table class="match-table">
         <tr>
           <th></th>

@@ -1,16 +1,17 @@
 <% provide(:title, @event.title) %>
 <%= render 'events_links' %>
-
-<h1><%= @event.title %></h1>
 <%= render 'event_links' %>
-<h2>Event Information</h2>
 
 <div class="row">
   <aside class="col-md-4">
     <section>
+      <h1><%= current_dater.name %></h1>
+      <h2><%= @event.title %></h2>
+
+      <h2>Event Information</h2>
 
       <table class="table">
-        <tr>
+        <tr>          
           <th>Date</th>
           <td colspan=4><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
         </tr>

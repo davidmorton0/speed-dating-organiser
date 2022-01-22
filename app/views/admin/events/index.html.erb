@@ -2,12 +2,11 @@
 
 <%= render 'events_links' %>
 
-<h1>Events</h1>
-
-<%= will_paginate %>
-
 <div class="row">
   <aside class="col-md-4">
+    <h1>Events</h1>
+
+    <%= will_paginate %>
     <section>
       <table class="table">
         <tr>
@@ -25,7 +24,6 @@
         <%= render @events %>
       </table>
     </section>
+    <%= will_paginate %>
   </aside>
 </div>
-
-<%= will_paginate %>

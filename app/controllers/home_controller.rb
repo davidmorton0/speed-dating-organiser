@@ -9,25 +9,18 @@ class HomeController < ApplicationController
     redirect_to '/'
   end
 
-  def login_admin
+  def login_resource
     sign_out
-    sign_in Admin.first
 
-    redirect_to admin_events_path
-  end
-  
-  def login_rep
-    sign_out
-    sign_in Rep.first
-
-    redirect_to rep_events_path
-  end
-
-  def login_dater
-    sign_out
-    dater = Dater.first
-    sign_in dater
-
-    redirect_to dater_event_path(dater.event)
+    sign_in params[:resource].capitalize.constantize.first
+    
+    case params[:resource]
+    when 'admin'
+      redirect_to admin_events_path
+    when 'rep'
+      redirect_to rep_events_path
+    when 'dater'
+      redirect_to dater_event_path(current_dater.event)
+    end
   end
 end
