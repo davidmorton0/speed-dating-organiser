@@ -1,0 +1,19 @@
+<% provide(:title, "Edit Rep") %>
+<%= render 'admin/events/events_links' %>
+
+<div class="row">
+  <aside class="col-md-2">
+    <section>
+
+      <h2>Edit Rep</h2>
+
+      <%= form_for(@rep, url: admin_rep_path(@rep)) do |f| %>
+        <%= f.label :email %>
+        <%= f.text_field :email, class: 'form-control' %>
+        <br>
+        <br>
+        <%= f.submit "Save changes", class: "btn btn-primary" %>
+      <% end %>
+    </section>
+  </aside>  
+</div>

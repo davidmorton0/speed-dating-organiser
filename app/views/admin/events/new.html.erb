@@ -12,8 +12,12 @@
         <%= f.text_field :title, class: 'form-control' %>
         <%= f.label :date %>
         <%= f.date_field :date, class: 'form-control' %>
+        <%= f.label :rep %> <br>
+        <%= f.collection_select :rep, Rep.where(organisation: current_admin.organisation).order(:email),:id,:email, include_blank: true %>
+        <br>
+        <br>
         <%= f.submit "Create event", class: "btn btn-primary" %>
       <% end %>
     </section>
-  </aside>  
+  </aside>
 </div>

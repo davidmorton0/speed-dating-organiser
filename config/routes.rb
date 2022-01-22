@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       resources :daters, only: [:create, :update, :index, :show]
       get '/matches', as: 'matches', to: 'daters#matches'
     end
+
+    resources :reps, only: [:create, :edit, :update, :index]
   end
 
   namespace :rep do

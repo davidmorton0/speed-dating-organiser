@@ -5,5 +5,6 @@ FactoryBot.define do
     sequence(:title) { |n| "New Event #{n}" }
     date { DateTime.current }
     rep { build(:rep) }
+    organisation { build(:organisation) }
   end
 end

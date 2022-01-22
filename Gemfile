@@ -25,6 +25,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]#
   gem 'rspec-rails', '~> 4.0.2'
   gem 'pry-byebug', '~> 3.9'
+  gem 'rails-controller-testing', '~> 1.0.5'
 end
 
 group :development do
