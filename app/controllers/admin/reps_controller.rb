@@ -8,13 +8,26 @@ class Admin::RepsController < ApplicationController
 
   def edit
     @rep = Rep.find(rep_params)
+    redirect_to admin_reps_path unless @rep.organisation == current_admin.organisation
   end
 
   def update
     rep = Rep.find(rep_params)
-    rep.update(email: edit_rep_params[:email])
+    if rep.organisation == current_admin.organisation
+      rep.update(email: edit_rep_params[:email])
+      flash[:success] = 'Rep updated'
+    end
+    redirect_to admin_reps_path
+  end
 
-    redirect_to admin_reps_path, info: "Rep updated"
+  def destroy
+    @rep = Rep.find(rep_params)
+    return unless @rep.organisation == current_admin.organisation
+
+    @rep.destroy
+    flash[:success] = 'Rep deleted'
+    
+    redirect_to admin_reps_path
   end
   
   private

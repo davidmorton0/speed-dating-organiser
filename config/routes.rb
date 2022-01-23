@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       get '/matches', as: 'matches', to: 'daters#matches'
     end
 
-    resources :reps, only: [:create, :edit, :update, :index]
+    resources :reps, only: [:create, :edit, :update, :index, :destroy]
   end
 
   namespace :rep do
