@@ -2,4 +2,6 @@
   <td><%= link_to rep.email, edit_admin_rep_path(rep)  %></td>
   <td><%= rep.created_at.strftime('%FT%R')  %></td>
   <td><%= rep.updated_at.strftime('%FT%R')  %></td>
+    <td> <%= link_to 'Delete', { controller: 'reps', action: "destroy", id: rep.id }, 
+           data: { confirm: 'Delete Rep. Are you sure?' }, method: :delete %>
 </tr>
