@@ -20,6 +20,12 @@ class Admin::RepsController < ApplicationController
     redirect_to admin_reps_path
   end
 
+  def create
+    Rep.invite!(email: email_params, organisation: current_admin.organisation)
+
+    redirect_back(fallback_location: admin_reps_path)
+  end
+
   def destroy
     @rep = Rep.find(rep_params)
     return unless @rep.organisation == current_admin.organisation
@@ -28,6 +34,14 @@ class Admin::RepsController < ApplicationController
     flash[:success] = 'Rep deleted'
     
     redirect_to admin_reps_path
+  end
+
+  def resend_invitation
+    @rep = Rep.find(rep_params)
+    return unless @rep.organisation == current_admin.organisation
+
+    @rep.invite!
+    redirect_back(fallback_location: admin_reps_path)
   end
   
   private
@@ -38,5 +52,9 @@ class Admin::RepsController < ApplicationController
 
     def edit_rep_params
       params.require(:rep).permit(:email)
+    end
+
+    def email_params
+      params.require(:email)
     end
 end
