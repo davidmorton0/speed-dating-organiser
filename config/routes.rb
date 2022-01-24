@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     end
 
     resources :reps, only: [:create, :edit, :update, :index, :destroy]
+    patch '/rep/resend_invitation/:id', as: 'rep/resend_invitation', to: 'reps#resend_invitation'
   end
 
   namespace :rep do
