@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "app",
   "private": "true",
   "dependencies": {
@@ -14,4 +15,12 @@
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
     "build:css": "sass ./app/assets/stylesheets/application.bootstrap.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   }
+=======
+  "name": "speed-dating-organiser",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:davidmorton0/speed-dating-organiser.git",
+  "author": "David Morton <55235981+davidmorton0@users.noreply.github.com>",
+  "license": "MIT"
+>>>>>>> add package.json
 }
