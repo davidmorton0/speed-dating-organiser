@@ -3,14 +3,6 @@
   <td><%= rep.created_at.strftime('%FT%R')  %></td>
   <td><%= rep.invitation_accepted? ? rep.invitation_accepted_at.strftime('%FT%R') : '-'  %></td>
   <td><%= rep.updated_at.strftime('%FT%R')  %></td>
-<<<<<<< HEAD
   <td> <%= link_to 'Delete', "/admin/reps/#{rep.id}", data: { "turbo-method": :delete, turbo_confirm: 'Delete Rep. Are you sure?' }, class: "btn btn-danger ml-3" %>
   <td> <%= link_to 'Resend Invitation', admin_rep_resend_invitations_path(rep), method: :patch %></td>
 </tr>
-=======
-  <td> <%= link_to 'Delete', { controller: 'reps', action: "destroy", id: rep.id }, 
-          data: { confirm: 'Delete Rep. Are you sure?' }, method: :delete %></td>
-  <td> <%= link_to 'Resend Invitation', admin_rep_resend_invitation_path(rep), method: :patch %></td>
-
-</tr>
->>>>>>> fix resent invitation link
