@@ -7,16 +7,14 @@ gem "rails", "~> 7.0.0"
 gem "sprockets-rails"
 gem "pg", "~> 1.2.3"
 gem "puma", "~> 5.0"
-gem "importmap-rails"
-gem "turbo-rails"
+gem "jsbundling-rails"
+gem "turbo-rails", '~> 1.0.0'
 gem "stimulus-rails"
+gem 'cssbundling-rails'
 gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem 'will_paginate', '~> 3.3.0'
-gem 'bootstrap-sass', '~> 3.4.1'
-gem 'sassc-rails', '>= 2.1.0'
-gem 'jquery-rails'
 gem 'factory_bot_rails', "~> 6.2"
 gem 'faker', '~> 2.19.0'
 gem 'devise', '~> 4.8.1'

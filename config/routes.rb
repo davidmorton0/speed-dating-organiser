@@ -3,9 +3,12 @@ Rails.application.routes.draw do
   devise_for :reps
   devise_for :admins
 
-  root to: "home#index"
-  get "/logout", to: "home#logout"
-  post "/login/:resource", to: "home#login_resource"
+  get "home/index"  
+  root to: "home#index"  
+
+  # root to: "home#index"
+  # get "/logout", to: "home#logout"
+  # post "/login/:resource", to: "home#login_resource"
 
   namespace :admin do
     resources :events do
