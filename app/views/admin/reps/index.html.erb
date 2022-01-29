@@ -23,7 +23,7 @@
 
       <h3>Invite Rep</h3>
 
-      <%= form_with url: admin_reps_path do |f| %>
+      <%= form_with url: admin_reps_path, html: { autocomplete: "off" } do |f| %>
         <%= f.label :email %>
         <%= f.text_field :email, class: 'form-control' %>
         <br>
