@@ -4,7 +4,7 @@
   <td><%= rep.invitation_accepted? ? rep.invitation_accepted_at.strftime('%FT%R') : '-'  %></td>
   <td><%= rep.updated_at.strftime('%FT%R')  %></td>
   <td>
-    <%= link_to 'Resend Invitation', admin_rep_resend_invitation_path(rep), method: :patch, class: "btn btn-primary" %>
+    <%= link_to 'Resend Invitation', admin_rep_resend_invitation_path(rep),  data: { "turbo-method": :patch }, class: "btn btn-primary" %>
   </td>
   <td>
     <%= link_to 'Delete Rep', "/admin/reps/#{rep.id}", data: { "turbo-method": :delete, turbo_confirm: 'Delete Rep. Are you sure?' }, class: "btn btn-danger ml-3" %>

@@ -106,7 +106,7 @@ RSpec.describe "Reps", type: :request, aggregate_failures: true do
     context 'when the rep is for the same organisation as the admin' do
       it 'deletes the rep' do
         expect { delete admin_rep_path(rep) }.to change { Rep.count }.by(-1)
-        expect(flash[:success]).to match(/Rep deleted/)
+        expect(flash[:success]).to match(/Rep Deleted/)
       end
     end
 

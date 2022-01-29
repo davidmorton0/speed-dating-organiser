@@ -1,6 +1,13 @@
 class HomeController < ApplicationController
 
   def index
+    if current_admin
+      redirect_to admin_events_path
+    elsif current_rep
+      redirect_to rep_events_path
+    elsif current_dater
+      redirect_to dater_event_path(current_dater.event)
+    end
   end
 
   def logout

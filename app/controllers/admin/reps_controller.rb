@@ -23,6 +23,7 @@ class Admin::RepsController < ApplicationController
   def create
     Rep.invite!(email: email_params, organisation: current_admin.organisation)
 
+    flash[:success] = 'Invitation Email Sent'
     redirect_back(fallback_location: admin_reps_path)
   end
 
@@ -31,7 +32,7 @@ class Admin::RepsController < ApplicationController
     return unless @rep.organisation == current_admin.organisation
 
     @rep.destroy
-    flash[:success] = 'Rep deleted'
+    flash[:success] = 'Rep Deleted'
     
     redirect_to admin_reps_path
   end
@@ -41,6 +42,7 @@ class Admin::RepsController < ApplicationController
     return unless @rep.organisation == current_admin.organisation
 
     @rep.invite!
+    flash[:success] = 'Invitation Email Resent'
     redirect_back(fallback_location: admin_reps_path)
   end
   
