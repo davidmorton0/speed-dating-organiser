@@ -15,11 +15,6 @@ gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem 'will_paginate', '~> 3.3.0'
-<<<<<<< HEAD
-=======
-gem 'sassc-rails', '>= 2.1.0'
-gem 'jquery-rails'
->>>>>>> remove bootstrap-sass
 gem 'factory_bot_rails', "~> 6.2"
 gem 'faker', '~> 2.19.0'
 gem 'devise', '~> 4.8.1'
