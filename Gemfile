@@ -18,6 +18,7 @@ gem 'will_paginate', '~> 3.3.0'
 gem 'factory_bot_rails', "~> 6.2"
 gem 'faker', '~> 2.19.0'
 gem 'devise', '~> 4.8.1'
+gem 'devise_invitable', '~> 2.0.0'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]#
