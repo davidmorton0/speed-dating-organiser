@@ -27,14 +27,26 @@ class Admin::EventsController < ApplicationController
   end
 
   def create
-    @event = BuildEvent.new(**event_params.merge(organisation_id: current_admin.organisation_id).to_h.symbolize_keys).call
+    title = event_params[:title]
+    date = event_params[:date]
+    rep = Rep.find_by(id: event_params[:rep_id])
+    organisation = current_admin.organisation
+    max_rounds = Constants::MAX_ROUNDS
+
+    @event = Event.new(
+      title: title,
+      date: date,
+      rep: rep,
+      organisation: organisation,
+      max_rounds: max_rounds
+    )
 
     if validate_rep && @event.save
       flash[:success] = "Event created"
       redirect_to admin_events_path
     else
-      flash[:error] ||= @event.errors.full_messages.join(', ')
-      render 'new'
+      flash.now[:error] ||= @event.errors.full_messages.join(', ')
+      render 'new', status: :unprocessable_entity
     end
   end
 
@@ -51,8 +63,9 @@ class Admin::EventsController < ApplicationController
       flash[:success] = "Event updated"
       redirect_to admin_event_path(@event)
     else
-      flash[:error] ||= @event.errors.full_messages.join(', ')
-      render 'edit'
+      flash.now[:error] ||= @event.errors.full_messages.join(', ')
+      @event.reload
+      render 'edit', status: :unprocessable_entity
     end
   end
 
