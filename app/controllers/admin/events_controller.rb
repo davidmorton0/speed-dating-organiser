@@ -27,7 +27,7 @@ class Admin::EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(event_params.merge(organisation_id: current_admin.organisation_id))
+    @event = BuildEvent.new(**event_params.merge(organisation_id: current_admin.organisation_id).to_h.symbolize_keys).call
 
     if validate_rep && @event.save
       flash[:success] = "Event created"

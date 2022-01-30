@@ -154,7 +154,7 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
       it 'does not create an event' do
         expect { post admin_events_path(params) }.not_to change { Event.count }
         expect(response).to render_template(:new)
-        expect(flash[:error]).to match(/Rep/)
+        expect(flash[:error]).to match(/Rep is not from/)
       end
     end
   end

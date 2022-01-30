@@ -6,5 +6,6 @@ FactoryBot.define do
     date { DateTime.current }
     rep { build(:rep) }
     organisation { build(:organisation) }
+    max_rounds { 10 }
   end
 end
