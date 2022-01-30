@@ -110,6 +110,11 @@ esbuild-linux-64@0.14.14:
   resolved "https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.14.14.tgz"
   integrity sha512-IC+wAiIg/egp5OhQp4W44D9PcBOH1b621iRn1OXmlLzij9a/6BGr9NMIL4CRwz4j2kp3WNZu5sT473tYdynOuQ==
 
+esbuild-linux-64@^0.14.14:
+  version "0.14.14"
+  resolved "https://registry.yarnpkg.com/esbuild-linux-64/-/esbuild-linux-64-0.14.14.tgz#f880026254c1f565a7a10fdebb7cff9b083a127d"
+  integrity sha512-IC+wAiIg/egp5OhQp4W44D9PcBOH1b621iRn1OXmlLzij9a/6BGr9NMIL4CRwz4j2kp3WNZu5sT473tYdynOuQ==
+
 esbuild-linux-arm64@0.14.14:
   version "0.14.14"
   resolved "https://registry.yarnpkg.com/esbuild-linux-arm64/-/esbuild-linux-arm64-0.14.14.tgz#a34bc3076e50b109c3b8c8bad9c146e35942322b"
