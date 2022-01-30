@@ -13,11 +13,15 @@
       <table class="table">
         <tr>
           <th>Date</th>
-          <td colspan=4><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
+          <td colspan=3><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
         </tr>
         <tr>
           <th>Rep</th>
-          <td colspan=4><%= @event.rep ? @event.rep.email : 'No Rep Assigned' %></td>
+          <td colspan=3><%= @event.rep ? @event.rep.email : 'No Rep Assigned' %></td>
+        </tr>
+        <tr>
+          <th>Max Rounds</th>
+          <td colspan=3><%= @event.max_rounds %></td>
         </tr>
         <tr>
           <th rowspan=2><%= link_to 'Daters', admin_event_daters_path(@event) %></th>

@@ -83,7 +83,7 @@ class Admin::EventsController < ApplicationController
   private
 
     def event_params
-      params.require(:event).permit(:title, :date, :rep_id)
+      params.require(:event).permit(:title, :date, :max_rounds, :rep_id)
     end
 
     def validate_organisation
