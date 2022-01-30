@@ -90,6 +90,16 @@ RSpec.describe CreateDatingSchedule do
         [[nil, males[0].id], [females[0].id, males[1].id], [females[1].id, males[2].id], [nil, males[3].id], [females[2].id, males[4].id]]
       ]
       expect(SpeedDate.count).to eq 25
+    end  
+  end
+
+  context 'when there is a maximum of 3 rounds' do
+    before { stub_const 'CreateDatingSchedule::MAX_ROUNDS', 3 }
+
+    it 'creates only 3 rounds' do
+      expect(subject.count).to eq 3
     end
+
+    
   end
 end

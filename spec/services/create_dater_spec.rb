@@ -23,7 +23,6 @@ RSpec.describe CreateDater do
         name: name,
         email: email,
         phone_number: phone_number,
-        email: email,
         gender: gender,
         event: event
       )
