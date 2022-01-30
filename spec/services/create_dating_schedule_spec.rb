@@ -8,8 +8,8 @@ RSpec.describe CreateDatingSchedule do
   let(:event) { create(:event) }
   let(:number_of_females) { 5 }
   let(:number_of_males) { 5 }
-  let(:females) { create_list(:dater, number_of_females, event: event, gender: 'female') }
-  let(:males) { create_list(:dater, number_of_males, event: event, gender: 'male') }
+  let(:females) { create_list(:dater, number_of_females, :female, event: event) }
+  let(:males) { create_list(:dater, number_of_males, :male, event: event) }
 
   before do
     females
