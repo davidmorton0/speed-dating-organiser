@@ -31,7 +31,14 @@
 
       <%= render "devise/shared/links" %>
       <br>
-      <%= button_to "Login as test #{resource_name}", "/login/#{resource_name}" %>
+
+      <%= form_with url: "/login/#{resource_name}" do |f| %>
+        <%= f.label resource_name %><br>
+        <%= f.select resource_name,  resource_name.to_s.capitalize.constantize.all.map {|user| user.email }, class: 'form-control' %>
+        <br>
+        <br>
+        <%= f.submit "Login As Test User", class: "btn btn-warning" %>
+      <% end %>
     </section>
   </aside>  
 </div>
