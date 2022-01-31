@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CreateDatingSchedule
-  MAX_ROUNDS = 10
-
   def initialize(event:)
     @event = event
   end
@@ -31,7 +29,7 @@ class CreateDatingSchedule
   end
 
   def number_of_rounds
-    [[females.count, males.count].max, MAX_ROUNDS].min
+    [[females.count, males.count].max, event.max_rounds].min
   end
 
   def add_empty_dates(total_dates, daters)

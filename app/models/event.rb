@@ -9,11 +9,11 @@ class Event < ApplicationRecord
   validate :rep_must_belong_to_organisation
 
   def male_daters
-    daters.where(gender: 'male')
+    daters.select {|dater| dater.gender == 'male'}
   end
 
   def female_daters
-    daters.where(gender: 'female')
+    daters.select {|dater| dater.gender == 'female'}
   end
 
   def rep_must_belong_to_organisation

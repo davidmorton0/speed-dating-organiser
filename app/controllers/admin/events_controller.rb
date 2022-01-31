@@ -3,23 +3,14 @@ class Admin::EventsController < ApplicationController
 
   def index
     @events = Event.where(organisation: current_admin.organisation)
-                   .includes(:daters)
+                   .includes(:daters, :rep)
                    .order(:id)
                    .paginate(page: params[:page])
   end
   
   def show
-    @event = Event.find(params[:id])
+    @event = Event.find(show_event_params)
     return unless validate_organisation
-
-    @speed_dates = SpeedDate.where(event: @event)
-    @daters = Dater.where(event: @event).sort
-    @female_daters = @daters.select {|dater| dater.gender == 'female' }
-    @male_daters = @daters.select {|dater| dater.gender == 'male' }
-    @dater_names = {}
-    @female_daters.each { |dater| @dater_names[dater.id] = dater.name }
-    @male_daters.each { |dater| @dater_names[dater.id] = dater.name }
-    @rounds = [@female_daters.size, @male_daters.size].max
   end
 
   def new
@@ -81,6 +72,10 @@ class Admin::EventsController < ApplicationController
 
   
   private
+
+    def show_event_params
+      params.require(:id)
+    end
 
     def event_params
       params.require(:event).permit(:title, :date, :max_rounds, :rep_id)

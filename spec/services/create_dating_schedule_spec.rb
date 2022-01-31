@@ -5,7 +5,8 @@ require 'rails_helper'
 RSpec.describe CreateDatingSchedule do
   subject { described_class.new(event: event).call }
 
-  let(:event) { create(:event) }
+  let(:event) { create(:event, max_rounds: max_rounds) }
+  let(:max_rounds) { 5 }
   let(:number_of_females) { 5 }
   let(:number_of_males) { 5 }
   let(:females) { create_list(:dater, number_of_females, :female, event: event) }
@@ -94,10 +95,10 @@ RSpec.describe CreateDatingSchedule do
   end
 
   context 'when there is a maximum of 3 rounds' do
-    before { stub_const 'CreateDatingSchedule::MAX_ROUNDS', 3 }
+    let(:max_rounds) { 3 }
 
     it 'creates only 3 rounds' do
-      expect(subject.count).to eq 3
+      expect(subject.count).to eq max_rounds
     end
 
     
