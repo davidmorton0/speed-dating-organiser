@@ -36,12 +36,13 @@ class Admin::DatersController < ApplicationController
 
   def create
     @dater = Dater.new(dater_params)
-    result = @dater.save
-    event = Event.find(@dater.event.id)
-    if result
-      redirect_to admin_event_daters_path(event), info: "Dater added"
+    if @dater.email.present?
+      @dater.invite!
+      @dater.update(name: "Dater #{@dater.id}") unless @dater.name.present?
+      flash[:success] = "Dater Invited"
+      redirect_to admin_event_daters_path(@dater.event)
     else
-      redirect_to admin_event_daters_path(event), alert: "Dater not added: #{@dater.errors.full_messages.join(", ")}"
+      redirect_to admin_event_daters_path(@dater.event), alert: "Email address must be entered"
     end
   end
 
