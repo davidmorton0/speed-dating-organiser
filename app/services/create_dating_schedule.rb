@@ -29,7 +29,7 @@ class CreateDatingSchedule
   end
 
   def number_of_rounds
-    [females.count, males.count].max
+    [[females.count, males.count].max, event.max_rounds].min
   end
 
   def add_empty_dates(total_dates, daters)

@@ -3,23 +3,14 @@ class Admin::EventsController < ApplicationController
 
   def index
     @events = Event.where(organisation: current_admin.organisation)
-                   .includes(:daters)
+                   .includes(:daters, :rep)
                    .order(:id)
                    .paginate(page: params[:page])
   end
   
   def show
-    @event = Event.find(params[:id])
+    @event = Event.find(show_event_params)
     return unless validate_organisation
-
-    @speed_dates = SpeedDate.where(event: @event)
-    @daters = Dater.where(event: @event).sort
-    @female_daters = @daters.select {|dater| dater.gender == 'female' }
-    @male_daters = @daters.select {|dater| dater.gender == 'male' }
-    @dater_names = {}
-    @female_daters.each { |dater| @dater_names[dater.id] = dater.name }
-    @male_daters.each { |dater| @dater_names[dater.id] = dater.name }
-    @rounds = [@female_daters.size, @male_daters.size].max
   end
 
   def new
@@ -27,14 +18,26 @@ class Admin::EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(event_params.merge(organisation_id: current_admin.organisation_id))
+    title = event_params[:title]
+    date = event_params[:date]
+    rep = Rep.find_by(id: event_params[:rep_id])
+    organisation = current_admin.organisation
+    max_rounds = Constants::MAX_ROUNDS
+
+    @event = Event.new(
+      title: title,
+      date: date,
+      rep: rep,
+      organisation: organisation,
+      max_rounds: max_rounds
+    )
 
     if validate_rep && @event.save
       flash[:success] = "Event created"
       redirect_to admin_events_path
     else
-      flash[:error] ||= @event.errors.full_messages.join(', ')
-      render 'new'
+      flash.now[:error] ||= @event.errors.full_messages.join(', ')
+      render 'new', status: :unprocessable_entity
     end
   end
 
@@ -51,8 +54,9 @@ class Admin::EventsController < ApplicationController
       flash[:success] = "Event updated"
       redirect_to admin_event_path(@event)
     else
-      flash[:error] ||= @event.errors.full_messages.join(', ')
-      render 'edit'
+      flash.now[:error] ||= @event.errors.full_messages.join(', ')
+      @event.reload
+      render 'edit', status: :unprocessable_entity
     end
   end
 
@@ -69,8 +73,12 @@ class Admin::EventsController < ApplicationController
   
   private
 
+    def show_event_params
+      params.require(:id)
+    end
+
     def event_params
-      params.require(:event).permit(:title, :date, :rep_id)
+      params.require(:event).permit(:title, :date, :max_rounds, :rep_id)
     end
 
     def validate_organisation

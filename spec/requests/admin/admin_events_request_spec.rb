@@ -154,7 +154,7 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
       it 'does not create an event' do
         expect { post admin_events_path(params) }.not_to change { Event.count }
         expect(response).to render_template(:new)
-        expect(flash[:error]).to match(/Rep/)
+        expect(flash[:error]).to match(/Rep is not from/)
       end
     end
   end
@@ -216,7 +216,9 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
       end
     end
 
-    context 'when setting the assigned rep ot nil' do
+    context 'when changing the assigned rep to nil' do
+      let(:rep) { create(:rep, organisation: admin.organisation) }
+      let(:event) { create(:event, title: 'Dating Event', rep: rep, organisation: admin.organisation) }
       let(:params) do
         { id: event.id,
           event: { rep_id: nil } }
@@ -238,7 +240,7 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
 
       it 'does not update the event' do
         expect { patch admin_event_path(params) }.not_to change { event.reload.rep }
-        expect(response).to be_successful
+        expect(response).not_to be_successful
         expect(flash[:error]).to match(/Rep is not/)
       end
     end

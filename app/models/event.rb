@@ -6,12 +6,19 @@ class Event < ApplicationRecord
 
   validates :title, presence: true
   validates :date, presence: true
+  validate :rep_must_belong_to_organisation
 
   def male_daters
-    daters.where(gender: 'male')
+    daters.select {|dater| dater.gender == 'male'}
   end
 
   def female_daters
-    daters.where(gender: 'female')
+    daters.select {|dater| dater.gender == 'female'}
+  end
+
+  def rep_must_belong_to_organisation
+    if rep.present? && rep.organisation != organisation
+      errors.add(:rep, 'does not belong to this organisation')
+    end
   end
 end

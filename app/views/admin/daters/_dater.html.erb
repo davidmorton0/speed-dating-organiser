@@ -1,4 +1,5 @@
 <tr>
+  <td><%= link_to dater.id, admin_event_dater_path(@event, dater) %></td>
   <td><%= link_to dater.name, admin_event_dater_path(@event, dater) %></td>
   <td><%= dater.email %></td>
   <td><%= dater.phone_number %></td>

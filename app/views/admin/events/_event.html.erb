@@ -6,6 +6,7 @@
   <td><%= event.daters.size %></td>
   <td><%= event.female_daters.size %></td>
   <td><%= event.male_daters.size %></td>
+  <td><%= event.max_rounds %></td>
   <td><%= link_to 'Daters', admin_event_daters_path(event), class: "btn btn-primary" %></td>
   <td><%= link_to 'Schedule', admin_event_speed_dates_path(event), class: "btn btn-primary" %></td>
   <td><%= link_to 'Matches', admin_event_matches_path(event), class: "btn btn-primary" %></td>
