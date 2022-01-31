@@ -28,16 +28,4 @@ RSpec.describe CreateDater do
       )
     end
   end
-
-  context 'when no name is provided' do
-    let(:name) { nil }
-
-    it 'does not create a dater' do
-      expect { subject }.not_to change(Dater, :count)
-    end
-
-    it 'returns a hash with the error' do
-      expect(subject).to include(dater: an_instance_of(Dater), success: false, errors: ['Name can\'t be blank'])
-    end
-  end
 end

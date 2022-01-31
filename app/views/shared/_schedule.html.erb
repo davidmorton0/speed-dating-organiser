@@ -1,0 +1,19 @@
+<table class="table">
+  <tr>
+    <th>Round</th>
+    <% @female_daters.each do |female_dater| %>
+      <th> <%= female_dater.name %> </th>
+    <% end %>
+    <th> Break </th>
+  </tr>
+
+  <% @schedule_info.each_with_index do |round_info, index| %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <% @female_daters.each do |female_dater| %>
+        <td> <%= round_info[female_dater.id] || 'Break' %> </td>
+      <% end %>
+      <td><%= round_info[:break] %></td>
+    </tr>
+  <% end %>
+</table>

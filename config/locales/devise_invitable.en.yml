@@ -19,10 +19,16 @@ en:
       invitation_instructions:
         subject: "Invitation instructions"
         hello: "Hello %{email}"
-        someone_invited_you: "You have been invited to join Speed Dater Organiser as a Rep, you can accept it through the link below."
+        someone_invited_you: "You have been invited to join Speed Dater Organiser, you can accept it through the link below."
         accept: "Accept invitation"
         accept_until: "This invitation will be due in %{due_date}."
         ignore: "If you don't want to accept the invitation, please ignore this email."
+      dater:
+        invitation_instructions:
+          someone_invited_you: "You have been invited to join a Speed Dating Event, you can accept the invitation through the link below."
+      rep:
+        invitation_instructions:
+          someone_invited_you: "You have been invited to join Speed Dater Organiser as a Rep, you can accept it through the link below."
   time:
     formats:
       devise:
