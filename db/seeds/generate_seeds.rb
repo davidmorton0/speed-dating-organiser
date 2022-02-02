@@ -4,6 +4,8 @@ include FactoryBot::Syntax::Methods
 
 class GenerateSeeds
   def call
+    DatabaseCleaner.clean_with(:truncation)
+    
     # Create an organisation
     organisation = create(:organisation)
     create(:admin, organisation: organisation)

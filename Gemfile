@@ -5,6 +5,7 @@ ruby '3.0.2'
 
 gem 'bootsnap', require: false
 gem 'cssbundling-rails'
+gem 'database_cleaner-active_record'
 gem 'devise', '~> 4.8.1'
 gem 'devise_invitable', '~> 2.0.0'
 gem 'factory_bot_rails', '~> 6.2'
