@@ -50,7 +50,7 @@ class Admin::DatersController < ApplicationController
     @dater = Dater.new(dater_params)
     if @dater.email.present?
       @dater.invite!
-      @dater.update(name: "Dater #{@dater.id}") unless @dater.name.present?
+      @dater.update(name: "Dater #{@dater.id}") if @dater.name.blank?
       flash[:success] = 'Dater Invited'
       redirect_to admin_event_daters_path(@dater.event)
     else
@@ -64,8 +64,8 @@ class Admin::DatersController < ApplicationController
     params.permit(:name, :email, :phone_number, :gender, :event_id)
   end
 
-  def match_image(dater_1, dater_2)
-    matches = dater_1.matches_with?(dater_2)
+  def match_image(dater1, dater2)
+    matches = dater1.matches_with?(dater2)
     MATCHER_IMAGES[matches]
   end
 

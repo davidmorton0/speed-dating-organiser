@@ -10,12 +10,11 @@ class Rep::DatersController < ApplicationController
 
   private_constant :MATCHER_IMAGES
 
-
   def index
     @event = Event.find(params[:event_id])
     validate_event_rep(@event)
 
-    @daters = @event.daters.sort_by { |dater| dater.name }
+    @daters = @event.daters.sort_by(&:name)
   end
 
   def show

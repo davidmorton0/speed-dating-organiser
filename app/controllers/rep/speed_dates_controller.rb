@@ -11,7 +11,7 @@ class Rep::SpeedDatesController < ApplicationController
     return unless @rounds
 
     @female_daters = Dater.where(event: @event, gender: 'female')
-    dater_names = @event.daters.map { |dater| [dater.id, dater.name] }.to_h
+    dater_names = @event.daters.to_h { |dater| [dater.id, dater.name] }
 
     @schedule_info = Array.new(@rounds) { Hash.new('') }
     @event.speed_dates.each do |speed_date|
