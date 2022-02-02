@@ -3,7 +3,20 @@
 require 'rails_helper'
 
 RSpec.describe CreateDater do
-  subject { described_class.new(name: name, email: email, password: password, phone_number: phone_number, gender: gender, event: event).call }
+  subject do
+    described_class.new(params).call
+  end
+
+  let(:params) do
+    {
+      name: name,
+      email: email,
+      password: password,
+      phone_number: phone_number,
+      gender: gender,
+      event: event,
+    }
+  end
 
   let(:name) { Faker::Name.name }
   let(:email) { Faker::Internet.email }
@@ -16,7 +29,7 @@ RSpec.describe CreateDater do
     it 'returns a hash for the result' do
       expect(subject).to eq({ dater: Dater.last, success: true, errors: [] })
     end
-    
+
     it 'creates a dater' do
       expect { subject }.to change(Dater, :count).from(0).to(1)
       expect(Dater.last).to have_attributes(
@@ -24,7 +37,7 @@ RSpec.describe CreateDater do
         email: email,
         phone_number: phone_number,
         gender: gender,
-        event: event
+        event: event,
       )
     end
   end

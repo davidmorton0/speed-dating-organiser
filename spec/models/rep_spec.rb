@@ -1,6 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Rep, type: :model do
-  it { should belong_to(:organisation) }
-  it { should have_many(:events)}
+  it { is_expected.to belong_to(:organisation) }
+  it { is_expected.to have_many(:events) }
 end

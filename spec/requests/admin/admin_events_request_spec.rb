@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Events", type: :request, aggregate_failures: true do
+RSpec.describe 'Events', type: :request, aggregate_failures: true do
   include Devise::Test::IntegrationHelpers
 
   let(:admin) { create(:admin) }
@@ -101,8 +101,8 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
             title: 'Knitting Event',
             date: date,
             rep_id: rep.id,
-            organisation_id: organisation.id
-          }
+            organisation_id: organisation.id,
+          },
         }
       end
 
@@ -113,7 +113,7 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
           title: 'Knitting Event',
           date: date,
           rep_id: rep.id,
-          organisation_id: organisation.id
+          organisation_id: organisation.id,
         )
         expect(response).to redirect_to(admin_events_path)
         expect(flash[:success]).to match(/Event created/)
@@ -127,13 +127,13 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
             title: nil,
             date: Date.current,
             rep_id: rep.id,
-            organisation_id: organisation.id
-          }
+            organisation_id: organisation.id,
+          },
         }
       end
 
       it 'does not create an event' do
-        expect { post admin_events_path(params) }.not_to change { Event.count }
+        expect { post admin_events_path(params) }.not_to change(Event, :count)
         expect(response).to render_template(:new)
         expect(flash[:error]).to match(/Title/)
       end
@@ -146,13 +146,13 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
             title: 'Knitting Event',
             date: Date.current,
             rep_id: create(:rep).id,
-            organisation_id: organisation.id
-          }
+            organisation_id: organisation.id,
+          },
         }
       end
 
       it 'does not create an event' do
-        expect { post admin_events_path(params) }.not_to change { Event.count }
+        expect { post admin_events_path(params) }.not_to change(Event, :count)
         expect(response).to render_template(:new)
         expect(flash[:error]).to match(/Rep is not from/)
       end
@@ -251,7 +251,7 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
 
     context 'when the event is for the same organisation as the admin' do
       it 'deletes an event' do
-        expect { delete admin_event_path(event) }.to change { Event.count }.by(-1)
+        expect { delete admin_event_path(event) }.to change(Event, :count).by(-1)
         expect(flash[:success]).to match(/Event deleted/)
       end
     end
@@ -260,7 +260,7 @@ RSpec.describe "Events", type: :request, aggregate_failures: true do
       let(:event) { create(:event, title: 'Dating Event') }
 
       it 'does not delete the event' do
-        expect { delete admin_event_path(event) }.not_to change { Event.count }
+        expect { delete admin_event_path(event) }.not_to change(Event, :count)
         expect(flash[:success]).to be_nil
       end
     end

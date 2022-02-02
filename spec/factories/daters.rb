@@ -19,6 +19,4 @@ FactoryBot.define do
       gender { 'male' }
     end
   end
-
-
 end

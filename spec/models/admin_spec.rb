@@ -1,5 +1,5 @@
 require 'rails_helper'
 
 RSpec.describe Admin, type: :model do
-  it { should belong_to(:organisation) }
+  it { is_expected.to belong_to(:organisation) }
 end

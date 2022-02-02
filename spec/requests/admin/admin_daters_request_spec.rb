@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe "Daters", type: :request, aggregate_failures: true do
+RSpec.describe 'Daters', type: :request, aggregate_failures: true do
   include Devise::Test::IntegrationHelpers
-  
+
   let(:event) { create(:event, title: 'Dating Event') }
 
   describe 'show event page' do

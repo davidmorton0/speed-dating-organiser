@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Reps", type: :request, aggregate_failures: true do
+RSpec.describe 'Reps', type: :request, aggregate_failures: true do
   include Devise::Test::IntegrationHelpers
 
   let(:admin) { create(:admin) }
@@ -102,10 +102,10 @@ RSpec.describe "Reps", type: :request, aggregate_failures: true do
 
   describe 'destroy rep' do
     before { rep }
-    
+
     context 'when the rep is for the same organisation as the admin' do
       it 'deletes the rep' do
-        expect { delete admin_rep_path(rep) }.to change { Rep.count }.by(-1)
+        expect { delete admin_rep_path(rep) }.to change(Rep, :count).by(-1)
         expect(flash[:success]).to match(/Rep Deleted/)
       end
     end
@@ -114,7 +114,7 @@ RSpec.describe "Reps", type: :request, aggregate_failures: true do
       let(:rep) { create(:rep) }
 
       it 'does not delete the rep' do
-        expect { delete admin_rep_path(rep) }.not_to change { Rep.count }
+        expect { delete admin_rep_path(rep) }.not_to change(Rep, :count)
         expect(flash[:success]).to be_nil
       end
     end
