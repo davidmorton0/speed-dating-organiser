@@ -2,14 +2,14 @@
 
 class Admin::SpeedDatesController < ApplicationController
   before_action :authenticate_admin!
-  
+
   def index
     @event = Event.includes(:daters, :speed_dates).find(permitted_params)
-    @rounds = @event.speed_dates.map {|sd| sd.round}.max
+    @rounds = @event.speed_dates.map { |sd| sd.round }.max
 
     if @rounds
       @female_daters = Dater.where(event: @event, gender: 'female')
-      dater_names = @event.daters.map {|dater| [dater.id, dater.name]}.to_h
+      dater_names = @event.daters.map { |dater| [dater.id, dater.name] }.to_h
 
       @schedule_info = Array.new(@rounds) { Hash.new('') }
       @event.speed_dates.each do |speed_date|
@@ -22,7 +22,7 @@ class Admin::SpeedDatesController < ApplicationController
       end
     end
   end
-  
+
   def create
     @event = Event.find(permitted_params)
     CreateDatingSchedule.new(event: @event).call
@@ -35,5 +35,4 @@ class Admin::SpeedDatesController < ApplicationController
   def permitted_params
     params.require(:event_id)
   end
-
 end

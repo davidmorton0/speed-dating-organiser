@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-
   def index
     if current_admin
       redirect_to admin_events_path
@@ -23,7 +22,7 @@ class HomeController < ApplicationController
 
     user = resource_name.capitalize.constantize.find_by(email: login_params(resource_name))
     sign_in user
-    
+
     case resource_name
     when 'admin'
       redirect_to admin_events_path

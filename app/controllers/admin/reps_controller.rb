@@ -33,7 +33,7 @@ class Admin::RepsController < ApplicationController
 
     @rep.destroy
     flash[:success] = 'Rep Deleted'
-    
+
     redirect_to admin_reps_path
   end
 
@@ -45,18 +45,18 @@ class Admin::RepsController < ApplicationController
     flash[:success] = 'Invitation Email Resent'
     redirect_back(fallback_location: admin_reps_path)
   end
-  
+
   private
 
-    def rep_params
-      params.require(:id)
-    end
+  def rep_params
+    params.require(:id)
+  end
 
-    def edit_rep_params
-      params.require(:rep).permit(:email)
-    end
+  def edit_rep_params
+    params.require(:rep).permit(:email)
+  end
 
-    def email_params
-      params.require(:email)
-    end
+  def email_params
+    params.require(:email)
+  end
 end

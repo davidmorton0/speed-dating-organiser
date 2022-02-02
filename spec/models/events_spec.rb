@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe Event, type: :model do
-  it { should have_many(:daters) }
-  it { should have_many(:speed_dates) }
+  it { is_expected.to have_many(:daters) }
+  it { is_expected.to have_many(:speed_dates) }
 
-  it { should belong_to(:organisation) }
-  it { should belong_to(:rep).optional(true) }
+  it { is_expected.to belong_to(:organisation) }
+  it { is_expected.to belong_to(:rep).optional(true) }
 
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_presence_of(:date) }

@@ -3,11 +3,11 @@ class Admin::EventsController < ApplicationController
 
   def index
     @events = Event.where(organisation: current_admin.organisation)
-                   .includes(:daters, :rep)
-                   .order(:id)
-                   .paginate(page: params[:page])
+      .includes(:daters, :rep)
+      .order(:id)
+      .paginate(page: params[:page])
   end
-  
+
   def show
     @event = Event.find(show_event_params)
     return unless validate_organisation
@@ -24,16 +24,10 @@ class Admin::EventsController < ApplicationController
     organisation = current_admin.organisation
     max_rounds = Constants::MAX_ROUNDS
 
-    @event = Event.new(
-      title: title,
-      date: date,
-      rep: rep,
-      organisation: organisation,
-      max_rounds: max_rounds
-    )
+    @event = Event.new(title: title, date: date, rep: rep, organisation: organisation, max_rounds: max_rounds)
 
     if validate_rep && @event.save
-      flash[:success] = "Event created"
+      flash[:success] = 'Event created'
       redirect_to admin_events_path
     else
       flash.now[:error] ||= @event.errors.full_messages.join(', ')
@@ -51,7 +45,7 @@ class Admin::EventsController < ApplicationController
     return unless validate_organisation
 
     if validate_rep && @event.update(event_params)
-      flash[:success] = "Event updated"
+      flash[:success] = 'Event updated'
       redirect_to admin_event_path(@event)
     else
       flash.now[:error] ||= @event.errors.full_messages.join(', ')
@@ -65,39 +59,38 @@ class Admin::EventsController < ApplicationController
     return unless validate_organisation
 
     @event.destroy
-    flash[:success] = "Event deleted"
-    
+    flash[:success] = 'Event deleted'
+
     redirect_to admin_events_path
   end
 
-  
   private
 
-    def show_event_params
-      params.require(:id)
-    end
+  def show_event_params
+    params.require(:id)
+  end
 
-    def event_params
-      params.require(:event).permit(:title, :date, :max_rounds, :rep_id)
-    end
+  def event_params
+    params.require(:event).permit(:title, :date, :max_rounds, :rep_id)
+  end
 
-    def validate_organisation
-      if @event.organisation == current_admin.organisation
-        true
-      else
-        redirect_to admin_events_path
-        false
-      end
+  def validate_organisation
+    if @event.organisation == current_admin.organisation
+      true
+    else
+      redirect_to admin_events_path
+      false
     end
+  end
 
-    def validate_rep
-      return true unless event_params[:rep_id] && event_params[:rep_id].present?
+  def validate_rep
+    return true unless event_params[:rep_id]&.present?
 
-      if current_admin.organisation.reps.ids.include?(event_params[:rep_id].to_i)
-        true
-      else
-        flash[:error] = 'Assigned Rep is not from this organisation'
-        false
-      end
+    if current_admin.organisation.reps.ids.include?(event_params[:rep_id].to_i)
+      true
+    else
+      flash[:error] = 'Assigned Rep is not from this organisation'
+      false
     end
+  end
 end

@@ -47,5 +47,4 @@ class CreateDatingSchedule
       end
     end
   end
-
 end
