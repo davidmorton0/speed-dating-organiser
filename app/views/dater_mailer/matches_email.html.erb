@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi, <%= @dater.name %></h1>
+    <% if @matches.any? %>
+      <p>These are your matches:</p>
+      <% @matches.each do |match| %>
+        <ul> <%= "#{match.name}, #{match.email}, #{match.phone_number}" %> </ul>
+      <% end %>
+    <% else %>
+      Unfortunately, there were no matches on this occasion.  Keep trying!
+    <% end %>
+    <p>Good Luck!</p>
+  </body>
+</html>

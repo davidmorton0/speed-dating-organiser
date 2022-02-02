@@ -13,7 +13,7 @@ class Dater < ApplicationRecord
 
   validates :email, presence: true
 
-  def matches_with(dater)
+  def matches_with?(dater)
     [matches.include?(dater.id.to_s), dater.matches.include?(id.to_s)]
   end
 end
