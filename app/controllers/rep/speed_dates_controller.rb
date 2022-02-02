@@ -3,7 +3,7 @@
 class Rep::SpeedDatesController < ApplicationController
   before_action :authenticate_rep!
 
-  def index
+  def index # rubocop:disable Metrics/AbcSize
     @event = Event.includes(:daters, :speed_dates).find(permitted_params)
     validate_event_rep(@event)
 

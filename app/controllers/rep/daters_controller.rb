@@ -34,7 +34,7 @@ class Rep::DatersController < ApplicationController
     @male_daters = @event.daters.where(gender: 'male')
   end
 
-  def update
+  def update # rubocop:disable Metrics/AbcSize
     dater = Dater.find(params[:id])
     validate_event_rep(dater.event)
 

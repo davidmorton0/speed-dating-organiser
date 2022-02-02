@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     redirect_to '/'
   end
 
-  def login_resource
+  def login_resource # rubocop:disable Metrics/AbcSize
     sign_out
 
     resource_name = params[:resource].to_s

@@ -5,7 +5,7 @@ class Rep::EventsController < ApplicationController
     @events = Event.where(rep: current_rep).paginate(page: params[:page])
   end
 
-  def show
+  def show # rubocop:disable Metrics/AbcSize
     @event = Event.find(params[:id])
     redirect_to rep_events_path unless @event.rep == current_rep
 

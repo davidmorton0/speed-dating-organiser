@@ -17,7 +17,7 @@ class Admin::EventsController < ApplicationController
     @event = Event.new
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     title = event_params[:title]
     date = event_params[:date]
     rep = Rep.find_by(id: event_params[:rep_id])
@@ -40,7 +40,7 @@ class Admin::EventsController < ApplicationController
     return unless validate_organisation
   end
 
-  def update
+  def update # rubocop:disable Metrics/AbcSize
     @event = Event.find(params[:id])
     return unless validate_organisation
 

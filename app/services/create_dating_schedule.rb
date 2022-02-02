@@ -5,7 +5,7 @@ class CreateDatingSchedule
     @event = event
   end
 
-  def call
+  def call # rubocop:disable Metrics/AbcSize
     destroy_existing_speed_dates
 
     @females = Dater.where(event: event, gender: 'female').ids

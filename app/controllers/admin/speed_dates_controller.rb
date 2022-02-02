@@ -3,7 +3,7 @@
 class Admin::SpeedDatesController < ApplicationController
   before_action :authenticate_admin!
 
-  def index
+  def index # rubocop:disable Metrics/AbcSize
     @event = Event.includes(:daters, :speed_dates).find(permitted_params)
     @rounds = @event.speed_dates.map(&:round).max
     return unless @rounds

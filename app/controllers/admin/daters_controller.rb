@@ -46,7 +46,7 @@ class Admin::DatersController < ApplicationController
     redirect_to admin_event_matches_path(dater.event), info: 'Matches updated'
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     @dater = Dater.new(dater_params)
     if @dater.email.present?
       @dater.invite!
