@@ -26,6 +26,16 @@ class Admin::DatersController < ApplicationController
     @male_daters = @event.daters.where(gender: 'male')
   end
 
+  def send_match_emails
+    @event = Event.find(params[:event_id])
+    @event.daters.each_with_index do |dater1, index|
+      matches = @event.daters.select {|dater2| dater1.matches_with?(dater2).all? }
+      DaterMailer.with(dater: dater1, matches: matches).matches_email.deliver_later(wait: (index * 3).seconds)
+    end
+
+    redirect_to admin_event_matches_path(@event), info: "Match Emails Sent"
+  end
+
   def update
     dater = Dater.find(params[:id])
     matches = params.keys.select { |key| dater.event.daters.ids.include?(key.to_i) }
@@ -55,7 +65,7 @@ class Admin::DatersController < ApplicationController
     end
 
     def match_image(dater_1, dater_2)
-      matches = dater_1.matches_with(dater_2)
+      matches = dater_1.matches_with?(dater_2)
       MATCHER_IMAGES[matches]
     end
 

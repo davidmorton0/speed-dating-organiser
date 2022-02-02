@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :speed_dates, only: [:create, :update, :index]
       resources :daters, only: [:create, :update, :index, :show]
       get '/matches', as: 'matches', to: 'daters#matches'
+      post '/send_match_emails', as: 'send_match_emails', to: 'daters#send_match_emails'
     end
 
     resources :reps, only: [:create, :edit, :update, :index, :destroy]
