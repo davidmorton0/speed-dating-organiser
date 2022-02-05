@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Dater < ApplicationRecord
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
