@@ -19,7 +19,8 @@ RSpec.describe CreateDatingSchedule do
 
   RSpec.shared_examples 'creates the correct schedule' do
     it 'creates the right total number of speed dates and speed date appointments in each round' do
-      subject
+      expect(subject).to eq event
+
       speed_dates = SpeedDate.all
       speed_date_appointments = SpeedDateAppointment.all
 
@@ -28,8 +29,8 @@ RSpec.describe CreateDatingSchedule do
 
       (1..rounds).each do |round|
         speed_dates_for_round = speed_dates.select { |speed_date| speed_date.round == round }
-        speed_date_appointments_for_round = speed_dates_for_round.map { |speed_date| speed_date.speed_date_appointments }.flatten
-        daters_for_round_from_appointments = speed_date_appointments_for_round.map { |appointment| appointment.dater_id }
+        speed_date_appointments_for_round = speed_dates_for_round.map(&:speed_date_appointments).flatten
+        daters_for_round_from_appointments = speed_date_appointments_for_round.map(&:dater_id)
 
         expect(speed_dates_for_round.size).to eq higher_number_of_daters
         expect(speed_date_appointments_for_round.size).to eq number_of_daters
@@ -89,7 +90,7 @@ RSpec.describe CreateDatingSchedule do
     let(:number_of_males) { 5 }
     let(:rounds) { 5 }
     let(:dates_per_round) { 5 }
-  
+
     it_behaves_like 'creates the correct schedule'
   end
 

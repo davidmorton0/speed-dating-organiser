@@ -24,6 +24,7 @@ class Admin::SpeedDatesController < ApplicationController
 
   def create
     @event = Event.find(permitted_params)
+    @event.speed_dates.destroy_all
     CreateDatingSchedule.new(event: @event).call
 
     redirect_to admin_event_speed_dates_path(@event)

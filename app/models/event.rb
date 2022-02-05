@@ -22,5 +22,4 @@ class Event < ApplicationRecord
   def male_daters
     daters.select { |dater| dater.gender == 'male' }
   end
-
 end

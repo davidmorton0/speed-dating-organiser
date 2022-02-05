@@ -26,8 +26,12 @@ RSpec.describe CreateDater do
   let(:event) { create(:event) }
 
   context 'when valid attributes are provided' do
-    it 'returns a hash for the result' do
-      expect(subject).to eq({ dater: Dater.last, success: true, errors: [] })
+    it 'returns a hash for success' do
+      expect(subject).to include(
+        dater: Dater.last,
+        success: true,
+        errors: [],
+      )
     end
 
     it 'creates a dater' do
@@ -39,6 +43,22 @@ RSpec.describe CreateDater do
         gender: gender,
         event: event,
       )
+    end
+  end
+
+  context 'when invalid attributes are provided' do
+    let(:email) { '' }
+
+    it 'returns a hash with the errors' do
+      expect(subject).to include(
+        dater: an_instance_of(Dater),
+        success: false,
+        errors: ["Email can't be blank"],
+      )
+    end
+
+    it 'does not create a dater' do
+      expect { subject }.not_to change(Dater, :count)
     end
   end
 end

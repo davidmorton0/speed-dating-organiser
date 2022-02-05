@@ -197,6 +197,9 @@ Rails/HasManyOrHasOneDependent:
 Rails/InverseOf:
   Enabled: false
 
+Rails/SkipsModelValidations:
+  Enabled: false
+
 # Bundler Cops
 
 Bundler/OrderedGems:
@@ -214,7 +217,7 @@ RSpec/MultipleMemoizedHelpers:
   Max: 10
 
 RSpec/ExampleLength:
-  Max: 20
+  Max: 30
 
 RSpec/FilePath:
   Enabled: false
