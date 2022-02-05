@@ -15,9 +15,22 @@ class CreateDatingSchedule
     elsif males.count > females.count
       add_empty_dates(males.count, females)
     end
-    schedule = (0..number_of_rounds - 1).to_a.map { |n| females.rotate(n).zip(males) }
-    create_speed_dates(schedule)
-    schedule
+
+    rounds = Array.new(number_of_rounds) { [] }
+
+    rounds.each_with_index do |round, round_index|
+      males_for_round = males.rotate(round_index)
+      females.each_with_index do |female, index|
+        speed_date = SpeedDate.create(event: event, round: round_index + 1)
+        round << speed_date
+        SpeedDateAppointment.create(dater_id: female, speed_date: speed_date) if female
+        SpeedDateAppointment.create(dater_id: males_for_round[index], speed_date: speed_date) if males_for_round[index]
+      end
+    end
+
+    # schedule = (0..number_of_rounds - 1).to_a.map { |n| females.rotate(n).zip(males) }
+    # create_speed_dates(schedule)
+    # schedule
   end
 
   private
@@ -28,8 +41,12 @@ class CreateDatingSchedule
     SpeedDate.where(event: event).destroy_all
   end
 
+  def higher_number_of_daters
+    [females.count, males.count].max
+  end
+
   def number_of_rounds
-    [[females.count, males.count].max, event.max_rounds].min
+    [higher_number_of_daters, event.max_rounds].min
   end
 
   def add_empty_dates(total_dates, daters)

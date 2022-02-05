@@ -1,6 +1,6 @@
 class SpeedDate < ApplicationRecord
-  belongs_to :dater1, class_name: 'Dater', optional: true
-  belongs_to :dater2, class_name: 'Dater', optional: true
+  has_many :speed_date_appointments
+  has_many :daters, through: :speed_date_appointments
   belongs_to :event
 
   validates :round, presence: true
