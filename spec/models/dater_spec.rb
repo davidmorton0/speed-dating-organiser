@@ -8,6 +8,38 @@ RSpec.describe Dater, type: :model do
 
   it { is_expected.to validate_presence_of(:email) }
 
+  describe '#female?' do
+    subject { described_class.new(gender: gender).female? }
+
+    context 'when gender is female' do
+      let(:gender) { 'female' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when gender is male' do
+      let(:gender) { 'male' }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#male?' do
+    subject { described_class.new(gender: gender).male? }
+
+    context 'when gender is male' do
+      let(:gender) { 'male' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when gender is female' do
+      let(:gender) { 'female' }
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe '#matches_with' do
     let(:dater1) { build(:dater, id: dater1_id, matches: dater1_matches) }
     let(:dater2) { build(:dater, id: dater2_id, matches: dater2_matches) }

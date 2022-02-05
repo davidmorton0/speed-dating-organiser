@@ -5,8 +5,18 @@ class Dater::DatersController < ApplicationController
     @dater = current_dater
     @event = @dater.event
 
-    gender_of_possible_matches = @dater.gender == 'female' ? 'male' : 'female'
-    @possible_matches = Dater.where(event: @event, gender: gender_of_possible_matches)
+    if @dater.female?
+      @possible = @event.male_daters
+    elsif @dater.male?
+      @possible = @event.female_daters
+    end
+    @possible_matches = @possible.map do |dater|
+      {
+        name: dater.name,
+        id: dater.id,
+        match: @dater.matches.include?(dater.id.to_s)
+      }
+    end
   end
 
   def update
@@ -16,3 +26,6 @@ class Dater::DatersController < ApplicationController
     redirect_to dater_event_path(current_dater.event), info: 'Matches updated'
   end
 end
+
+private
+

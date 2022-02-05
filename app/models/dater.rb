@@ -12,4 +12,12 @@ class Dater < ApplicationRecord
   def matches_with?(dater)
     [matches.include?(dater.id.to_s), dater.matches.include?(id.to_s)]
   end
+
+  def female?
+    gender == 'female'
+  end
+
+  def male?
+    gender == 'male'
+  end
 end
