@@ -12,10 +12,12 @@
 
       <%= form_with url: dater_event_dater_path, method: :put do |f| %>
         <table>
-          
-          <%= render collection: @potential_matches, partial: "dater/daters/potential_match", cached: true %>
-          <%= f.hidden_field :event_id, value: @event.id %>
-          <%= f.hidden_field :dater_id, value: @dater.id %>
+          <%= collection_check_boxes(:dater, :matches, @possible_matches, :id, :name) do |b| %>
+            <tr>
+              <td><%= b.label %></td>
+              <td><%= b.check_box(checked: b.object.match) %></td>
+            </tr>
+          <% end %>
         </table>
         <%= f.submit "Update Matches", class: "btn btn-primary" %>
       <% end %>
