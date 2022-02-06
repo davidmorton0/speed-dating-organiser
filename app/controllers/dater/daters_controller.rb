@@ -5,18 +5,9 @@ class Dater::DatersController < ApplicationController
     @dater = current_dater
     @event = @dater.event
 
-    if @dater.female?
-      @possible = @event.male_daters
-    elsif @dater.male?
-      @possible = @event.female_daters
-    end
-    @possible_matches = @possible.map do |dater|
-      {
-        name: dater.name,
-        id: dater.id,
-        match: @dater.matches.include?(dater.id.to_s)
-      }
-    end
+    @potential_matches = @event.daters
+                    .select { |dater| dater.gender != @dater.gender }
+    @potential_matches.each { |dater| dater.match = @dater.matches.include?(dater.id.to_s) }
   end
 
   def update

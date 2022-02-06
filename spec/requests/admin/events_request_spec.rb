@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Events', type: :request, aggregate_failures: true do
+RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
   include Devise::Test::IntegrationHelpers
 
   let(:admin) { create(:admin) }
