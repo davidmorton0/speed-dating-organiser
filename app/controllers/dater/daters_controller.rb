@@ -5,7 +5,7 @@ class Dater::DatersController < ApplicationController
     @dater = current_dater
     @event = @dater.event
 
-    @possible_matches = @event.daters.select { |dater| dater.gender != @dater.gender }
+    @possible_matches = @event.daters.reject { |possible_match| possible_match.gender == @dater.gender }
     @possible_matches.each do |possible_match|
       possible_match.match = @dater.matches.include?(possible_match.id.to_s)
     end

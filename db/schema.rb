@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_05_055810) do
+ActiveRecord::Schema.define(version: 2022_02_06_225049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,20 +101,15 @@ ActiveRecord::Schema.define(version: 2022_02_05_055810) do
     t.index ["reset_password_token"], name: "index_reps_on_reset_password_token", unique: true
   end
 
-  create_table "speed_date_appointments", force: :cascade do |t|
-    t.bigint "dater_id"
-    t.bigint "speed_date_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["dater_id"], name: "index_speed_date_appointments_on_dater_id"
-    t.index ["speed_date_id"], name: "index_speed_date_appointments_on_speed_date_id"
-  end
-
   create_table "speed_dates", force: :cascade do |t|
     t.bigint "event_id"
     t.integer "round"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "dater_id"
+    t.bigint "datee_id"
+    t.index ["datee_id"], name: "index_speed_dates_on_datee_id"
+    t.index ["dater_id"], name: "index_speed_dates_on_dater_id"
     t.index ["event_id"], name: "index_speed_dates_on_event_id"
   end
 

@@ -7,13 +7,13 @@
     <th> Break </th>
   </tr>
 
-  <% @schedule_info.each_with_index do |round_info, index| %>
+  <% @speed_dates_info.each do |round, dater_info| %>
     <tr>
-      <td><%= index + 1 %></td>
+      <td><%= round %></td>
       <% @female_daters.each do |female_dater| %>
-        <td> <%= round_info[female_dater.id] || 'Break' %> </td>
+        <td> <%= dater_info[female_dater.id] %> </td>
       <% end %>
-      <td><%= round_info[:break] %></td>
+      <td><%= dater_info[:break] %></td>
     </tr>
   <% end %>
 </table>

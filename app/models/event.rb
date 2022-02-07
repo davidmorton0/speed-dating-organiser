@@ -3,6 +3,7 @@
 class Event < ApplicationRecord
   has_many :daters
   has_many :speed_dates
+  has_many :speed_date_appointments, through: :daters
 
   belongs_to :organisation
   belongs_to :rep, optional: true

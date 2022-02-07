@@ -3,23 +3,23 @@
 class Dater::SpeedDatesController < ApplicationController
   before_action :authenticate_dater!
 
-  def index # rubocop:disable Metrics/AbcSize
-    @event = Event.includes(:daters, :speed_dates).find(permitted_params)
-    @rounds = @event.speed_dates.map(&:round).max
-    return unless @rounds
+  def index
+    @event = Event.includes(speed_dates: [:dater, :datee]).find(permitted_params)
+    return unless @event.speed_dates.any?
 
-    @female_daters = Dater.where(event: @event, gender: 'female')
-    dater_names = @event.daters.to_h { |dater| [dater.id, dater.name] }
-
-    @schedule_info = Array.new(@rounds) { Hash.new('') }
-    @event.speed_dates.each do |speed_date|
-      if speed_date.dater1_id
-        @schedule_info[speed_date.round - 1][speed_date.dater1_id] = dater_names[speed_date.dater2_id]
-      else
-        @schedule_info[speed_date.round - 1][:break] += ', ' if @schedule_info[speed_date.round - 1][:break].present?
-        @schedule_info[speed_date.round - 1][:break] += dater_names[speed_date.dater2_id]
+    @female_daters = @event.female_daters.sort_by(&:name)
+    
+    @speed_dates_info = Hash.new { |h, k| h[k] = {} }
+    @female_daters.map do |dater|
+      dater.speed_dates.each do |speed_date|
+        @speed_dates_info[speed_date.round][dater.id] = speed_date.datee&.name || 'Break'
       end
     end
+    @event.speed_dates.select { |speed_date| @event.male_daters.include?(speed_date.dater) && speed_date.datee.nil? }
+                      .group_by(&:round)
+                      .each do |round, speed_dates|
+                        @speed_dates_info[round][:break] = speed_dates.map { |speed_date| speed_date.dater.name }.join(', ')
+                      end
   end
 
   private

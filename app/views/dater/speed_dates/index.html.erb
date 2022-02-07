@@ -11,7 +11,7 @@
 
       <h3>Schedule</h3>
 
-      <% if @schedule_info %>
+      <% if @event.speed_dates.any? %>
         <%= render 'shared/schedule' %>
       <% else %>
         <h3>Please wait.  Schedule has not been created yet.</h3>
