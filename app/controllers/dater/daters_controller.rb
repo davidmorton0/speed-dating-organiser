@@ -15,7 +15,7 @@ class Dater::DatersController < ApplicationController
     matches = permitted_parameters[:dater][:matches].select(&:present?)
     current_dater.update(matches: matches)
 
-    redirect_to dater_event_path(current_dater.event), info: 'Matches updated'
+    redirect_to dater_event_path(current_dater.event), notice: 'Matches updated'
   end
 end
 

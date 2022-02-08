@@ -24,8 +24,8 @@ class Admin::DatersController < ApplicationController
 
   def matches
     @event = Event.find(params[:event_id])
-    @female_daters = @event.daters.where(gender: 'female')
-    @male_daters = @event.daters.where(gender: 'male')
+    @female_daters = @event.female_daters
+    @male_daters = @event.male_daters
   end
 
   def send_match_emails
@@ -35,7 +35,7 @@ class Admin::DatersController < ApplicationController
       DaterMailer.with(dater: dater1, matches: matches).matches_email.deliver_later(wait: (index * 3).seconds)
     end
 
-    redirect_to admin_event_matches_path(@event), info: 'Match Emails Sent'
+    redirect_to admin_event_matches_path(@event), notice: 'Match Emails Sent'
   end
 
   def update
@@ -43,7 +43,7 @@ class Admin::DatersController < ApplicationController
     matches = params.keys.select { |key| dater.event.daters.ids.include?(key.to_i) }
     dater.update(matches: matches)
 
-    redirect_to admin_event_matches_path(dater.event), info: 'Matches updated'
+    redirect_to admin_event_matches_path(dater.event), notice: 'Matches updated'
   end
 
   def create # rubocop:disable Metrics/AbcSize
