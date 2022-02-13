@@ -275,4 +275,48 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
       end
     end
   end
+
+  describe '#create' do
+    let(:params) do
+      {
+        dater: {
+          name: 'Mary Smith',
+          email: 'marysmith@example.com',
+          phone_number: '123456',
+          gender: 'female',
+        },
+        event_id: event.id
+      }
+    end
+
+    context 'when the params are valid' do
+      it 'creates a dater' do
+        expect { post rep_event_daters_path(params) }.to change(Dater, :count)
+
+        expect(response).to redirect_to rep_event_daters_path(event)
+        expect(flash[:notice]).to match(/Dater added/)
+      end
+    end
+
+    context 'when the params are invalid' do
+      let(:params) do
+        {
+          dater: {
+            name: '',
+            email: 'marysmith@example.com',
+            phone_number: '123456',
+            gender: 'female',
+          },
+          event_id: event.id
+        }
+      end
+
+      it 'does not create a dater' do
+        expect { post rep_event_daters_path(params) }.not_to change(Dater, :count)
+
+        expect(response).to redirect_to rep_event_daters_path(event)
+        expect(flash[:notice]).to match(/Dater not added/)
+      end
+    end
+  end
 end

@@ -50,23 +50,21 @@ class Rep::DatersController < ApplicationController
     @event = Event.find(params[:event_id])
     return unless validate_event_rep(@event)
 
-    @dater = Dater.new(dater_params)
+    @dater = Dater.new(permitted_parameters[:dater])
+    @dater.event = @event
+    @dater.password = SecureRandom.hex(10)
     result = @dater.save
     if result
-      redirect_to rep_event_daters_path(event), notice: 'Dater added'
+      redirect_to rep_event_daters_path(@event), notice: 'Dater added'
     else
-      redirect_to rep_event_daters_path(event), alert: "Dater not added: #{@dater.errors.full_messages.join(', ')}"
+      redirect_to rep_event_daters_path(@event), alert: "Dater not added: #{@dater.errors.full_messages.join(', ')}"
     end
   end
 
   private
 
   def permitted_parameters
-    params.permit(dater: { matches: [] })
-  end
-
-  def dater_params
-    params.permit(:name, :email, :phone_number, :gender, :event_id)
+    params.permit(:event_id, dater: [:name, :email, :phone_number, :gender, { matches: [] }])
   end
 
   def validate_event_rep(event)
