@@ -8,7 +8,8 @@ class CreateDatingSchedule
   def call
     insert_schedule_breaks
     generate_dates
-    SpeedDate.insert_all(dates)
+
+    SpeedDate.insert_all(dates) if dates.any?
     event
   end
 
@@ -75,5 +76,4 @@ class CreateDatingSchedule
   def number_of_rounds
     @number_of_rounds ||= [higher_number_of_daters, event.max_rounds].min
   end
-
 end

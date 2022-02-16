@@ -14,7 +14,6 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
     let(:daters) { create_list(:dater, 3, event: event) }
 
     context 'when there are daters for the event' do
-
       before { daters }
 
       it 'shows the page' do
@@ -101,7 +100,7 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
       end
     end
 
-    context 'the dater is not part of the event' do
+    context 'when the dater is not part of the event' do
       let(:dater) { create(:dater) }
 
       it 'redirects to the event page' do
@@ -122,7 +121,7 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
       end
     end
 
-    context 'the rep is signed out' do
+    context 'when the rep is signed out' do
       before { sign_out rep }
 
       it 'redirects to the rep sign in page' do
@@ -136,11 +135,11 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
   describe '#matches' do
     context 'when there are daters for the event' do
       let(:daters) { male_daters + female_daters }
-  
+
       before { daters }
 
       context 'when there are no matches' do
-        let(:female_daters) { create_list(:dater, 2, :female, event: event) }  
+        let(:female_daters) { create_list(:dater, 2, :female, event: event) }
         let(:male_daters) { create_list(:dater, 2, :male, event: event) }
 
         it 'shows the matches page with all the daters and no matches' do
@@ -163,7 +162,7 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
         let(:female_daters) do
           [
             create(:dater, :female, event: event, matches: [male_daters[0].id, male_daters[1].id]),
-            create(:dater, :female, event: event, matches: [])
+            create(:dater, :female, event: event, matches: []),
           ]
         end
         let(:male_daters) { create_list(:dater, 2, :male, event: event) }
@@ -207,7 +206,7 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
       end
     end
 
-    context 'the rep is signed out' do
+    context 'when the rep is signed out' do
       before { sign_out rep }
 
       it 'redirects to the rep sign in page' do
@@ -244,21 +243,21 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
 
       context 'when the rep is not assigned to the event' do
         before { sign_in create(:rep) }
-  
+
         it 'does not change matches and redirects to the rep event page' do
           expect { put rep_event_dater_path(params) }.not_to change { dater.reload.matches }
-  
+
           expect(response).to redirect_to redirect_to rep_events_path
           expect(flash[:notice]).to be_nil
         end
       end
 
-      context 'the rep is signed out' do
+      context 'when the rep is signed out' do
         before { sign_out rep }
-  
+
         it 'does not change matches and redirects to the rep sign in page' do
           expect { put rep_event_dater_path(params) }.not_to change { dater.reload.matches }
-  
+
           expect(response).to redirect_to new_rep_session_path
           expect(flash[:notice]).to be_nil
         end
@@ -283,9 +282,10 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
           name: 'Mary Smith',
           email: 'marysmith@example.com',
           phone_number: '123456',
+          event_id: event.id,
           gender: 'female',
         },
-        event_id: event.id
+        event_id: event.id,
       }
     end
 
@@ -302,12 +302,13 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
       let(:params) do
         {
           dater: {
-            name: '',
-            email: 'marysmith@example.com',
+            name: 'Mary Smith',
+            email: '',
             phone_number: '123456',
+            event_id: event.id,
             gender: 'female',
           },
-          event_id: event.id
+          event_id: event.id,
         }
       end
 
@@ -315,7 +316,7 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
         expect { post rep_event_daters_path(params) }.not_to change(Dater, :count)
 
         expect(response).to redirect_to rep_event_daters_path(event)
-        expect(flash[:notice]).to match(/Dater not added/)
+        expect(flash[:alert]).to match(/Dater not added/)
       end
     end
   end

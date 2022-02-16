@@ -233,3 +233,6 @@ RSpec/StubbedMock:
 
 RSpec/ExpectInHook:
   Enabled: false
+
+RSpec/ExpectChange:
+  Enabled: false

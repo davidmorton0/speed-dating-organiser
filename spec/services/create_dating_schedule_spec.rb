@@ -31,7 +31,7 @@ RSpec.describe CreateDatingSchedule do
 
         expect(speed_dates_for_round.size).to eq higher_number_of_daters * 2
         expect(daters_for_round.compact.uniq.size).to eq number_of_daters
-        expect(daters_for_round.compact.uniq.size).to eq number_of_daters
+        expect(datees_for_round.compact.uniq.size).to eq number_of_daters
       end
 
       speed_dates.each do |speed_date|
@@ -84,6 +84,15 @@ RSpec.describe CreateDatingSchedule do
     let(:dates_per_round) { 5 }
 
     it_behaves_like 'creates the correct schedule'
+  end
+
+  context 'when there are no daters' do
+    let(:number_of_females) { 0 }
+    let(:number_of_males) { 0 }
+
+    it 'does not create any dates' do
+      expect { subject }.not_to change(SpeedDate, :count)
+    end
   end
 
   context 'when there is a maximum of 3 rounds' do

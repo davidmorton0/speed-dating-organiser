@@ -2,11 +2,11 @@ class Rep::EventsController < ApplicationController
   before_action :authenticate_rep!
 
   def index
-    @events = Event.where(rep: current_rep).paginate(page: params[:page])
+    @events = Event.where(rep: current_rep).paginate(page: event_params[:page])
   end
 
   def show # rubocop:disable Metrics/AbcSize
-    @event = Event.find(params[:id])
+    @event = Event.find(event_params[:id])
     redirect_to rep_events_path unless @event.rep == current_rep
 
     @speed_dates = SpeedDate.where(event: @event)
@@ -22,6 +22,6 @@ class Rep::EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:title, :date)
+    params.permit(:id, :page)
   end
 end
