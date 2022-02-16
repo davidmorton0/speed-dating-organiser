@@ -36,6 +36,4 @@ class Rep::SpeedDatesController < ApplicationController
   def validate_event_rep(event)
     redirect_to rep_events_path unless event.rep == current_rep
   end
-
-
 end
