@@ -320,4 +320,28 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
       end
     end
   end
+
+  describe '#destroy' do
+    subject { delete rep_event_dater_path(event, dater) }
+
+    before { dater }
+
+    context 'when the rep is assigned to the dater\'s event' do
+      let(:dater) { create(:dater, event: event) }
+
+      it 'deletes the dater' do
+        expect { subject }.to change(Dater, :count).by(-1)
+        expect(flash[:success]).to match(/Dater Deleted/)
+      end
+    end
+
+    context 'when the rep is not assigned to the dater\'s event' do
+      let(:dater) { create(:dater) }
+
+      it 'does not delete the dater' do
+        expect { subject }.not_to change(Dater, :count)
+        expect(flash[:success]).to be_nil
+      end
+    end
+  end
 end

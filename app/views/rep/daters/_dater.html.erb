@@ -3,4 +3,5 @@
   <td><%= dater.email %></td>
   <td><%= dater.phone_number %></td>
   <td><%= dater.gender %></td>
+  <td><%= link_to 'Delete', "/rep/events/#{@event.id}/daters/#{dater.id}", data: { "turbo-method": :delete, turbo_confirm: 'Delete Dater. Are you sure?' }, class: "btn btn-danger ml-3" %></td>
 </tr>
