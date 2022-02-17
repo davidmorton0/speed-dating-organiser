@@ -5,7 +5,7 @@
 
 <div class="row">
   <aside class="col-md-4">
-    <section>
+    <section class="section">
       <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
@@ -43,12 +43,26 @@
           <%= f.submit "Update" %>
         </div>
       <% end %>
+      <br>
 
-      <h3>Cancel my account</h3>
+      <h3>Delete my account</h3>
 
-      <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+      <p>Delete your account and all data.</p>
+      <%= link_to 'Delete', registration_path(resource_name), data: { 'turbo-method': :delete,
+          turbo_confirm: 'This will delete your account and all data.  Are you sure?' }, class: "btn btn-danger ml-3" %>
+      <br>
 
       <%= link_to "Back", :back %>
+    </section>
+    <section>
+
+    <% if resource_name == :admin %>
+      <h3>Delete Organisation</h3>
+
+      <p>Delete this organisation, events and all other data.</p>
+      <%= link_to 'Delete Organisation', admin_organisation_path(resource.organisation), data: { 'turbo-method': :delete,
+          turbo_confirm: 'This will delete this organisation including this account, all events, reps and other admins.  Are you sure that you want to do this?' }, class: "btn btn-danger ml-3" %>
+    <% end %>
     </section>
   </aside>  
 </div>

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post '/login/:resource', as: 'login', to: 'home#login_resource'
 
   namespace :admin do
+    resources :organisations, only: %i[destroy]
     resources :events do
       resources :speed_dates, only: %i[create update index]
       resources :daters, only: %i[create update index show]

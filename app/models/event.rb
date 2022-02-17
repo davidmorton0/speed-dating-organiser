@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Event < ApplicationRecord
-  has_many :daters
-  has_many :speed_dates
-  has_many :speed_date_appointments, through: :daters
+  has_many :daters, dependent: :destroy
+  has_many :speed_dates, dependent: :destroy
 
   belongs_to :organisation
   belongs_to :rep, optional: true

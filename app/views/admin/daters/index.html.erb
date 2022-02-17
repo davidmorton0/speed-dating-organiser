@@ -26,21 +26,21 @@
 
       <h3>Add New Dater</h3>
 
-      <%= form_with url: admin_event_daters_path do |f| %>
+      <%= form_for(@dater, url: admin_event_daters_path) do |f| %>
         <%= f.label :name %>
         <%= f.text_field :name, class: 'form-control' %>
         <%= f.label :email %>
         <%= f.text_field :email, class: 'form-control' %>
         <%= f.label :phone_number %>
         <%= f.text_field :phone_number, class: 'form-control' %>
-        <%= f.label :gender %><br>
-        <%= f.select :gender,  ['male', 'female'], class: 'form-control' %>
+        <%= f.label :gender %>
         <%= f.hidden_field :event_id, value: @event.id %>
+        <br>
+        <%= f.select :gender,  ['male', 'female'], class: 'form-control' %>
         <br>
         <br>
         <%= f.submit "Add", class: "btn btn-primary" %>
       <% end %>
-
     </section>
   </aside>
 </div>
