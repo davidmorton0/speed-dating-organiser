@@ -67,6 +67,17 @@ class Admin::DatersController < ApplicationController
     end
   end
 
+  def destroy
+    dater = Dater.find(permitted_parameters[:id])
+    event = dater.event
+    return unless validate_event_admin(event)
+
+    dater.destroy
+    flash[:success] = 'Dater Deleted'
+
+    redirect_to admin_event_daters_path(event)
+  end
+
   private
 
   def permitted_parameters

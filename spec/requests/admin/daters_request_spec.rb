@@ -326,4 +326,30 @@ RSpec.describe 'Admin::Daters', type: :request, aggregate_failures: true do
       end
     end
   end
+
+  describe '#destroy' do
+    subject { delete admin_event_dater_path(event, dater) }
+
+    let(:dater) { create(:dater, event: event) }
+
+    before { dater }
+
+    it_behaves_like 'it authenticates the admin'
+
+    context 'when the dater is for the same organisation as the admin' do
+      it 'deletes the dater' do
+        expect { subject }.to change(Dater, :count).by(-1)
+        expect(flash[:success]).to match(/Dater Deleted/)
+      end
+    end
+
+    context 'when the event is for a different organisation than the admin' do
+      let(:dater) { create(:dater) }
+
+      it 'does not delete the dater' do
+        expect { subject }.not_to change(Dater, :count)
+        expect(flash[:success]).to be_nil
+      end
+    end
+  end
 end
