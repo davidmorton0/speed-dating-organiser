@@ -13,6 +13,8 @@ class Admin::DatersController < ApplicationController
   def index
     @event = Event.find(params[:event_id])
     @daters = @event.daters.sort_by(&:name)
+
+    @dater = Dater.new
   end
 
   def show
