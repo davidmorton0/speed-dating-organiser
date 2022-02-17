@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
   get '/logout', to: 'home#logout'
-  post '/login/:resource', to: 'home#login_resource'
+  post '/login/:resource', as: 'login', to: 'home#login_resource'
 
   namespace :admin do
     resources :events do

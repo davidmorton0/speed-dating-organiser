@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'support/shared_examples/it_authenticates_the_admin'
 
-RSpec.describe 'Events', type: :request, aggregate_failures: true do
+RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
   include Devise::Test::IntegrationHelpers
 
   let(:admin) { create(:admin) }
@@ -12,14 +13,19 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
     sign_in admin
   end
 
-  describe 'index page' do
+  describe '#index' do
+    subject { get admin_events_path }
+
+    it_behaves_like 'it authenticates the admin'
+
     context 'when there is an event for the same organisation as the admin' do
       before do
         event
       end
 
       it 'shows an event' do
-        get admin_events_path
+        subject
+
         expect(response).to be_successful
         expect(response.body).to include('Events')
         expect(response.body).to include('Dating Event')
@@ -28,7 +34,8 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
 
     context 'when there are no events' do
       it 'shows an empty list' do
-        get admin_events_path
+        subject
+
         expect(response).to be_successful
         expect(response.body).to include('Events')
         expect(response.body).not_to include('Dating Event')
@@ -43,7 +50,8 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
       end
 
       it 'shows an empty list' do
-        get admin_events_path
+        subject
+
         expect(response).to be_successful
         expect(response.body).to include('Events')
         expect(response.body).not_to include('Dating Event')
@@ -51,10 +59,14 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
     end
   end
 
-  describe 'show event page' do
+  describe '#show' do
+    subject { get admin_event_path(event) }
+
     let(:daters) { male_daters + female_daters }
     let(:male_daters) { create_list(:dater, 3, gender: 'male', event: event) }
     let(:female_daters) { create_list(:dater, 4, gender: 'female', event: event) }
+
+    it_behaves_like 'it authenticates the admin'
 
     context 'when the event is for the same organisation as the admin' do
       before do
@@ -62,7 +74,8 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
       end
 
       it 'shows the event' do
-        get admin_event_path(event)
+        subject
+
         expect(response).to be_successful
         expect(response.body).to include(event.title)
         expect(response.body).to include(daters.count.to_s)
@@ -75,21 +88,29 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
       let(:event) { create(:event, title: 'Dating Event') }
 
       it 'redirects to the events index' do
-        get admin_event_path(event)
+        subject
+
         expect(response).to redirect_to(admin_events_path)
       end
     end
   end
 
-  describe 'add event page' do
+  describe '#new' do
+    subject { get new_admin_event_path }
+
+    it_behaves_like 'it authenticates the admin'
+
     it 'shows an empty list' do
-      get new_admin_event_path
+      subject
+
       expect(response).to be_successful
       expect(response.body).to include('New Event')
     end
   end
 
-  describe 'create event' do
+  describe '#create' do
+    subject { post admin_events_path(params) }
+
     let(:organisation) { admin.organisation }
     let(:rep) { create(:rep, organisation: organisation) }
 
@@ -106,8 +127,11 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
         }
       end
 
+      it_behaves_like 'it authenticates the admin'
+
       it 'creates the event' do
-        post admin_events_path(params)
+        subject
+
         new_event = Event.last
         expect(new_event).to have_attributes(
           title: 'Knitting Event',
@@ -133,7 +157,7 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
       end
 
       it 'does not create an event' do
-        expect { post admin_events_path(params) }.not_to change(Event, :count)
+        expect { subject }.not_to change(Event, :count)
         expect(response).to render_template(:new)
         expect(flash[:error]).to match(/Title/)
       end
@@ -152,17 +176,22 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
       end
 
       it 'does not create an event' do
-        expect { post admin_events_path(params) }.not_to change(Event, :count)
+        expect { subject }.not_to change(Event, :count)
         expect(response).to render_template(:new)
         expect(flash[:error]).to match(/Rep is not from/)
       end
     end
   end
 
-  describe 'edit event' do
+  describe '#edit' do
+    subject { get edit_admin_event_path(event) }
+
+    it_behaves_like 'it authenticates the admin'
+
     context 'when the event is for the same organisation as the admin' do
       it 'shows the edit event page' do
-        get edit_admin_event_path(event)
+        subject
+
         expect(response).to be_successful
         expect(response.body).to include('Dating Event')
         expect(response.body).to include('Edit Event Details')
@@ -173,85 +202,98 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
       let(:event) { create(:event, title: 'Dating Event') }
 
       it 'redirects to the events index' do
-        get edit_admin_event_path(event)
+        subject
+
         expect(response).to redirect_to(admin_events_path)
       end
     end
   end
 
-  describe 'update event' do
-    let(:params) do
-      { id: event.id,
-        event: { title: 'Knitting Event' } }
-    end
+  describe '#update' do
+    subject { patch admin_event_path(params) }
 
-    context 'when the event is for the same organisation as the admin' do
-      it 'updates an event' do
-        expect { patch admin_event_path(params) }.to change { event.reload.title }.to('Knitting Event')
-        expect(flash[:success]).to match(/Event updated/)
-      end
-    end
-
-    context 'when the event is for a different organisation than the admin' do
-      let(:event) { create(:event, title: 'Dating Event') }
-
-      it 'redirects to the events index' do
-        expect { patch admin_event_path(params) }.not_to change { event.reload.title }
-        expect(response).to redirect_to(admin_events_path)
-        expect(flash[:success]).to be_nil
-      end
-    end
-
-    context 'when the assigned rep is for the same organisation as the admin' do
-      let(:rep) { create(:rep, organisation: admin.organisation) }
-
+    context 'when updating the event title' do
       let(:params) do
         { id: event.id,
-          event: { rep_id: rep.id } }
+          event: { title: 'Knitting Event' } }
       end
 
-      it 'updates an event' do
-        expect { patch admin_event_path(params) }.to change { event.reload.rep }.to(rep)
-        expect(flash[:success]).to match(/Event updated/)
+      it_behaves_like 'it authenticates the admin'
+
+      context 'when the event is for the same organisation as the admin' do
+        it 'updates the event title' do
+          expect { subject }.to change { event.reload.title }.to('Knitting Event')
+          expect(flash[:success]).to match(/Event updated/)
+        end
+      end
+
+      context 'when the event is for a different organisation than the admin' do
+        let(:event) { create(:event, title: 'Dating Event') }
+
+        it 'redirects to the events index' do
+          expect { subject }.not_to change { event.reload.title }
+          expect(response).to redirect_to(admin_events_path)
+          expect(flash[:success]).to be_nil
+        end
       end
     end
 
-    context 'when changing the assigned rep to nil' do
-      let(:rep) { create(:rep, organisation: admin.organisation) }
-      let(:event) { create(:event, title: 'Dating Event', rep: rep, organisation: admin.organisation) }
-      let(:params) do
-        { id: event.id,
-          event: { rep_id: nil } }
+    context 'when updating the rep for the event' do
+      context 'when the assigned rep is for the same organisation as the admin' do
+        let(:rep) { create(:rep, organisation: admin.organisation) }
+
+        let(:params) do
+          { id: event.id,
+            event: { rep_id: rep.id } }
+        end
+
+        it 'updates the event rep' do
+          expect { subject }.to change { event.reload.rep }.to(rep)
+          expect(flash[:success]).to match(/Event updated/)
+        end
       end
 
-      it 'updates an event' do
-        expect { patch admin_event_path(params) }.to change { event.reload.rep }.to(nil)
-        expect(flash[:success]).to match(/Event updated/)
+      context 'when changing the assigned rep to nil' do
+        let(:rep) { create(:rep, organisation: admin.organisation) }
+        let(:event) { create(:event, title: 'Dating Event', rep: rep, organisation: admin.organisation) }
+        let(:params) do
+          { id: event.id,
+            event: { rep_id: nil } }
+        end
+
+        it 'updates the event rep' do
+          expect { subject }.to change { event.reload.rep }.to(nil)
+          expect(flash[:success]).to match(/Event updated/)
+        end
       end
-    end
 
-    context 'when the assigned rep is for a different organisation then the admin' do
-      let(:rep) { create(:rep, organisation: create(:organisation)) }
+      context 'when the assigned rep is for a different organisation then the admin' do
+        let(:rep) { create(:rep, organisation: create(:organisation)) }
 
-      let(:params) do
-        { id: event.id,
-          event: { rep_id: rep.id } }
-      end
+        let(:params) do
+          { id: event.id,
+            event: { rep_id: rep.id } }
+        end
 
-      it 'does not update the event' do
-        expect { patch admin_event_path(params) }.not_to change { event.reload.rep }
-        expect(response).not_to be_successful
-        expect(flash[:error]).to match(/Rep is not/)
+        it 'does not update the event rep' do
+          expect { subject }.not_to change { event.reload.rep }
+          expect(response).not_to be_successful
+          expect(flash[:error]).to match(/Rep is not/)
+        end
       end
     end
   end
 
-  describe 'delete event' do
+  describe '#destroy' do
+    subject { delete admin_event_path(event) }
+
     before { event }
+
+    it_behaves_like 'it authenticates the admin'
 
     context 'when the event is for the same organisation as the admin' do
       it 'deletes an event' do
-        expect { delete admin_event_path(event) }.to change(Event, :count).by(-1)
+        expect { subject }.to change(Event, :count).by(-1)
         expect(flash[:success]).to match(/Event deleted/)
       end
     end
@@ -260,7 +302,7 @@ RSpec.describe 'Events', type: :request, aggregate_failures: true do
       let(:event) { create(:event, title: 'Dating Event') }
 
       it 'does not delete the event' do
-        expect { delete admin_event_path(event) }.not_to change(Event, :count)
+        expect { subject }.not_to change(Event, :count)
         expect(flash[:success]).to be_nil
       end
     end

@@ -12,7 +12,7 @@ class HomeController < ApplicationController
   def logout
     sign_out
 
-    redirect_to '/'
+    redirect_to root_path
   end
 
   def login_resource # rubocop:disable Metrics/AbcSize

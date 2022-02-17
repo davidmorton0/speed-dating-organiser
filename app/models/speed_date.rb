@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class SpeedDate < ApplicationRecord
-  belongs_to :dater1, class_name: 'Dater', optional: true
-  belongs_to :dater2, class_name: 'Dater', optional: true
+  belongs_to :dater, optional: true
+  belongs_to :datee, class_name: 'Dater', optional: true
   belongs_to :event
 
   validates :round, presence: true

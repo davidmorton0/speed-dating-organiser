@@ -5,14 +5,22 @@ class Dater::DatersController < ApplicationController
     @dater = current_dater
     @event = @dater.event
 
-    gender_of_possible_matches = @dater.gender == 'female' ? 'male' : 'female'
-    @possible_matches = Dater.where(event: @event, gender: gender_of_possible_matches)
+    @possible_matches = @event.daters.reject { |possible_match| possible_match.gender == @dater.gender }
+    @possible_matches.each do |possible_match|
+      possible_match.match = @dater.matches.include?(possible_match.id.to_s)
+    end
   end
 
   def update
-    matches = params.keys.select { |key| current_dater.event.daters.ids.include?(key.to_i) }
+    matches = permitted_parameters[:dater][:matches].select(&:present?)
     current_dater.update(matches: matches)
 
-    redirect_to dater_event_path(current_dater.event), info: 'Matches updated'
+    redirect_to dater_event_path(current_dater.event), notice: 'Matches updated'
   end
+end
+
+private
+
+def permitted_parameters
+  params.permit(dater: { matches: [] })
 end

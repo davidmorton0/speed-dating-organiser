@@ -33,4 +33,26 @@ RSpec.describe Event, type: :model do
       end
     end
   end
+
+  describe 'dater methods' do
+    let(:male_dater) { build(:dater, gender: 'male') }
+    let(:female_dater) { build(:dater, gender: 'female') }
+
+    before do
+      subject.daters << male_dater
+      subject.daters << female_dater
+    end
+
+    describe '#female_daters' do
+      it 'returns the female daters from an event' do
+        expect(subject.female_daters).to eq [female_dater]
+      end
+    end
+
+    describe '#male_daters' do
+      it 'returns the male daters from an event' do
+        expect(subject.male_daters).to eq [male_dater]
+      end
+    end
+  end
 end

@@ -23,7 +23,7 @@
 
       <h2>Add New Dater</h2>
 
-      <%= form_with url: admin_event_daters_path do |f| %>
+      <%= form_for(@dater, url: rep_event_daters_path) do |f| %>
         <%= f.label :name %>
         <%= f.text_field :name, class: 'form-control' %>
         <%= f.label :email %>

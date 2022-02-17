@@ -5,13 +5,13 @@
 <div class="row">
   <aside class="col-md-4">
     <section>
+
       <h1><%= @event.title %></h1>
 
       <h2>Schedule</h2>
 
-      <% if @schedule_info %>
+      <% if @event.speed_dates.any? %>
         <%= render 'shared/schedule' %>
-
         <%= button_to "Regenerate Schedule", rep_event_speed_dates_path(@event), data: { confirm: 'This will delete and recreate the dating schedule.  Are you sure?' } %>
       <% else %>
         <h3>Schedule has not been created.</h3>
