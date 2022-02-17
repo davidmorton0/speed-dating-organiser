@@ -11,9 +11,9 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
   before { sign_in rep }
 
   describe '#index' do
-    let(:daters) { create_list(:dater, 3, event: event) }
-
     context 'when there are daters for the event' do
+      let(:daters) { create_list(:dater, 3, event: event) }
+
       before { daters }
 
       it 'shows the page' do

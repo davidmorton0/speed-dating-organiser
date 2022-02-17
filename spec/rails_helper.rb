@@ -72,6 +72,10 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  Kernel.srand config.seed
-  Faker::Config.random = Random.new(config.seed)
+  config.before do |example|
+    Faker::UniqueGenerator.clear
+    seed = config.seed + example.description.to_i(36)
+    Kernel.srand seed
+    Faker::Config.random = Random.new(seed)
+  end
 end

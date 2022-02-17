@@ -2,22 +2,24 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Rep::SpeedDates', type: :request, aggregate_failures: true do
+RSpec.describe 'Admin::SpeedDates', type: :request, aggregate_failures: true do
   include Devise::Test::IntegrationHelpers
 
-  let(:rep) { create(:rep) }
-  let(:event) { create(:event, title: 'Dating Event', organisation: rep.organisation, rep: rep) }
+  let(:admin) { create(:admin) }
+  let(:event) { create(:event, title: 'Dating Event', organisation: admin.organisation) }
   let(:male_daters) { create_list(:dater, 3, :male, event: event) }
   let(:female_daters) { create_list(:dater, 2, :female, event: event) }
 
   describe '#index' do
+    subject { get admin_event_speed_dates_path(event) }
+
     before do
-      sign_in rep
+      sign_in admin
     end
 
     context 'when there is no schedule' do
       it 'shows the event' do
-        get rep_event_speed_dates_path(event)
+        subject
 
         expect(response).to be_successful
         expect(response.body).to include(event.title)
@@ -37,7 +39,7 @@ RSpec.describe 'Rep::SpeedDates', type: :request, aggregate_failures: true do
       end
 
       it 'shows the event' do
-        get rep_event_speed_dates_path(event)
+        subject
 
         expect(response).to be_successful
         expect(response.body).to include(event.title)
@@ -49,41 +51,44 @@ RSpec.describe 'Rep::SpeedDates', type: :request, aggregate_failures: true do
       end
     end
 
-    context 'when the event is assigned to a different rep' do
-      let(:event) { create(:event, title: 'Dating Event', organisation: rep.organisation) }
+    context 'when the event is for a different organisation than the admin' do
+      let(:event) { create(:event, title: 'Dating Event') }
 
       it 'redirects to the events index' do
-        get rep_event_path(event)
-        expect(response).to redirect_to(rep_events_path)
+        subject
+
+        expect(response).to redirect_to(admin_events_path)
       end
     end
 
-    context 'when the rep is signed out' do
-      before { sign_out rep }
+    context 'when the admin is signed out' do
+      before { sign_out admin }
 
-      it 'redirects to the rep sign in page' do
-        get rep_event_matches_path(event)
+      it 'redirects to the admin sign in page' do
+        subject
 
-        expect(response).to redirect_to new_rep_session_path
+        expect(response).to redirect_to new_admin_session_path
       end
     end
   end
 
   describe '#create' do
+    subject { post admin_event_speed_dates_path({ event_id: event.id }) }
+
     let(:dummy_schedule_service) { instance_double(CreateDatingSchedule) }
 
     before do
-      sign_in rep
+      sign_in admin
     end
 
-    context 'when the event is assigned to a the rep' do
+    context 'when the event is the same organisation as the admin' do
       context 'when there are no existing dates' do
         it 'calls the speed date unit' do
           expect(CreateDatingSchedule).to receive(:new).and_return(dummy_schedule_service)
           expect(dummy_schedule_service).to receive(:call)
 
-          post rep_event_speed_dates_path({ event_id: event.id })
-          expect(response).to redirect_to(rep_event_speed_dates_path(event))
+          subject
+          expect(response).to redirect_to(admin_event_speed_dates_path(event))
         end
       end
 
@@ -93,27 +98,27 @@ RSpec.describe 'Rep::SpeedDates', type: :request, aggregate_failures: true do
         before { speed_dates }
 
         it 'destroys any existing dates' do
-          expect { post rep_event_speed_dates_path({ event_id: event.id }) }.to change(SpeedDate, :count).by(-2)
+          expect { subject }.to change(SpeedDate, :count).by(-2)
         end
       end
     end
 
-    context 'when the event is assigned to a different rep' do
-      let(:event) { create(:event, title: 'Dating Event', organisation: rep.organisation) }
+    context 'when the event is for a different organisation than the admin' do
+      let(:event) { create(:event, title: 'Dating Event') }
 
       it 'redirects to the events index' do
-        get rep_event_path(event)
-        expect(response).to redirect_to(rep_events_path)
+        subject
+        expect(response).to redirect_to(admin_events_path)
       end
     end
 
-    context 'when the rep is signed out' do
-      before { sign_out rep }
+    context 'when the admin is signed out' do
+      before { sign_out admin }
 
-      it 'redirects to the rep sign in page' do
-        get rep_event_matches_path(event)
+      it 'redirects to the admin sign in page' do
+        subject
 
-        expect(response).to redirect_to new_rep_session_path
+        expect(response).to redirect_to new_admin_session_path
       end
     end
   end

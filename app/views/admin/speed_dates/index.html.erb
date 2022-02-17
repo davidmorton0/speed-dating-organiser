@@ -10,9 +10,8 @@
 
       <h2>Schedule</h2>
 
-      <% if @schedule_info %>
+      <% if @event.speed_dates.any? %>
         <%= render 'shared/schedule' %>
-
         <%= button_to "Regenerate Schedule", admin_event_speed_dates_path(@event), data: { confirm: 'This will delete and recreate the dating schedule.  Are you sure?' } %>
       <% else %>
         <h4>Schedule has not been created.</h4>
