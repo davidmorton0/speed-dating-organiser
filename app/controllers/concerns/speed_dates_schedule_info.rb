@@ -8,7 +8,11 @@ module SpeedDatesScheduleInfo
   def add_dater_names_for_dates
     @female_daters.map do |dater|
       dater.speed_dates.each do |speed_date|
-        @speed_dates_info[speed_date.round][dater.id] = speed_date.datee&.name || 'Break'
+        @speed_dates_info[speed_date.round][dater.id] = if speed_date.datee
+                                                          dater_name_info(speed_date.datee)
+                                                        else
+                                                          'Break'
+                                                        end
       end
     end
   end
@@ -18,8 +22,14 @@ module SpeedDatesScheduleInfo
       .group_by(&:round)
       .each do |round, speed_dates|
       @speed_dates_info[round][:break] = speed_dates.map do |speed_date|
-        speed_date.dater.name
+        dater_name_info(speed_date.dater)
       end.join(', ')
     end
+  end
+
+  private
+
+  def dater_name_info(dater)
+    "#{dater.name} (#{dater.id})"
   end
 end

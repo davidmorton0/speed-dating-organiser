@@ -11,12 +11,12 @@ FactoryBot.define do
     event { build(:event) }
 
     trait :female do
-      first_name { "#{Faker::Name.female_first_name}" }
+      first_name { Faker::Name.female_first_name.to_s }
       gender { 'female' }
     end
 
     trait :male do
-      first_name { "#{Faker::Name.male_first_name}" }
+      first_name { Faker::Name.male_first_name.to_s }
       gender { 'male' }
     end
   end

@@ -10,7 +10,7 @@ RSpec.describe CreateDater do
   let(:params) do
     {
       first_name: first_name,
-      surname: surname, 
+      surname: surname,
       email: email,
       password: password,
       phone_number: phone_number,

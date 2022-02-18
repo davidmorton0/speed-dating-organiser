@@ -54,7 +54,8 @@ class Admin::DatersController < ApplicationController
   private
 
   def permitted_parameters
-    params.permit(:event_id, :id, dater: [:first_name, :surname, :email, :phone_number, :event_id, :gender, { matches: [] }])
+    params.permit(:event_id, :id,
+                  dater: [:first_name, :surname, :email, :phone_number, :event_id, :gender, { matches: [] }])
   end
 
   def validate_event_admin(event)
