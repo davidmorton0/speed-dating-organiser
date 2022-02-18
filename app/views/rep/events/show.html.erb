@@ -34,6 +34,10 @@
           <td><%= @male_daters.size %></td>
           <td><%= @female_daters.size %></td>
         </tr>
+        <tr>
+          <th>Match Email Sent At</th>
+          <td colspan=3><%= @event.matches_email_sent_at.present? ? @event.matches_email_sent_at.strftime("%l:%m %P %A/%b/%Y") : 'Not Sent' %></td>
+        </tr>
       </table>
     </section>
   </aside>

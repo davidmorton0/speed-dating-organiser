@@ -138,6 +138,7 @@ RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
           starts_at: date,
           rep_id: rep.id,
           organisation_id: organisation.id,
+          matches_email_sent_at: nil,
         )
         expect(response).to redirect_to(admin_events_path)
         expect(flash[:success]).to match(/Event created/)
@@ -304,6 +305,134 @@ RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
       it 'does not delete the event' do
         expect { subject }.not_to change(Event, :count)
         expect(flash[:success]).to be_nil
+      end
+    end
+  end
+
+  describe '#matches' do
+    subject { get admin_event_matches_path(event) }
+
+    context 'when there are daters for the event' do
+      let(:daters) { male_daters + female_daters }
+
+      before { daters }
+
+      context 'when there are no matches' do
+        let(:female_daters) { create_list(:dater, 2, :female, event: event) }
+        let(:male_daters) { create_list(:dater, 2, :male, event: event) }
+
+        it 'shows the matches page with all the daters and no matches' do
+          subject
+
+          expect(response).to be_successful
+          expect(response.body).to include(event.title)
+          expect(response.body).to include('Matches')
+          daters.each do |dater|
+            expect(response.body).to include(CGI.escapeHTML(dater.name))
+          end
+          expect(response.body).to include('no-no')
+          expect(response.body).not_to include('yes-no')
+          expect(response.body).not_to include('no-yes')
+          expect(response.body).not_to include('yes-yes')
+        end
+      end
+
+      context 'when there are matches' do
+        let(:female_daters) do
+          [
+            create(:dater, :female, event: event, matches: [male_daters[0].id, male_daters[1].id]),
+            create(:dater, :female, event: event, matches: []),
+          ]
+        end
+        let(:male_daters) { create_list(:dater, 2, :male, event: event) }
+
+        before { male_daters[0].update(matches: [female_daters[0].id, female_daters[1].id]) }
+
+        it 'shows the matches page with all the daters and matches' do
+          subject
+
+          expect(response).to be_successful
+          expect(response.body).to include(event.title)
+          expect(response.body).to include('Matches')
+          daters.each do |dater|
+            expect(response.body).to include(CGI.escapeHTML(dater.name))
+          end
+          expect(response.body).to include('no-no')
+          expect(response.body).to include('yes-no')
+          expect(response.body).to include('no-yes')
+          expect(response.body).to include('yes-yes')
+        end
+      end
+    end
+
+    context 'when there are no daters for the event' do
+      it 'shows the matches page' do
+        subject
+
+        expect(response).to be_successful
+        expect(response.body).to include(event.title)
+        expect(response.body).to include('Matches')
+      end
+    end
+
+    context 'when the event is for the same organisation as the admin' do
+      let(:event) { create(:event, title: 'Dating Event') }
+
+      it 'redirects to the admin event page' do
+        subject
+
+        expect(response).to redirect_to redirect_to admin_events_path
+      end
+    end
+
+    context 'when the admin is signed out' do
+      before { sign_out admin }
+
+      it 'redirects to the admin sign in page' do
+        subject
+
+        expect(response).to redirect_to new_admin_session_path
+      end
+    end
+  end
+
+  describe '#send_match_emails' do
+    subject { post admin_event_send_match_emails_path(params) }
+
+    let(:params) do
+      { event_id: event.id }
+    end
+
+    context 'when there are matches' do
+      let(:female_daters) do
+        [
+          create(:dater, :female, event: event, matches: [male_daters[0].id, male_daters[1].id]),
+          create(:dater, :female, event: event, matches: []),
+        ]
+      end
+      let(:male_daters) { create_list(:dater, 2, :male, event: event) }
+
+      before { male_daters[0].update(matches: [female_daters[0].id, female_daters[1].id]) }
+
+      it 'sends an email to each dater' do
+        perform_enqueued_jobs { subject }
+        expect(ActionMailer::Base.deliveries.count).to eq 4
+      end
+
+      it 'sets matches_email_sent_at' do
+        freeze_time
+        expect { subject }.to change { event.reload.matches_email_sent_at }.from(nil).to(DateTime.current)
+      end
+    end
+
+    context 'when match emails have already been sent' do
+      let(:event) {
+        create(:event, title: 'Dating Event', organisation: admin.organisation, matches_email_sent_at: 2.hours.ago)
+      }
+
+      it 'updates matches_email_sent_at' do
+        freeze_time
+        expect { subject }.to change { event.reload.matches_email_sent_at }.from(2.hours.ago).to(DateTime.current)
       end
     end
   end

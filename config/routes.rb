@@ -12,8 +12,8 @@ Rails.application.routes.draw do
     resources :events do
       resources :speed_dates, only: %i[create update index]
       resources :daters, only: %i[create update index show destroy]
-      get '/matches', as: 'matches', to: 'daters#matches'
-      post '/send_match_emails', as: 'send_match_emails', to: 'daters#send_match_emails'
+      get '/matches', as: 'matches', to: 'events#matches'
+      post '/send_match_emails', as: 'send_match_emails', to: 'events#send_match_emails'
     end
 
     resources :reps, only: %i[create edit update index destroy]

@@ -78,4 +78,6 @@ RSpec.configure do |config|
     Kernel.srand seed
     Faker::Config.random = Random.new(seed)
   end
+
+  config.include ActiveSupport::Testing::TimeHelpers
 end

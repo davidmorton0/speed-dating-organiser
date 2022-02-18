@@ -7,5 +7,6 @@ FactoryBot.define do
     rep { nil }
     organisation { build(:organisation) }
     max_rounds { 10 }
+    matches_email_sent_at { nil }
   end
 end
