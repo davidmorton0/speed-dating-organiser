@@ -7,6 +7,7 @@ class Event < ApplicationRecord
   belongs_to :organisation
   belongs_to :rep, optional: true
 
+  validates :location, presence: true
   validates :title, presence: true
   validates :starts_at, presence: true
   validate :rep_must_belong_to_organisation
