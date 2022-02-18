@@ -115,13 +115,16 @@ RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
     let(:rep) { create(:rep, organisation: organisation) }
 
     context 'when the event parameters are valid' do
-      let(:date) { DateTime.current.beginning_of_hour }
       let(:params) do
         {
           event: {
             title: 'Knitting Event',
             location: 'My Garage',
-            starts_at: date,
+            'starts_at(1i)': '2022',
+            'starts_at(2i)': '5',
+            'starts_at(3i)': '10',
+            'starts_at(4i)': '20',
+            'starts_at(5i)': '30',
             rep_id: rep.id,
             organisation_id: organisation.id,
           },
@@ -137,7 +140,7 @@ RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
         expect(new_event).to have_attributes(
           title: 'Knitting Event',
           location: 'My Garage',
-          starts_at: date,
+          starts_at: DateTime.new(2022, 5, 10, 20, 30),
           rep_id: rep.id,
           organisation_id: organisation.id,
           matches_email_sent_at: nil,
@@ -152,7 +155,11 @@ RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
         {
           event: {
             title: nil,
-            starts_at: Date.current,
+            'starts_at(1i)': '2022',
+            'starts_at(2i)': '5',
+            'starts_at(3i)': '10',
+            'starts_at(4i)': '20',
+            'starts_at(5i)': '30',
             rep_id: rep.id,
             organisation_id: organisation.id,
           },
@@ -171,7 +178,11 @@ RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
         {
           event: {
             title: 'Knitting Event',
-            starts_at: Date.current,
+            'starts_at(1i)': '2022',
+            'starts_at(2i)': '5',
+            'starts_at(3i)': '10',
+            'starts_at(4i)': '20',
+            'starts_at(5i)': '30',
             rep_id: create(:rep).id,
             organisation_id: organisation.id,
           },
