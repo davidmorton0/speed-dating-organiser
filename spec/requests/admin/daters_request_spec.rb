@@ -238,11 +238,13 @@ RSpec.describe 'Admin::Daters', type: :request, aggregate_failures: true do
     context 'when matches are changed' do
       let(:new_matches) { ['', possible_matches[1].id.to_s, possible_matches[2].id.to_s] }
 
-      it 'updates the dater matches' do
-        expect { subject }
-          .to change { dater.reload.matches }.from(matches).to(new_matches[1..2])
-        expect(response).to redirect_to admin_event_matches_path(event)
-        expect(flash[:notice]).to match(/Matches updated/)
+      context 'when new matches are provided' do
+        it 'updates the dater matches' do
+          expect { subject }
+            .to change { dater.reload.matches }.from(matches).to(new_matches[1..2])
+          expect(response).to redirect_to admin_event_matches_path(event)
+          expect(flash[:notice]).to match(/Matches updated/)
+        end
       end
 
       context 'when the admin is not part of the same organisation as the event' do
@@ -269,7 +271,7 @@ RSpec.describe 'Admin::Daters', type: :request, aggregate_failures: true do
     end
 
     context 'when all matches are removed' do
-      let(:new_matches) { ['', '', ''] }
+      let(:new_matches) { [] }
 
       it 'updates the dater matches' do
         expect { subject }.to change { dater.reload.matches }.from(matches).to([])
