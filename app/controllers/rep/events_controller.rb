@@ -3,10 +3,10 @@ class Rep::EventsController < ApplicationController
 
   def index
     @events = Event.where(rep: current_rep)
-    .includes(:daters)
-    .order(:id)
-    .reverse_order
-    .paginate(page: params[:page])
+      .includes(:daters)
+      .order(:id)
+      .reverse_order
+      .paginate(page: params[:page])
   end
 
   def show # rubocop:disable Metrics/AbcSize

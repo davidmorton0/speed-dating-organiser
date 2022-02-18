@@ -13,7 +13,11 @@
       <table class="table">
         <tr>
           <th>Date</th>
-          <td colspan=3><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
+          <td colspan=3><%= @event.starts_at.strftime("%A - #{@event.starts_at.day.ordinalize} %b %Y") %></td>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <td colspan=3><%= @event.starts_at.strftime("%l:%m %P") %></td>
         </tr>
         <tr>
           <th>Rep</th>

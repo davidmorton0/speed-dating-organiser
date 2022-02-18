@@ -12,7 +12,7 @@ class Admin::EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(show_event_params)
+    find_event
     return unless validate_organisation
   end
 
@@ -20,45 +20,39 @@ class Admin::EventsController < ApplicationController
     @event = Event.new
   end
 
-  def create # rubocop:disable Metrics/AbcSize
-    title = event_params[:title]
-    date = event_params[:date]
-    rep = Rep.find_by(id: event_params[:rep_id])
-    organisation = current_admin.organisation
-    max_rounds = Constants::MAX_ROUNDS
-
-    @event = Event.new(title: title, date: date, rep: rep, organisation: organisation, max_rounds: max_rounds)
+  def create
+    create_event
 
     if validate_rep && @event.save
       flash[:success] = 'Event created'
       redirect_to admin_events_path
     else
-      flash.now[:error] ||= @event.errors.full_messages.join(', ')
+      add_errors_to_flash
       render 'new', status: :unprocessable_entity
     end
   end
 
   def edit
-    @event = Event.find(params[:id])
+    find_event
     return unless validate_organisation
   end
 
-  def update # rubocop:disable Metrics/AbcSize
-    @event = Event.find(params[:id])
+  def update
+    find_event
     return unless validate_organisation
 
     if validate_rep && @event.update(event_params)
       flash[:success] = 'Event updated'
       redirect_to admin_event_path(@event)
     else
-      flash.now[:error] ||= @event.errors.full_messages.join(', ')
+      add_errors_to_flash
       @event.reload
       render 'edit', status: :unprocessable_entity
     end
   end
 
   def destroy
-    @event = Event.find(params[:id])
+    find_event
     return unless validate_organisation
 
     @event.destroy
@@ -74,7 +68,11 @@ class Admin::EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :date, :max_rounds, :rep_id)
+    params.require(:event).permit(:title, :starts_at, :max_rounds, :rep_id)
+  end
+
+  def find_event
+    @event = Event.find(show_event_params)
   end
 
   def validate_organisation
@@ -95,5 +93,19 @@ class Admin::EventsController < ApplicationController
       flash[:error] = 'Assigned Rep is not from this organisation'
       false
     end
+  end
+
+  def create_event
+    @event = Event.new(
+      title: event_params[:title],
+      starts_at: event_params[:starts_at],
+      rep_id: event_params[:rep_id],
+      organisation: current_admin.organisation,
+      max_rounds: Constants::MAX_ROUNDS,
+    )
+  end
+
+  def add_errors_to_flash
+    flash.now[:error] ||= @event.errors.full_messages.join(', ')
   end
 end

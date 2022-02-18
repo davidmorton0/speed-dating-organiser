@@ -5,10 +5,9 @@
 <div class="row">
   <aside class="col-md-4">
     <section>
-      <h1><%= current_dater.name %></h1>
-      <h2><%= @event.title %></h2>
+      <h1><%= @event.title %></h1>
 
-      <h3>Matches for <%= @dater.name %></h3>
+      <h3>Select Your Matches</h3>
 
       <%= render 'shared/matches', path: dater_event_dater_path %>
 

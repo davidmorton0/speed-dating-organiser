@@ -10,7 +10,7 @@ RSpec.describe Event, type: :model do
   it { is_expected.to belong_to(:rep).optional(true) }
 
   it { is_expected.to validate_presence_of(:title) }
-  it { is_expected.to validate_presence_of(:date) }
+  it { is_expected.to validate_presence_of(:starts_at) }
 
   context 'when validating the rep organisation' do
     let(:rep) { build(:rep) }

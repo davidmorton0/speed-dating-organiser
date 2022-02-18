@@ -1,7 +1,8 @@
 <tr>
   <td><%= link_to event.id, admin_event_path(event) %></td>
   <td><%= link_to event.title, rep_event_path(event) %></td>
-  <td><%= event.date.strftime("%A - #{event.date.day.ordinalize} %b %Y") %></td>
+  <td><%= event.starts_at.strftime("%A - #{event.starts_at.day.ordinalize} %b %Y") %></td>
+  <td><%= event.starts_at.strftime("%l:%m %P") %></td>
   <td><%= event.daters.size %></td>
   <td><%= event.female_daters.size %></td>
   <td><%= event.male_daters.size %></td>
