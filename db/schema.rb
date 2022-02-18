@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_18_184412) do
+ActiveRecord::Schema.define(version: 2022_02_18_192519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2022_02_18_184412) do
   end
 
   create_table "daters", force: :cascade do |t|
-    t.string "name", limit: 128, null: false
+    t.string "first_name", limit: 128, null: false
     t.string "email", default: "", null: false
     t.string "phone_number", limit: 128, null: false
     t.string "gender", limit: 128, null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2022_02_18_184412) do
     t.string "invited_by_type"
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
+    t.string "surname", limit: 128
     t.index ["email"], name: "index_daters_on_email", unique: true
     t.index ["event_id"], name: "index_daters_on_event_id"
     t.index ["invitation_token"], name: "index_daters_on_invitation_token", unique: true

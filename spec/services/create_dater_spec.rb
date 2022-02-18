@@ -9,7 +9,8 @@ RSpec.describe CreateDater do
 
   let(:params) do
     {
-      name: name,
+      first_name: first_name,
+      surname: surname, 
       email: email,
       password: password,
       phone_number: phone_number,
@@ -18,7 +19,8 @@ RSpec.describe CreateDater do
     }
   end
 
-  let(:name) { Faker::Name.name }
+  let(:first_name) { Faker::Name.first_name }
+  let(:surname) { Faker::Name.last_name }
   let(:email) { Faker::Internet.email }
   let(:password) { Faker::Internet.password }
   let(:phone_number) { Faker::PhoneNumber.phone_number }
@@ -37,7 +39,8 @@ RSpec.describe CreateDater do
     it 'creates a dater' do
       expect { subject }.to change(Dater, :count).from(0).to(1)
       expect(Dater.last).to have_attributes(
-        name: name,
+        first_name: first_name,
+        surname: surname,
         email: email,
         phone_number: phone_number,
         gender: gender,

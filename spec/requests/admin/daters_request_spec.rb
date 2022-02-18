@@ -175,7 +175,8 @@ RSpec.describe 'Admin::Daters', type: :request, aggregate_failures: true do
     let(:params) do
       {
         dater: {
-          name: 'Mary Smith',
+          first_name: 'Mary',
+          surname: 'Smith',
           email: 'marysmith@example.com',
           phone_number: '123456',
           event_id: event.id,
@@ -198,7 +199,8 @@ RSpec.describe 'Admin::Daters', type: :request, aggregate_failures: true do
       let(:params) do
         {
           dater: {
-            name: 'Mary Smith',
+            first_name: 'Mary',
+            surname: 'Smith',
             email: '',
             phone_number: '123456',
             event_id: event.id,

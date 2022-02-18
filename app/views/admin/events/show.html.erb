@@ -17,7 +17,11 @@
         </tr>
         <tr>
           <th>Time</th>
-          <td colspan=3><%= @event.starts_at.strftime("%l:%m %P") %></td>
+          <td colspan=3><%= @event.starts_at.strftime("%l:%M %P") %></td>
+        </tr>
+        <tr>
+          <th>Location</th>
+          <td colspan=3><%= @event.location %></td>
         </tr>
         <tr>
           <th>Rep</th>
@@ -40,7 +44,7 @@
         </tr>
         <tr>
           <th>Match Email Sent At</th>
-          <td colspan=3><%= @event.matches_email_sent_at.present? ? @event.matches_email_sent_at.strftime("%-d/%-m/%Y %l:%m %P") : 'Not Sent' %></td>
+          <td colspan=3><%= @event.matches_email_sent_at.present? ? @event.matches_email_sent_at.strftime("%-d/%-m/%Y %l:%M %P") : 'Not Sent' %></td>
         </tr>
       </table>
     </section>

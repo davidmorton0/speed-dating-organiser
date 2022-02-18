@@ -21,4 +21,8 @@ class Dater < ApplicationRecord
   def male?
     gender == 'male'
   end
+
+  def name
+    "#{first_name} #{surname}"
+  end
 end
