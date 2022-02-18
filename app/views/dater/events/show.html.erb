@@ -5,15 +5,18 @@
 <div class="row">
   <aside class="col-md-4">
     <section>
-      <h1><%= current_dater.name %></h1>
-      <h2><%= @event.title %></h2>
+      <h1><%= @event.title %></h1>
 
-      <h2>Event Information</h2>
+      <h3>Event Information</h3>
 
       <table class="table">
         <tr>          
           <th>Date</th>
-          <td colspan=4><%= @event.date.strftime("%A - #{@event.date.day.ordinalize} %b %Y") %></td>
+          <td colspan=4><%= @event.starts_at.strftime("%A - #{@event.starts_at.day.ordinalize} %b %Y") %></td>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <td colspan=3><%= @event.starts_at.strftime("%l:%m %P") %></td>
         </tr>
       </table>
     </section>

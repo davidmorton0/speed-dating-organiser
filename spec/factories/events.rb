@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :event do
     sequence(:title) { |n| "New Event #{n}" }
-    date { DateTime.current }
+    starts_at { DateTime.current }
     rep { nil }
     organisation { build(:organisation) }
     max_rounds { 10 }

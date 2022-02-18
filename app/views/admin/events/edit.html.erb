@@ -3,7 +3,7 @@
 <%= render 'event_links' %>
 
 <div class="row">
-  <aside class="col-md-2">
+  <aside class="col-md-3">
     <section>
 
       <h1><%= @event.title %></h1>
@@ -13,13 +13,15 @@
       <%= form_for(@event, url: admin_event_path(@event)) do |f| %>
         <%= f.label :name %>
         <%= f.text_field :title, class: 'form-control' %>
-        <%= f.label :date %>
-        <%= f.date_field :date, class: 'form-control' %>
+        <%= f.label :starts_at %>
+        <br>
+        <%= f.datetime_select :starts_at, class: 'form-control' %>
+        <br>
         <%= f.label :max_rounds %>
         <%= f.text_field :max_rounds, class: 'form-control' %>
-        <%= f.label :rep %> <br>
-        <%= f.collection_select :rep_id, Rep.where(organisation: current_admin.organisation).order(:email),:id,:email, include_blank: true %>
+        <%= f.label :rep %>
         <br>
+        <%= f.collection_select :rep_id, Rep.where(organisation: current_admin.organisation).order(:email),:id,:email, include_blank: true %>
         <br>
         <%= f.submit "Save changes", class: "btn btn-primary" %>
       <% end %>

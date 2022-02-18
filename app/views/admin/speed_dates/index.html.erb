@@ -15,7 +15,7 @@
         <%= link_to 'Regenerate Schedule', admin_event_speed_dates_path(@event), data: { 'turbo-method': :post, turbo_confirm: 'This will delete and recreate the dating schedule.  Are you sure?' },
             class: "btn btn-primary ml-3" %>
       <% else %>
-        <h4>Schedule has not been created.</h4>
+        <p>Schedule has not been created.</p>
         <%= button_to "Create Schedule", admin_event_speed_dates_path(@event) %>
       <% end %>
     </section>

@@ -6,15 +6,14 @@
   <aside class="col-md-4">
     <section>
 
-      <h1><%= current_dater.name %></h1>
-      <h2><%= @event.title %></h2>
+      <h1><%= @event.title %></h1>
 
       <h3>Schedule</h3>
 
       <% if @event.speed_dates.any? %>
         <%= render 'shared/schedule' %>
       <% else %>
-        <h3>Please wait.  Schedule has not been created yet.</h3>
+        <p>Please wait.  Schedule has not been created yet.</p>
       <% end %>
     </section>
   </aside>
