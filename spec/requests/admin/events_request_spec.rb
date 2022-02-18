@@ -120,6 +120,7 @@ RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
         {
           event: {
             title: 'Knitting Event',
+            location: 'My Garage',
             starts_at: date,
             rep_id: rep.id,
             organisation_id: organisation.id,
@@ -135,6 +136,7 @@ RSpec.describe 'Admin::Events', type: :request, aggregate_failures: true do
         new_event = Event.last
         expect(new_event).to have_attributes(
           title: 'Knitting Event',
+          location: 'My Garage',
           starts_at: date,
           rep_id: rep.id,
           organisation_id: organisation.id,

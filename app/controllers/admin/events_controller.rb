@@ -92,7 +92,7 @@ class Admin::EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :starts_at, :max_rounds, :rep_id)
+    params.require(:event).permit(:title, :location, :starts_at, :max_rounds, :rep_id)
   end
 
   def find_event
@@ -122,6 +122,7 @@ class Admin::EventsController < ApplicationController
   def create_event
     @event = Event.new(
       title: event_params[:title],
+      location: event_params[:location],
       starts_at: event_params[:starts_at],
       rep_id: event_params[:rep_id],
       organisation: current_admin.organisation,

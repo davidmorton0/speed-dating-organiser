@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :event do
+    sequence(:location) { |n| "#{Faker::Color.color_name} Bar #{n}, #{Faker::Address.street_address}, #{Faker::Address.city_prefix}#{Faker::Address.city_suffix}" }
     sequence(:title) { |n| "New Event #{n}" }
     starts_at { DateTime.current }
     rep { nil }

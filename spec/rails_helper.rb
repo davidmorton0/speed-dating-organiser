@@ -79,5 +79,9 @@ RSpec.configure do |config|
     Faker::Config.random = Random.new(seed)
   end
 
+  config.before(:suite) do
+    DatabaseCleaner.clean_with :truncation
+  end
+
   config.include ActiveSupport::Testing::TimeHelpers
 end
