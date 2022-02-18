@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Admin::EventsController < ApplicationController
+  include MatchImages
+
   before_action :authenticate_admin!
 
   def index
@@ -61,7 +63,29 @@ class Admin::EventsController < ApplicationController
     redirect_to admin_events_path
   end
 
+  def matches
+    @event = Event.find(params[:event_id])
+    return unless validate_organisation
+
+    @female_daters = @event.female_daters.sort_by(&:name)
+    @male_daters = @event.male_daters.sort_by(&:name)
+  end
+
+  def send_match_emails
+    @event = Event.find(params[:event_id])
+    return unless validate_organisation
+
+    @event.daters.each_with_index do |dater1, index|
+      send_match_email(dater1, index)
+    end
+    @event.update(matches_email_sent_at: DateTime.current)
+
+    redirect_to admin_event_matches_path(@event), notice: 'Match Emails Sent'
+  end
+
   private
+
+  helper_method :match_image
 
   def show_event_params
     params.require(:id)
@@ -107,5 +131,10 @@ class Admin::EventsController < ApplicationController
 
   def add_errors_to_flash
     flash.now[:error] ||= @event.errors.full_messages.join(', ')
+  end
+
+  def send_match_email(dater1, index)
+    matches = @event.daters.select { |dater2| dater1.matches_with?(dater2).all? }
+    DaterMailer.matches_email(dater1, matches).deliver_later(wait: (index * 3).seconds)
   end
 end

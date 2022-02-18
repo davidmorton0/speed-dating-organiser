@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class Rep::DatersController < ApplicationController
-  include MatchInformation
+  include GeneratePossibleMatches
+  include MatchImages
+  include UpdateMatches
 
   before_action :authenticate_rep!
 

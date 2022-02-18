@@ -3,14 +3,21 @@
   <td><%= link_to event.title, admin_event_path(event) %></td>
   <td><%= event.starts_at.strftime("%A - #{event.starts_at.day.ordinalize} %b %Y") %></td>
   <td><%= event.starts_at.strftime("%l:%m %P") %></td>
-  <td><%= event.rep ? event.rep.email : 'No Rep Assigned' %></td>
+  <td><%= event.rep ? event.rep.email : 'None' %></td>
   <td><%= event.daters.size %></td>
-  <td><%= event.female_daters.size %></td>
-  <td><%= event.male_daters.size %></td>
+  <td>
+    <%= event.female_daters.size %>f
+    <%= event.male_daters.size %>m
+  </td>
   <td><%= event.max_rounds %></td>
-  <td><%= link_to 'Daters', admin_event_daters_path(event), class: "btn btn-primary" %></td>
-  <td><%= link_to 'Schedule', admin_event_speed_dates_path(event), class: "btn btn-primary" %></td>
-  <td><%= link_to 'Matches', admin_event_matches_path(event), class: "btn btn-primary" %></td>
-  <td><%= link_to 'Edit', edit_admin_event_path(event), class: "btn btn-primary" %></td>
-  <td> <%= link_to 'Delete', "/admin/events/#{event.id}", data: { "turbo-method": :delete, turbo_confirm: 'Delete Event. Are you sure?' }, class: "btn btn-danger ml-3" %>
+  <td><%= event.matches_email_sent_at.present? ? 'Yes' : 'No' %></td>
+  <td>
+    <%= link_to 'Daters', admin_event_daters_path(event), class: "btn btn-primary col-12" %>
+    <%= link_to 'Schedule', admin_event_speed_dates_path(event), class: "btn btn-primary col-12" %>
+    <%= link_to 'Matches', admin_event_matches_path(event), class: "btn btn-primary col-12" %>
+  </td>
+  <td>
+    <%= link_to 'Edit', edit_admin_event_path(event), class: "btn btn-primary col-12" %>
+    <%= link_to 'Delete', "/admin/events/#{event.id}", data: { "turbo-method": :delete, turbo_confirm: 'Delete Event. Are you sure?' }, class: "btn btn-danger ml-3 col-12" %>
+  </td>
 </tr>
