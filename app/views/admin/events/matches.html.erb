@@ -9,27 +9,13 @@
       <h1><%= @event.title %></h1>
       <h2>Matches</h2>
 
-      <table class="match-table">
-        <tr>
-          <th></th>
-          <% @female_daters.each do |female_dater| %>
-            <th><%= link_to female_dater.name, admin_event_dater_path(@event, female_dater) %></th>
-          <% end %>
-        </tr>
-        <% @male_daters.each do |male_dater| %>
-          <tr>
-            <th><%= link_to male_dater.name, admin_event_dater_path(@event, male_dater) %></th>
-            <% @female_daters.each do |female_dater| %>
-              <td><%= image_tag match_image(male_dater, female_dater), width: 120 %></td>
-            <% end %>
-          </tr>
-        <% end %>
-      </table>
+      <%= render 'shared/match_table' %>
+
       <br>
       <% if @event.matches_email_sent_at.nil? %>
-        <%= link_to "Send Emails",admin_event_send_match_emails_path(@event), data: { "turbo-method": :post, turbo_confirm: 'Send match emails to all daters. Are you sure?' }, class: "btn btn-warning btn-lg" %>
+        <%= link_to "Send Emails",admin_event_send_match_emails_path(@event), data: { "turbo-method": :post, turbo_confirm: 'Send match emails to all daters. Are you sure?' }, class: "btn btn-secondary btn-lg" %>
       <% else %>
-        <%= link_to "Send Emails",admin_event_send_match_emails_path(@event), data: { "turbo-method": :post, turbo_confirm: 'Match emails have already been sent.  Are you sure you want to resend them?' }, class: "btn btn-warning btn-lg" %>
+        <%= link_to "Send Emails",admin_event_send_match_emails_path(@event), data: { "turbo-method": :post, turbo_confirm: 'Match emails have already been sent.  Are you sure you want to resend them?' }, class: "btn btn-secondary btn-lg" %>
       <% end %>
     </section>
   </aside>

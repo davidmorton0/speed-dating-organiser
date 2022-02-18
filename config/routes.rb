@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     resources :events do
       resources :speed_dates, only: %i[create update index]
       resources :daters, only: %i[create update index show destroy]
-      get '/matches', as: 'matches', to: 'daters#matches'
+      get '/matches', as: 'matches', to: 'events#matches'
     end
   end
 

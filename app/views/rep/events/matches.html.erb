@@ -7,7 +7,10 @@
     <section>
       <h1><%= @event.title %></h1>
 
-      <%= render 'shared/match_list', path: rep_event_dater_path %>
+      <h2>Matches</h2>
+
+      <%= render 'shared/match_table' %>
+
     </section>
   </aside>
 </div>
