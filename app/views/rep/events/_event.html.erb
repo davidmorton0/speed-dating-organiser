@@ -1,4 +1,5 @@
 <tr>
+  <td><%= link_to event.id, admin_event_path(event) %></td>
   <td><%= link_to event.title, rep_event_path(event) %></td>
   <td><%= event.date.strftime("%A - #{event.date.day.ordinalize} %b %Y") %></td>
   <td><%= event.daters.size %></td>

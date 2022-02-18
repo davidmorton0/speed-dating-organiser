@@ -7,6 +7,7 @@ class Admin::EventsController < ApplicationController
     @events = Event.where(organisation: current_admin.organisation)
       .includes(:daters, :rep)
       .order(:id)
+      .reverse_order
       .paginate(page: params[:page])
   end
 

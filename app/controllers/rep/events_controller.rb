@@ -2,7 +2,11 @@ class Rep::EventsController < ApplicationController
   before_action :authenticate_rep!
 
   def index
-    @events = Event.where(rep: current_rep).paginate(page: event_params[:page])
+    @events = Event.where(rep: current_rep)
+    .includes(:daters)
+    .order(:id)
+    .reverse_order
+    .paginate(page: params[:page])
   end
 
   def show # rubocop:disable Metrics/AbcSize
