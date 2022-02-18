@@ -7,20 +7,7 @@
     <section>
       <h1><%= @event.title %></h1>
 
-      <h3>Matches for <%= @dater.name %></h3>
-
-      <%= form_for(@dater, url: rep_event_dater_path) do |f| %>
-        <table>
-        <% @possible_matches.each do |possible_match| %>
-          <tr>
-            <td><%= f.label possible_match.name, possible_match.name.present? ? possible_match.name : 'Name Missing' %></td>
-            <td><%= check_box_tag possible_match.id, possible_match.id, @dater.matches.include?(possible_match.id.to_s) %></td>
-          </tr>
-        <% end %>
-        </table>
-        <%= f.submit "Update Matches", class: "btn btn-primary" %>
-      <% end %>
-
+      <%= render 'shared/matches', path: rep_event_dater_path %>
     </section>
   </aside>
 </div>

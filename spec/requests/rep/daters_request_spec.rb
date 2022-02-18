@@ -100,18 +100,7 @@ RSpec.describe 'Rep::Daters', type: :request, aggregate_failures: true do
       end
     end
 
-    context 'when the dater is not part of the event' do
-      let(:dater) { create(:dater) }
-
-      it 'redirects to the event page' do
-        get rep_event_dater_path(event, dater)
-
-        expect(response).to redirect_to rep_event_path(event)
-        expect(flash[:alert]).to match(/Dater not part of this event/)
-      end
-    end
-
-    context 'when the rep is not assigned to the event' do
+    context 'when the rep is not assigned to the dater\'s event' do
       before { sign_in create(:rep) }
 
       it 'redirects to the rep event page' do

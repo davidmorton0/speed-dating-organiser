@@ -1,37 +1,34 @@
+# frozen_string_literal: true
+
 class Admin::DatersController < ApplicationController
+  include MatchInformation
+
   before_action :authenticate_admin!
 
-  MATCHER_IMAGES = {
-    [true, true] => 'yes-yes.png',
-    [true, false] => 'yes-no.png',
-    [false, true] => 'no-yes.png',
-    [false, false] => 'no-no.png',
-  }.freeze
-
-  private_constant :MATCHER_IMAGES
-
   def index
-    @event = Event.find(params[:event_id])
-    @daters = @event.daters.sort_by(&:name)
+    @event = Event.find(permitted_parameters[:event_id])
+    return unless validate_event_admin(@event)
 
+    @daters = @event.daters.sort_by(&:name)
     @dater = Dater.new
   end
 
   def show
-    @dater = Dater.find(params[:id])
+    @dater = Dater.find(permitted_parameters[:id])
     @event = @dater.event
     return unless validate_event_admin(@event)
 
-    gender_of_possible_matches = (%w[female male] - [@dater.gender]).first
-    @possible_matches = @event.daters.where(gender: gender_of_possible_matches)
+    redirect_to rep_event_path(@event), alert: 'Dater not part of this event' unless @dater.event == @event
+
+    generate_possible_matches
   end
 
   def matches
-    @event = Event.find(params[:event_id])
+    @event = Event.find(permitted_parameters[:event_id])
     return unless validate_event_admin(@event)
 
-    @female_daters = @event.female_daters
-    @male_daters = @event.male_daters
+    @female_daters = @event.female_daters.sort_by(&:name)
+    @male_daters = @event.male_daters.sort_by(&:name)
   end
 
   def send_match_emails
@@ -47,10 +44,9 @@ class Admin::DatersController < ApplicationController
 
   def update
     dater = Dater.find(permitted_parameters[:id])
-    matches = permitted_parameters[:dater][:matches].select(&:present?)
     return unless validate_event_admin(dater.event)
 
-    dater.update(matches: matches)
+    update_matches(dater)
     redirect_to admin_event_matches_path(dater.event), notice: 'Matches updated'
   end
 
@@ -58,13 +54,7 @@ class Admin::DatersController < ApplicationController
     @event = Event.find(permitted_parameters[:event_id])
     return unless validate_event_admin(@event)
 
-    @dater = Dater.new(password: SecureRandom.hex(10), **permitted_parameters[:dater])
-    result = @dater.save
-    if result
-      redirect_to admin_event_daters_path(@event), notice: 'Dater added'
-    else
-      redirect_to admin_event_daters_path(@event), alert: "Dater not added: #{@dater.errors.full_messages.join(', ')}"
-    end
+    create_dater(admin_event_daters_path(@event))
   end
 
   def destroy
@@ -79,6 +69,8 @@ class Admin::DatersController < ApplicationController
   end
 
   private
+
+  helper_method :match_image
 
   def permitted_parameters
     params.permit(:event_id, :id, dater: [:name, :email, :phone_number, :event_id, :gender, { matches: [] }])
@@ -98,10 +90,13 @@ class Admin::DatersController < ApplicationController
     DaterMailer.matches_email(dater1, matches).deliver_later(wait: (index * 3).seconds)
   end
 
-  def match_image(dater1, dater2)
-    matches = dater1.matches_with?(dater2)
-    MATCHER_IMAGES[matches]
+  def create_dater(redirect_path)
+    @dater = Dater.new(password: SecureRandom.hex(10), **permitted_parameters[:dater])
+    result = @dater.save
+    if result
+      redirect_to redirect_path, notice: 'Dater added'
+    else
+      redirect_to redirect_path, alert: "Dater not added: #{@dater.errors.full_messages.join(', ')}"
+    end
   end
-
-  helper_method :match_image
 end

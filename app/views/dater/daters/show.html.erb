@@ -10,17 +10,8 @@
 
       <h3>Matches for <%= @dater.name %></h3>
 
-      <%= form_with url: dater_event_dater_path, method: :put do |f| %>
-        <table>
-          <%= collection_check_boxes(:dater, :matches, @possible_matches, :id, :name) do |b| %>
-            <tr>
-              <td><%= b.label %></td>
-              <td><%= b.check_box(checked: b.object.match) %></td>
-            </tr>
-          <% end %>
-        </table>
-        <%= f.submit "Update Matches", class: "btn btn-primary" %>
-      <% end %>
+      <%= render 'shared/matches', path: dater_event_dater_path %>
+
     </section>
   </aside>
 </div>
