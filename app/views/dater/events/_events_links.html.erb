@@ -3,6 +3,9 @@
     <section>
       <table class="events-links-table">
         <tr>
+          <th><%= link_to 'Event Details', dater_event_path(current_dater.event) %></th>
+          <th><%= link_to 'Event Schedule', dater_event_speed_dates_path(current_dater.event) %></th>
+          <th><%= link_to 'Select Matches', dater_event_dater_path(current_dater.event, current_dater) %></th>
           <th><%= link_to 'Edit Details', edit_dater_registration_path %></th>
           <th><%= link_to 'Log Out', '/logout' %></th>
         </tr>
