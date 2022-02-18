@@ -18,8 +18,6 @@ class Rep::DatersController < ApplicationController
     @event = @dater.event
     return unless validate_event_rep(@event)
 
-    redirect_to rep_event_path(@event), alert: 'Dater not part of this event' unless @dater.event == @event
-
     generate_possible_matches
   end
 

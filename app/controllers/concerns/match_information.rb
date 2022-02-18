@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module MatchInformation
-
   MATCHER_IMAGES = {
     [true, true] => 'yes-yes.png',
     [true, false] => 'yes-no.png',
@@ -24,11 +23,11 @@ module MatchInformation
   end
 
   def update_matches(dater)
-    if permitted_parameters[:dater]
-      matches = permitted_parameters[:dater][:matches].select(&:present?)
-    else
-      matches = []
-    end
+    matches = if permitted_parameters[:dater]
+                permitted_parameters[:dater][:matches].select(&:present?)
+              else
+                []
+              end
     dater.update(matches: matches)
   end
 end
