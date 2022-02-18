@@ -2,7 +2,6 @@
 
 class Rep::DatersController < ApplicationController
   include GeneratePossibleMatches
-  include MatchImages
   include UpdateMatches
 
   before_action :authenticate_rep!
@@ -21,14 +20,6 @@ class Rep::DatersController < ApplicationController
     return unless validate_event_rep(@event)
 
     generate_possible_matches
-  end
-
-  def matches
-    @event = Event.includes(:daters, :rep).find(permitted_parameters[:event_id])
-    return unless validate_event_rep(@event)
-
-    @female_daters = @event.female_daters.sort_by(&:name)
-    @male_daters = @event.male_daters.sort_by(&:name)
   end
 
   def update
@@ -58,8 +49,6 @@ class Rep::DatersController < ApplicationController
   end
 
   private
-
-  helper_method :match_image
 
   def permitted_parameters
     params.permit(:event_id, :id, dater: [:name, :email, :phone_number, :event_id, :gender, { matches: [] }])

@@ -1,4 +1,6 @@
 class Rep::EventsController < ApplicationController
+  include MatchImages
+
   before_action :authenticate_rep!
 
   def index
@@ -9,23 +11,33 @@ class Rep::EventsController < ApplicationController
       .paginate(page: params[:page])
   end
 
-  def show # rubocop:disable Metrics/AbcSize
+  def show
     @event = Event.find(event_params[:id])
-    redirect_to rep_events_path unless @event.rep == current_rep
+    validate_event_rep(@event)
+  end
 
-    @speed_dates = SpeedDate.where(event: @event)
-    @daters = Dater.where(event: @event).sort
-    @female_daters = @daters.select { |dater| dater.gender == 'female' }
-    @male_daters = @daters.select { |dater| dater.gender == 'male' }
-    @dater_names = {}
-    @female_daters.each { |dater| @dater_names[dater.id] = dater.name }
-    @male_daters.each { |dater| @dater_names[dater.id] = dater.name }
-    @rounds = [@female_daters.size, @male_daters.size].max
+  def matches
+    @event = Event.includes(:daters, :rep).find(event_params[:event_id])
+    return unless validate_event_rep(@event)
+
+    @female_daters = @event.female_daters.sort_by(&:name)
+    @male_daters = @event.male_daters.sort_by(&:name)
   end
 
   private
 
+  helper_method :match_image
+
   def event_params
-    params.permit(:id, :page)
+    params.permit(:id, :page, :event_id)
+  end
+
+  def validate_event_rep(event)
+    if event.rep == current_rep
+      true
+    else
+      redirect_to rep_events_path
+      false
+    end
   end
 end
