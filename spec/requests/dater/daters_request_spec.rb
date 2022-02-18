@@ -22,7 +22,7 @@ RSpec.describe 'Dater::Daters', type: :request, aggregate_failures: true do
       expect(response).to be_successful
       expect(response.body).to include('Matches')
       possible_matches.each do |match|
-        expect(response.body).to include(CGI.escapeHTML(match.name))
+        expect(response.body).to include(CGI.escapeHTML(match.first_name))
       end
       expect(response.body).to include('Update')
     end

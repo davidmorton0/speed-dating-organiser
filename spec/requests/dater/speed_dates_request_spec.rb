@@ -41,7 +41,7 @@ RSpec.describe 'Dater::SpeedDates', type: :request, aggregate_failures: true do
         expect(response.body).to include(event.title)
         expect(response.body).not_to include('Schedule has not been created yet')
         event.daters.each do |dater|
-          expect(response.body).to include(CGI.escapeHTML(dater.name))
+          expect(response.body).to include(CGI.escapeHTML(dater.first_name))
         end
       end
     end

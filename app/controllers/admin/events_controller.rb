@@ -123,8 +123,8 @@ class Admin::EventsController < ApplicationController
     @event = Event.new(
       title: event_params[:title],
       location: event_params[:location],
-      starts_at: event_params[:starts_at],
-      rep_id: event_params[:rep_id],
+      starts_at: DateTime.new(*flatten_datetime_array(event_params)),
+      rep_id: event_params[:rep_id].to_i,
       organisation: current_admin.organisation,
       max_rounds: Constants::MAX_ROUNDS,
     )
@@ -137,5 +137,9 @@ class Admin::EventsController < ApplicationController
   def send_match_email(dater1, index)
     matches = @event.daters.select { |dater2| dater1.matches_with?(dater2).all? }
     DaterMailer.matches_email(dater1, matches).deliver_later(wait: (index * 3).seconds)
+  end
+
+  def flatten_datetime_array(datetime_params)
+    %w[1 2 3 4 5].map { |param| datetime_params["starts_at(#{param}i)"].to_i }
   end
 end

@@ -2,14 +2,13 @@
   <td><%= link_to event.id, admin_event_path(event) %></td>
   <td><%= link_to event.title, admin_event_path(event) %></td>
   <td><%= event.starts_at.strftime("%A - #{event.starts_at.day.ordinalize} %b %Y") %></td>
-  <td><%= event.starts_at.strftime("%l:%m %P") %></td>
+  <td><%= event.starts_at.strftime("%l:%M %P") %></td>
   <td><%= event.rep ? event.rep.email : 'None' %></td>
   <td><%= event.daters.size %></td>
   <td>
     <%= event.female_daters.size %>f
     <%= event.male_daters.size %>m
   </td>
-  <td><%= event.max_rounds %></td>
   <td><%= event.matches_email_sent_at.present? ? 'Yes' : 'No' %></td>
   <td>
     <%= link_to 'Daters', admin_event_daters_path(event), class: "btn btn-primary col-12" %>

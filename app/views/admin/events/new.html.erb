@@ -10,10 +10,16 @@
       <%= form_for(@event, url: admin_events_path) do |f| %>
         <%= f.label :title %>
         <%= f.text_field :title, class: 'form-control' %>
-        <%= f.label :date %>
-        <%= f.date_field :starts_at, class: 'form-control' %>
+        <%= f.label :starts_at %>
+        <br>
+        <%= f.datetime_select :starts_at, class: 'form-control' %>
+        <br>
+        <%= f.label :location %>
+        <%= f.text_field :location, class: 'form-control' %>
+        <%= f.label :max_rounds %>
+        <%= f.text_field :max_rounds, class: 'form-control' %>
         <%= f.label :rep %> <br>
-        <%= f.collection_select :rep, Rep.where(organisation: current_admin.organisation).order(:email),:id,:email, include_blank: true %>
+        <%= f.collection_select :rep_id, Rep.where(organisation: current_admin.organisation).order(:email),:id,:email, include_blank: true %>
         <br>
         <br>
         <%= f.submit "Create event", class: "btn btn-primary" %>

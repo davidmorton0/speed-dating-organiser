@@ -2,7 +2,8 @@
 
 FactoryBot.define do
   factory :dater do
-    name { Faker::Name.unique.name }
+    first_name { Faker::Name.first_name }
+    surname { Faker::Name.unique.last_name }
     email { Faker::Internet.unique.safe_email }
     password { Faker::Internet.password }
     phone_number { Faker::PhoneNumber.phone_number }
@@ -10,12 +11,12 @@ FactoryBot.define do
     event { build(:event) }
 
     trait :female do
-      name { "#{Faker::Name.female_first_name} #{Faker::Name.last_name}" }
+      first_name { Faker::Name.female_first_name.to_s }
       gender { 'female' }
     end
 
     trait :male do
-      name { "#{Faker::Name.male_first_name} #{Faker::Name.last_name}" }
+      first_name { Faker::Name.male_first_name.to_s }
       gender { 'male' }
     end
   end
